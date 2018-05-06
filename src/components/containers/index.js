@@ -5,10 +5,14 @@
 
 import Users from './Users'
 import Nav from './Nav'
+import LandingPage from './LandingPage'
+import Results from './Results'
 
 export {
 
 	Users,
-	Nav
+	Nav,
+	LandingPage,
+	Results
 
 }

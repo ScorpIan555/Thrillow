@@ -130,14 +130,14 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([236,0]);
+/******/ 	deferredModules.push([240,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 102:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -151,7 +151,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(47);
+var _reactRedux = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -162,68 +162,6 @@ exports.default = function (props) {
 		{ store: props.store },
 		props.component
 	);
-};
-
-/***/ }),
-
-/***/ 106:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _constants = __webpack_require__(107);
-
-var _constants2 = _interopRequireDefault(_constants);
-
-var _utils = __webpack_require__(217);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Here are a few sample actions for User managment.
-	Feel free to remove and replace with your own actions
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-exports.default = {
-
-	fetchUsers: function fetchUsers(params) {
-		return function (dispatch) {
-			return dispatch(_utils.TurboClient.getRequest('user', params, _constants2.default.USERS_RECEIVED));
-		};
-	},
-
-	addUser: function addUser(params) {
-		return function (dispatch) {
-			return dispatch(_utils.TurboClient.postRequest('user', params, _constants2.default.USER_CREATED));
-		};
-	},
-
-	// Unlike addUser, register() also maintains a session for login state. After calling 
-	// TurboClient.createUser(), the new user is logged in as well:
-	register: function register(params) {
-		return function (dispatch) {
-			return dispatch(_utils.TurboClient.createUser(params, _constants2.default.USER_CREATED));
-		};
-	},
-
-	loginUser: function loginUser(credentials) {
-		return function (dispatch) {
-			return dispatch(_utils.TurboClient.login(credentials, _constants2.default.CURRENT_USER_RECEIVED));
-		};
-	},
-
-	currentUser: function currentUser() {
-		return function (dispatch) {
-			return dispatch(_utils.TurboClient.currentUser(_constants2.default.CURRENT_USER_RECEIVED));
-		};
-	}
-
 };
 
 /***/ }),
@@ -255,7 +193,433 @@ exports.default = {
 
 /***/ }),
 
-/***/ 191:
+/***/ 115:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+    return _react2.default.createElement(
+        "footer",
+        { className: "bg-gray text-light footer-long" },
+        _react2.default.createElement(
+            "div",
+            { className: "container" },
+            _react2.default.createElement(
+                "div",
+                { className: "row" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "col-12 col-md-3" },
+                    _react2.default.createElement("img", { alt: "Image", src: "dist/assets/img/play-now.jpg", style: { width: 50, height: 50 }, className: "mb-4" }),
+                    _react2.default.createElement(
+                        "p",
+                        { className: "text-muted" },
+                        "\xA9 2018 Van Daley Industries, LLC"
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "col-12 col-md-9" },
+                    _react2.default.createElement(
+                        "span",
+                        { className: "h5" },
+                        "Zillow Brands: "
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "row no-gutters" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "col-6 col-lg-3" },
+                            _react2.default.createElement(
+                                "h6",
+                                null,
+                                "Navigate"
+                            ),
+                            _react2.default.createElement(
+                                "ul",
+                                { className: "list-unstyled" },
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "index.html" },
+                                        "Overview"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "pages-landing.html" },
+                                        "Landing Pages"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "pages-app.html" },
+                                        "App Pages"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "pages-inner.html" },
+                                        "Inner Pages"
+                                    )
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "col-6 col-lg-3" },
+                            _react2.default.createElement(
+                                "h6",
+                                null,
+                                "Platform"
+                            ),
+                            _react2.default.createElement(
+                                "ul",
+                                { className: "list-unstyled" },
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Mac OS & iOS"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Android & Chrome OS"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Windows"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Linux"
+                                    )
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "col-6 col-lg-3" },
+                            _react2.default.createElement(
+                                "h6",
+                                null,
+                                "Community"
+                            ),
+                            _react2.default.createElement(
+                                "ul",
+                                { className: "list-unstyled" },
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Forum"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Knowledgebase"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Hire an expert"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "FAQ"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Contact"
+                                    )
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "col-6 col-lg-3" },
+                            _react2.default.createElement(
+                                "h6",
+                                null,
+                                "Company"
+                            ),
+                            _react2.default.createElement(
+                                "ul",
+                                { className: "list-unstyled" },
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "About company"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "History"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Team"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    _react2.default.createElement(
+                                        "a",
+                                        { href: "#" },
+                                        "Investment"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
+};
+
+/***/ }),
+
+/***/ 116:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Listing = exports.Footer = undefined;
+
+var _Footer = __webpack_require__(115);
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+var _Listing = __webpack_require__(242);
+
+var _Listing2 = _interopRequireDefault(_Listing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Export presentation components here
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.Footer = _Footer2.default;
+exports.Listing = _Listing2.default;
+
+/***/ }),
+
+/***/ 117:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _presentation = __webpack_require__(116);
+
+var _reactRedux = __webpack_require__(32);
+
+var _actions = __webpack_require__(52);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Results = function (_Component) {
+  _inherits(Results, _Component);
+
+  function Results() {
+    _classCallCheck(this, Results);
+
+    var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this));
+
+    _this.state = {
+      listing: [],
+      location: {}
+    };
+    return _this;
+  }
+
+  _createClass(Results, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log('Results componentDidMount');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      // const listings = this.props.listing.all || []
+      // console.log(JSON.stringify(listings))
+      //
+      // console.log(this.state)
+
+      return _react2.default.createElement(
+        'section',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row justify-content-center text-center section-intro' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-12 col-md-9 col-lg-8' },
+              _react2.default.createElement(
+                'span',
+                { className: 'title-decorative' },
+                'Perfect for Startups'
+              ),
+              _react2.default.createElement(
+                'h3',
+                { className: 'display-4' },
+                'Potential rental deals'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'lead' },
+                '803 rentals listed under their Rent Zestimate in New York'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'feature-list feature-list-lg' },
+            _react2.default.createElement(
+              'li',
+              { className: 'row justify-content-center align-items-center' },
+              _react2.default.createElement(_presentation.Listing, null),
+              _react2.default.createElement(_presentation.Listing, null),
+              _react2.default.createElement(_presentation.Listing, null)
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'row justify-content-center align-items-center' },
+              _react2.default.createElement(
+                'button',
+                { type: 'button', 'class': 'btn btn-primary btn-lg' },
+                'Show Listings'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Results;
+}(_react.Component);
+
+var stateToProps = function stateToProps(state) {
+  return {
+    // listing: state.listing
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    // getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
+    // getLocation: () => dispatch(actions.getLocation())
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Results);
+
+/***/ }),
+
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -271,7 +635,161 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(47);
+var _actions = __webpack_require__(52);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(32);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LandingPage = function (_Component) {
+    _inherits(LandingPage, _Component);
+
+    function LandingPage() {
+        _classCallCheck(this, LandingPage);
+
+        var _this = _possibleConstructorReturn(this, (LandingPage.__proto__ || Object.getPrototypeOf(LandingPage)).call(this));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(LandingPage, [{
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                'section',
+                { className: 'bg-dark text-white space-xlg' },
+                _react2.default.createElement('img', { alt: 'Image', src: 'dist/assets/img/laith-abdulkareem-96120-unsplash.jpg', className: 'bg-image opacity-40' }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row text-center justify-content-center section-intro' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-12 col-md-10 col-lg-8' },
+                            _react2.default.createElement(
+                                'h1',
+                                { className: 'display-3' },
+                                'Welcome to Thrillow'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'lead' },
+                                'A Zillow Knockoff... And not even the good kind!'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row text-center ' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col' },
+                            _react2.default.createElement(
+                                'a',
+                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white opacity-80' },
+                                'BUY'
+                            ),
+                            _react2.default.createElement(
+                                'a',
+                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                                'RENT'
+                            ),
+                            _react2.default.createElement(
+                                'a',
+                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                                'SELL'
+                            ),
+                            _react2.default.createElement(
+                                'a',
+                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                                'ZESTIMATE'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row justify-content-center' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-12 col-md-10 col-lg-8' },
+                            _react2.default.createElement(
+                                'form',
+                                { className: 'card card-sm' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-body row no-gutters align-items-center' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-auto' },
+                                        _react2.default.createElement('i', { className: 'icon-magnifying-glass h4 text-body' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col' },
+                                        _react2.default.createElement('input', { className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-auto' },
+                                        _react2.default.createElement(
+                                            'button',
+                                            { className: 'btn btn-lg btn-success', type: 'submit' },
+                                            'Search'
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return LandingPage;
+}(_react.Component);
+
+var stateToProps = function stateToProps(state) {};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+    return {
+        // getZillowRequest: () => dispatch(actions.getZillowRequest())
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(LandingPage);
+
+/***/ }),
+
+/***/ 195:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(32);
 
 var _reactBootstrap = __webpack_require__(114);
 
@@ -279,7 +797,7 @@ var _reactDropzone = __webpack_require__(113);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
-var _actions = __webpack_require__(106);
+var _actions = __webpack_require__(52);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -302,7 +820,7 @@ var Nav = function (_Component) {
         _this.state = {
             showEditModal: false,
             showLoginModal: false,
-            showSignUpModal: false
+            showSignupModal: false
         };
         return _this;
     }
@@ -455,7 +973,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 /***/ }),
 
-/***/ 197:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -469,11 +987,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(196);
+var _server = __webpack_require__(200);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _ServerEntry = __webpack_require__(102);
+var _ServerEntry = __webpack_require__(103);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -494,14 +1012,14 @@ exports.default = function (initialState, component) {
 
 /***/ }),
 
-/***/ 198:
+/***/ 202:
 /***/ (function(module) {
 
 module.exports = {"name":"thrillow","version":"0.0.0","server":false,"private":true,"scripts":{"dev":"webpack --mode development -w","build":"npm run clean && NODE_ENV=production webpack -p && gulp prod","clean":"rm -rf ./public/dist","postinstall":"npm run build"},"dependencies":{"turbo360":"latest","vertex360":"latest","bluebird":"^3.5.1","debug":"2.6.9","dotenv":"^5.0.1","moment":"^2.20.1","nodemon":"^1.17.1","react":"^16.2.0","react-bootstrap":"^0.32.1","react-dom":"^16.2.0","react-dropzone":"^4.2.8","react-redux":"^5.0.7","react-time":"^4.3.0","redux":"^3.7.2","redux-thunk":"^2.2.0","superagent":"^3.8.2","accepts":"^1.3.5","array-flatten":"1.1.1","body-parser":"1.18.2","content-disposition":"0.5.2","content-type":"^1.0.4","cookie":"0.3.1","cookie-signature":"1.0.6","depd":"^1.1.2","encodeurl":"^1.0.2","escape-html":"^1.0.3","etag":"^1.8.1","finalhandler":"1.1.1","fresh":"0.5.2","merge-descriptors":"1.0.1","methods":"^1.1.2","on-finished":"^2.3.0","parseurl":"^1.3.2","path-to-regexp":"0.1.7","proxy-addr":"^2.0.3","qs":"6.5.1","range-parser":"^1.2.0","safe-buffer":"5.1.1","send":"0.16.2","serve-static":"1.13.2","setprototypeof":"1.1.0","statuses":"^1.4.0","type-is":"^1.6.16","utils-merge":"1.0.1","vary":"^1.1.2"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.3","babel-preset-env":"^1.6.1","babel-preset-react":"^6.24.1","chai":"^4.1.2","chai-http":"^3.0.0","cross-env":"^5.1.4","gulp":"^3.9.1","gulp-6to5":"^3.0.0","gulp-autoprefixer":"^5.0.0","gulp-clean-css":"^3.9.2","gulp-concat":"^2.6.1","gulp-less":"^4.0.0","gulp-rename":"^1.2.2","gulp-sass":"^3.1.0","gulp-uglify":"^3.0.0","json-loader":"^0.5.7","mocha":"^5.0.1","mocha-jscs":"^5.0.1","mocha-jshint":"^2.3.1","rimraf":"^2.6.2","uglifyjs-webpack-plugin":"^1.2.2","webpack":"^4.1.1","webpack-cli":"^2.0.10"},"deploy":["."],"format":"vertex","app":""};
 
 /***/ }),
 
-/***/ 216:
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -511,11 +1029,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _turbo = __webpack_require__(215);
+var _turbo = __webpack_require__(219);
 
 var _turbo2 = _interopRequireDefault(_turbo);
 
-var _package = __webpack_require__(198);
+var _package = __webpack_require__(202);
 
 var _package2 = _interopRequireDefault(_package);
 
@@ -662,7 +1180,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 217:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -673,15 +1191,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderComponents = exports.ServerEntry = exports.TurboClient = undefined;
 
-var _TurboClient = __webpack_require__(216);
+var _TurboClient = __webpack_require__(220);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
-var _ServerEntry = __webpack_require__(102);
+var _ServerEntry = __webpack_require__(103);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
-var _renderComponents = __webpack_require__(197);
+var _renderComponents = __webpack_require__(201);
 
 var _renderComponents2 = _interopRequireDefault(_renderComponents);
 
@@ -693,7 +1211,7 @@ exports.renderComponents = _renderComponents2.default;
 
 /***/ }),
 
-/***/ 218:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -709,9 +1227,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(47);
+var _reactRedux = __webpack_require__(32);
 
-var _actions = __webpack_require__(106);
+var _actions = __webpack_require__(52);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -949,7 +1467,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 
 /***/ }),
 
-/***/ 219:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -958,15 +1476,23 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Nav = exports.Users = undefined;
+exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
 
-var _Users = __webpack_require__(218);
+var _Users = __webpack_require__(222);
 
 var _Users2 = _interopRequireDefault(_Users);
 
-var _Nav = __webpack_require__(191);
+var _Nav = __webpack_require__(195);
 
 var _Nav2 = _interopRequireDefault(_Nav);
+
+var _LandingPage = __webpack_require__(118);
+
+var _LandingPage2 = _interopRequireDefault(_LandingPage);
+
+var _Results = __webpack_require__(117);
+
+var _Results2 = _interopRequireDefault(_Results);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -977,10 +1503,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.Users = _Users2.default;
 exports.Nav = _Nav2.default;
+exports.LandingPage = _LandingPage2.default;
+exports.Results = _Results2.default;
 
 /***/ }),
 
-/***/ 220:
+/***/ 224:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -996,7 +1524,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _containers = __webpack_require__(219);
+var _containers = __webpack_require__(223);
+
+var _presentation = __webpack_require__(116);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1032,7 +1562,9 @@ var Home = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'main-container' },
-          'Home Container'
+          _react2.default.createElement(_containers.LandingPage, null),
+          _react2.default.createElement(_containers.Results, null),
+          _react2.default.createElement(_presentation.Footer, null)
         )
       );
     }
@@ -1045,7 +1577,7 @@ exports.default = Home;
 
 /***/ }),
 
-/***/ 223:
+/***/ 227:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1102,7 +1634,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 224:
+/***/ 228:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1113,7 +1645,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.userReducer = undefined;
 
-var _userReducer = __webpack_require__(223);
+var _userReducer = __webpack_require__(227);
 
 var _userReducer2 = _interopRequireDefault(_userReducer);
 
@@ -1126,7 +1658,7 @@ exports.userReducer = _userReducer2.default; /* * * * * * * * * * * * * * * * * 
 
 /***/ }),
 
-/***/ 227:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1136,13 +1668,13 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _redux = __webpack_require__(76);
+var _redux = __webpack_require__(77);
 
-var _reduxThunk = __webpack_require__(225);
+var _reduxThunk = __webpack_require__(229);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducers = __webpack_require__(224);
+var _reducers = __webpack_require__(228);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1174,7 +1706,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 236:
+/***/ 240:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1188,13 +1720,13 @@ var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _stores = __webpack_require__(227);
+var _stores = __webpack_require__(231);
 
 var _stores2 = _interopRequireDefault(_stores);
 
-var _reactRedux = __webpack_require__(47);
+var _reactRedux = __webpack_require__(32);
 
-var _Home = __webpack_require__(220);
+var _Home = __webpack_require__(224);
 
 var _Home2 = _interopRequireDefault(_Home);
 
@@ -1212,6 +1744,95 @@ var app = _react2.default.createElement(
 );
 
 _reactDom2.default.render(app, document.getElementById('root'));
+
+/***/ }),
+
+/***/ 242:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  return _react2.default.createElement(
+    "div",
+    { className: "col-sm" },
+    _react2.default.createElement("img", { alt: "Image", src: "dist/assets/img/graphic-product-kin.jpg", className: "img-fluid rounded" })
+  );
+};
+
+/***/ }),
+
+/***/ 52:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(107);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+var _utils = __webpack_require__(221);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Here are a few sample actions for User managment.
+	Feel free to remove and replace with your own actions
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.default = {
+
+	fetchUsers: function fetchUsers(params) {
+		return function (dispatch) {
+			return dispatch(_utils.TurboClient.getRequest('user', params, _constants2.default.USERS_RECEIVED));
+		};
+	},
+
+	addUser: function addUser(params) {
+		return function (dispatch) {
+			return dispatch(_utils.TurboClient.postRequest('user', params, _constants2.default.USER_CREATED));
+		};
+	},
+
+	// Unlike addUser, register() also maintains a session for login state. After calling 
+	// TurboClient.createUser(), the new user is logged in as well:
+	register: function register(params) {
+		return function (dispatch) {
+			return dispatch(_utils.TurboClient.createUser(params, _constants2.default.USER_CREATED));
+		};
+	},
+
+	loginUser: function loginUser(credentials) {
+		return function (dispatch) {
+			return dispatch(_utils.TurboClient.login(credentials, _constants2.default.CURRENT_USER_RECEIVED));
+		};
+	},
+
+	currentUser: function currentUser() {
+		return function (dispatch) {
+			return dispatch(_utils.TurboClient.currentUser(_constants2.default.CURRENT_USER_RECEIVED));
+		};
+	}
+
+};
 
 /***/ })
 

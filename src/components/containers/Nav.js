@@ -10,7 +10,7 @@ class Nav extends Component {
     this.state = {
       showEditModal: false,
       showLoginModal: false,
-      showSignUpModal: false
+      showSignupModal: false
     }
   }
 

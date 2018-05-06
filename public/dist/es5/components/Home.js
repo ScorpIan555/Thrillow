@@ -20,7 +20,12 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var Nav = require("./containers").Nav;
+var _containers = require("./containers");
+
+var Nav = _containers.Nav;
+var LandingPage = _containers.LandingPage;
+var Results = _containers.Results;
+var Footer = require("./presentation").Footer;
 var Home = (function (Component) {
   function Home() {
     _classCallCheck(this, Home);
@@ -41,7 +46,9 @@ var Home = (function (Component) {
           React.createElement(
             "div",
             { className: "main-container" },
-            "Home Container"
+            React.createElement(LandingPage, null),
+            React.createElement(Results, null),
+            React.createElement(Footer, null)
           )
         );
       },

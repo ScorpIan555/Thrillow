@@ -29,7 +29,7 @@ var Nav = (function (Component) {
         this.state = {
             showEditModal: false,
             showLoginModal: false,
-            showSignUpModal: false
+            showSignupModal: false
         };
     }
 

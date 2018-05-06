@@ -4,7 +4,8 @@
 */
 
 import React, { Component } from 'react'
-import { Nav } from './containers'
+import { Nav, LandingPage, Results } from './containers'
+import { Footer } from './presentation'
 
 class Home extends Component {
   constructor() {
@@ -16,9 +17,17 @@ class Home extends Component {
 
     return(
       <div>
+
         <Nav />
+
         <div className="main-container">
-          Home Container
+
+          <LandingPage />
+
+          <Results />
+
+          <Footer />
+
         </div>
       </div>
     )
