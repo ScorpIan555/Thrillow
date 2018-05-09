@@ -14,6 +14,14 @@ class Results extends Component {
 
   componentDidMount() {
     console.log('Results componentDidMount')
+    const zillowData = this.props.getZillowResults()
+
+    // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
+    console.log('zillowData: ', zillowData)
+
+    this.setState({
+      listing: zillowData
+    })
   }
 
 
@@ -56,13 +64,13 @@ render() {
 
 const stateToProps = (state) => {
   return {
-    // listing: state.listing
+    listing: state.listing
   }
 }
 
 const dispatchToProps = (dispatch) => {
   return {
-    // getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
+    getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
     // getLocation: () => dispatch(actions.getLocation())
   }
 }

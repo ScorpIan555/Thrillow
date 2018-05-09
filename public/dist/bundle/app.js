@@ -130,14 +130,14 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([240,0]);
+/******/ 	deferredModules.push([242,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 103:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -166,7 +166,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 107:
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -176,9 +176,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Here are a few sample constants for typical actions.
-	You may want to extends these to the other data
-	types for your project (e.g. BLOG_POST_CREATED, BLOG_POST_UPDATED, etc)
+	Application constants
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
@@ -187,13 +185,75 @@ exports.default = {
 	USERS_RECEIVED: 'USERS_RECEIVED',
 	USER_CREATED: 'USER_CREATED',
 	USER_LOGGED_IN: 'USER_LOGGED_IN',
-	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
+	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
+	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED'
 
 };
 
 /***/ }),
 
-/***/ 115:
+/***/ 116:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  // // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
+
+  // const imagePath = props.imagePath
+  // const imageSize = props.imageSize
+  // const imageLocation = props.imageLocation
+  // const imageFOV = props.imageFOV
+  // const imageHeading = props.imageHeading
+  // const imagePitch = props.imagePitch
+  // const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
+
+  // const imagePath = 'https://maps.googleapis.com/maps/api/streetview'
+  // const imageSize = 'size=400x400'
+  // const imageLocation = 'location=40.720032,-73.988354'
+  // const imageFOV = 'fov=90'
+  // const imageHeading = 'heading=235'
+  // const imagePitch = 'pitch=10'
+  // const googleMapsApiKey = 'key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
+  //
+  // // // Compose url string for src
+  // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
+  // const imageUrlQueryString = imageUrlArray.join('&')
+  // const imageUrlArray = [imagePath, imageUrlQueryString]
+  // const fullyComposedImageUrlString = imageUrlArray.join('?')
+
+  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
+
+  return _react2.default.createElement(
+    "div",
+    { className: "col-sm" },
+    _react2.default.createElement("img", { style: localStyle,
+      alt: "Image",
+      src: imageUrl,
+      className: "img-fluid rounded" })
+  );
+};
+
+var localStyle = {
+  height: '200px',
+  width: '200px'
+};
+
+/***/ }),
+
+/***/ 117:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -454,38 +514,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 116:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Listing = exports.Footer = undefined;
-
-var _Footer = __webpack_require__(115);
-
-var _Footer2 = _interopRequireDefault(_Footer);
-
-var _Listing = __webpack_require__(242);
-
-var _Listing2 = _interopRequireDefault(_Listing);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Export presentation components here
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-exports.Footer = _Footer2.default;
-exports.Listing = _Listing2.default;
-
-/***/ }),
-
-/***/ 117:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -501,7 +530,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _presentation = __webpack_require__(116);
+var _presentation = __webpack_require__(86);
 
 var _reactRedux = __webpack_require__(32);
 
@@ -536,6 +565,14 @@ var Results = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('Results componentDidMount');
+      var zillowData = this.props.getZillowResults();
+
+      // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
+      console.log('zillowData: ', zillowData);
+
+      this.setState({
+        listing: zillowData
+      });
     }
   }, {
     key: 'render',
@@ -604,13 +641,15 @@ var Results = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    // listing: state.listing
+    listing: state.listing
   };
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    // getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
+    getZillowResults: function getZillowResults(params) {
+      return dispatch(_actions2.default.getZillowResults(params));
+    }
     // getLocation: () => dispatch(actions.getLocation())
   };
 };
@@ -619,7 +658,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Result
 
 /***/ }),
 
-/***/ 118:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -773,7 +812,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landin
 
 /***/ }),
 
-/***/ 195:
+/***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -791,9 +830,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(32);
 
-var _reactBootstrap = __webpack_require__(114);
+var _reactBootstrap = __webpack_require__(115);
 
-var _reactDropzone = __webpack_require__(113);
+var _reactDropzone = __webpack_require__(114);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
@@ -973,7 +1012,50 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 /***/ }),
 
-/***/ 201:
+/***/ 197:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _superagent = __webpack_require__(14);
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var asyncGet = function asyncGet(url, params, actionType) {
+  return function (dispatch) {
+    return _superagent2.default.get(url).set('Accept', 'application/json').then(function (data) {
+      // console.log('superagent log - res:  ' +JSON.stringify(res))
+      if (actionType != null) {
+        dispatch({
+          type: actionType,
+          params: params,
+          data: data
+        });
+        console.log(data);
+        return data;
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+    });
+  };
+};
+
+exports.default = {
+
+  asyncGet: asyncGet
+
+};
+
+/***/ }),
+
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -987,11 +1069,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(200);
+var _server = __webpack_require__(202);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _ServerEntry = __webpack_require__(103);
+var _ServerEntry = __webpack_require__(104);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -1012,14 +1094,14 @@ exports.default = function (initialState, component) {
 
 /***/ }),
 
-/***/ 202:
+/***/ 204:
 /***/ (function(module) {
 
-module.exports = {"name":"thrillow","version":"0.0.0","server":false,"private":true,"scripts":{"dev":"webpack --mode development -w","build":"npm run clean && NODE_ENV=production webpack -p && gulp prod","clean":"rm -rf ./public/dist","postinstall":"npm run build"},"dependencies":{"turbo360":"latest","vertex360":"latest","bluebird":"^3.5.1","debug":"2.6.9","dotenv":"^5.0.1","moment":"^2.20.1","nodemon":"^1.17.1","react":"^16.2.0","react-bootstrap":"^0.32.1","react-dom":"^16.2.0","react-dropzone":"^4.2.8","react-redux":"^5.0.7","react-time":"^4.3.0","redux":"^3.7.2","redux-thunk":"^2.2.0","superagent":"^3.8.2","accepts":"^1.3.5","array-flatten":"1.1.1","body-parser":"1.18.2","content-disposition":"0.5.2","content-type":"^1.0.4","cookie":"0.3.1","cookie-signature":"1.0.6","depd":"^1.1.2","encodeurl":"^1.0.2","escape-html":"^1.0.3","etag":"^1.8.1","finalhandler":"1.1.1","fresh":"0.5.2","merge-descriptors":"1.0.1","methods":"^1.1.2","on-finished":"^2.3.0","parseurl":"^1.3.2","path-to-regexp":"0.1.7","proxy-addr":"^2.0.3","qs":"6.5.1","range-parser":"^1.2.0","safe-buffer":"5.1.1","send":"0.16.2","serve-static":"1.13.2","setprototypeof":"1.1.0","statuses":"^1.4.0","type-is":"^1.6.16","utils-merge":"1.0.1","vary":"^1.1.2"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.3","babel-preset-env":"^1.6.1","babel-preset-react":"^6.24.1","chai":"^4.1.2","chai-http":"^3.0.0","cross-env":"^5.1.4","gulp":"^3.9.1","gulp-6to5":"^3.0.0","gulp-autoprefixer":"^5.0.0","gulp-clean-css":"^3.9.2","gulp-concat":"^2.6.1","gulp-less":"^4.0.0","gulp-rename":"^1.2.2","gulp-sass":"^3.1.0","gulp-uglify":"^3.0.0","json-loader":"^0.5.7","mocha":"^5.0.1","mocha-jscs":"^5.0.1","mocha-jshint":"^2.3.1","rimraf":"^2.6.2","uglifyjs-webpack-plugin":"^1.2.2","webpack":"^4.1.1","webpack-cli":"^2.0.10"},"deploy":["."],"format":"vertex","app":""};
+module.exports = {"name":"thrillow","version":"0.0.0","server":false,"private":true,"scripts":{"dev":"webpack --mode development -w","build":"npm run clean && NODE_ENV=production webpack -p && gulp prod","clean":"rm -rf ./public/dist","postinstall":"npm run build"},"dependencies":{"accepts":"^1.3.5","array-flatten":"1.1.1","bluebird":"^3.5.1","body-parser":"1.18.2","content-disposition":"0.5.2","content-type":"^1.0.4","cookie":"0.3.1","cookie-signature":"1.0.6","debug":"2.6.9","depd":"^1.1.2","dotenv":"^5.0.1","encodeurl":"^1.0.2","escape-html":"^1.0.3","etag":"^1.8.1","finalhandler":"1.1.1","fresh":"0.5.2","merge-descriptors":"1.0.1","methods":"^1.1.2","moment":"^2.20.1","node-zillow":"^1.0.1","nodemon":"^1.17.1","on-finished":"^2.3.0","parseurl":"^1.3.2","path-to-regexp":"0.1.7","proxy-addr":"^2.0.3","qs":"6.5.1","range-parser":"^1.2.0","react":"^16.2.0","react-bootstrap":"^0.32.1","react-dom":"^16.2.0","react-dropzone":"^4.2.8","react-redux":"^5.0.7","react-time":"^4.3.0","redux":"^3.7.2","redux-thunk":"^2.2.0","safe-buffer":"5.1.1","send":"0.16.2","serve-static":"1.13.2","setprototypeof":"1.1.0","statuses":"^1.4.0","superagent":"^3.8.2","turbo360":"latest","type-is":"^1.6.16","utils-merge":"1.0.1","vary":"^1.1.2","vertex360":"latest"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.3","babel-preset-env":"^1.6.1","babel-preset-react":"^6.24.1","chai":"^4.1.2","chai-http":"^3.0.0","cross-env":"^5.1.4","gulp":"^3.9.1","gulp-6to5":"^3.0.0","gulp-autoprefixer":"^5.0.0","gulp-clean-css":"^3.9.2","gulp-concat":"^2.6.1","gulp-less":"^4.0.0","gulp-rename":"^1.2.2","gulp-sass":"^3.1.0","gulp-uglify":"^3.0.0","json-loader":"^0.5.7","mocha":"^5.0.1","mocha-jscs":"^5.0.1","mocha-jshint":"^2.3.1","rimraf":"^2.6.2","uglifyjs-webpack-plugin":"^1.2.2","webpack":"^4.1.1","webpack-cli":"^2.0.10"},"deploy":["."],"format":"vertex","app":""};
 
 /***/ }),
 
-/***/ 220:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1029,11 +1111,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _turbo = __webpack_require__(219);
+var _turbo = __webpack_require__(221);
 
 var _turbo2 = _interopRequireDefault(_turbo);
 
-var _package = __webpack_require__(202);
+var _package = __webpack_require__(204);
 
 var _package2 = _interopRequireDefault(_package);
 
@@ -1180,7 +1262,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 221:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1189,29 +1271,34 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.renderComponents = exports.ServerEntry = exports.TurboClient = undefined;
+exports.SuperagentAsync = exports.renderComponents = exports.ServerEntry = exports.TurboClient = undefined;
 
-var _TurboClient = __webpack_require__(220);
+var _TurboClient = __webpack_require__(222);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
-var _ServerEntry = __webpack_require__(103);
+var _ServerEntry = __webpack_require__(104);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
-var _renderComponents = __webpack_require__(201);
+var _renderComponents = __webpack_require__(203);
 
 var _renderComponents2 = _interopRequireDefault(_renderComponents);
+
+var _SuperagentAsync = __webpack_require__(197);
+
+var _SuperagentAsync2 = _interopRequireDefault(_SuperagentAsync);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.TurboClient = _TurboClient2.default;
 exports.ServerEntry = _ServerEntry2.default;
 exports.renderComponents = _renderComponents2.default;
+exports.SuperagentAsync = _SuperagentAsync2.default;
 
 /***/ }),
 
-/***/ 222:
+/***/ 224:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1467,7 +1554,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 
 /***/ }),
 
-/***/ 223:
+/***/ 225:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1478,19 +1565,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
 
-var _Users = __webpack_require__(222);
+var _Users = __webpack_require__(224);
 
 var _Users2 = _interopRequireDefault(_Users);
 
-var _Nav = __webpack_require__(195);
+var _Nav = __webpack_require__(196);
 
 var _Nav2 = _interopRequireDefault(_Nav);
 
-var _LandingPage = __webpack_require__(118);
+var _LandingPage = __webpack_require__(119);
 
 var _LandingPage2 = _interopRequireDefault(_LandingPage);
 
-var _Results = __webpack_require__(117);
+var _Results = __webpack_require__(118);
 
 var _Results2 = _interopRequireDefault(_Results);
 
@@ -1508,7 +1595,7 @@ exports.Results = _Results2.default;
 
 /***/ }),
 
-/***/ 224:
+/***/ 226:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1524,9 +1611,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _containers = __webpack_require__(223);
+var _containers = __webpack_require__(225);
 
-var _presentation = __webpack_require__(116);
+var _presentation = __webpack_require__(86);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1577,7 +1664,7 @@ exports.default = Home;
 
 /***/ }),
 
-/***/ 227:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1587,7 +1674,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _constants = __webpack_require__(107);
+var _constants = __webpack_require__(108);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -1634,7 +1721,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 228:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1643,22 +1730,29 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.userReducer = undefined;
+exports.listingReducer = exports.userReducer = undefined;
 
-var _userReducer = __webpack_require__(227);
+var _userReducer = __webpack_require__(229);
 
 var _userReducer2 = _interopRequireDefault(_userReducer);
 
+var _listingReducer = __webpack_require__(244);
+
+var _listingReducer2 = _interopRequireDefault(_listingReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.userReducer = _userReducer2.default; /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-                                             	Export your reducers here
-                                             * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-                                             */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Export your reducers here
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.userReducer = _userReducer2.default;
+exports.listingReducer = _listingReducer2.default;
 
 /***/ }),
 
-/***/ 231:
+/***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1670,11 +1764,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(77);
 
-var _reduxThunk = __webpack_require__(229);
+var _reduxThunk = __webpack_require__(231);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducers = __webpack_require__(228);
+var _reducers = __webpack_require__(230);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1685,7 +1779,8 @@ exports.default = {
 		// initialState can be null
 
 		var reducers = (0, _redux.combineReducers)({ // insert reducers here
-			user: _reducers.userReducer
+			user: _reducers.userReducer,
+			listing: _reducers.listingReducer
 		});
 
 		if (initialState) {
@@ -1706,7 +1801,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 240:
+/***/ 242:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1720,13 +1815,13 @@ var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _stores = __webpack_require__(231);
+var _stores = __webpack_require__(233);
 
 var _stores2 = _interopRequireDefault(_stores);
 
 var _reactRedux = __webpack_require__(32);
 
-var _Home = __webpack_require__(224);
+var _Home = __webpack_require__(226);
 
 var _Home2 = _interopRequireDefault(_Home);
 
@@ -1747,7 +1842,7 @@ _reactDom2.default.render(app, document.getElementById('root'));
 
 /***/ }),
 
-/***/ 242:
+/***/ 244:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1757,19 +1852,52 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
+var _constants = __webpack_require__(108);
 
-var _react2 = _interopRequireDefault(_react);
+var _constants2 = _interopRequireDefault(_constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Listing reducer for state management of listing results pulled from Zillow API
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
 
-  return _react2.default.createElement(
-    "div",
-    { className: "col-sm" },
-    _react2.default.createElement("img", { alt: "Image", src: "dist/assets/img/graphic-product-kin.jpg", className: "img-fluid rounded" })
-  );
+var initialState = {
+  all: null
+  // imageUrlArray: []
+  // imageTestUrl: "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354
+  //             &fov=90&heading=235&pitch=10
+  //             &key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs"
+};
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  var newState = Object.assign({}, state);
+  var payload = action.data;
+
+  switch (action.type) {
+
+    case _constants2.default.ZILLOW_LISTING_RECEIVED:
+      // console.log('ZILLOW_LISTING_RECEIVED fired from reducer:  ' + payload)
+      newState['req'] = payload.body.data.request;
+      newState['all'] = payload.body.data.response.results.result;
+      // newState['latitude'] = payload.body.data.response.results.result.address.latitude
+      // newState.all.latitude = payload.body.data.response.results.result.address.latitude
+
+      // console.log("listing reducer : " + JSON.stringify(newState))
+      // console.log("listing reducer : " + JSON.stringify(newState.all))
+      console.log("listing reducer REQ: " + JSON.stringify(newState.req));
+      console.log("listing reducer RES: " + JSON.stringify(newState.all));
+      // console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude))
+
+      return newState;
+
+    default:
+      return state;
+  }
 };
 
 /***/ }),
@@ -1784,17 +1912,16 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _constants = __webpack_require__(107);
+var _constants = __webpack_require__(108);
 
 var _constants2 = _interopRequireDefault(_constants);
 
-var _utils = __webpack_require__(221);
+var _utils = __webpack_require__(223);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Here are a few sample actions for User managment.
-	Feel free to remove and replace with your own actions
+	Application actions dispatched from Components for API calls and Redux, state management
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
@@ -1812,7 +1939,7 @@ exports.default = {
 		};
 	},
 
-	// Unlike addUser, register() also maintains a session for login state. After calling 
+	// Unlike addUser, register() also maintains a session for login state. After calling
 	// TurboClient.createUser(), the new user is logged in as well:
 	register: function register(params) {
 		return function (dispatch) {
@@ -1830,9 +1957,48 @@ exports.default = {
 		return function (dispatch) {
 			return dispatch(_utils.TurboClient.currentUser(_constants2.default.CURRENT_USER_RECEIVED));
 		};
+	},
+
+	getZillowResults: function getZillowResults(params) {
+		return function (dispatch) {
+			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
+			console.log('getZillowResults from actions/index.js - params:  ', params);
+			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ZILLOW_LISTING_RECEIVED));
+		};
 	}
 
 };
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Listing = exports.Footer = undefined;
+
+var _Footer = __webpack_require__(117);
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+var _Listing = __webpack_require__(116);
+
+var _Listing2 = _interopRequireDefault(_Listing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Export presentation components here
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.Footer = _Footer2.default;
+exports.Listing = _Listing2.default;
 
 /***/ })
 

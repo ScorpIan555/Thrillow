@@ -36,6 +36,14 @@ var Results = (function (Component) {
     componentDidMount: {
       value: function componentDidMount() {
         console.log("Results componentDidMount");
+        var zillowData = this.props.getZillowResults();
+
+        // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
+        console.log("zillowData: ", zillowData);
+
+        this.setState({
+          listing: zillowData
+        });
       },
       writable: true,
       configurable: true
@@ -111,14 +119,17 @@ var Results = (function (Component) {
 
 
 var stateToProps = function (state) {
-  return {};
+  return {
+    listing: state.listing
+  };
 };
 
 var dispatchToProps = function (dispatch) {
-  return {};
+  return {
+    getZillowResults: function (params) {
+      return dispatch(actions.getZillowResults(params));
+    } };
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(Results);
-// listing: state.listing
-// getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
 // getLocation: () => dispatch(actions.getLocation())

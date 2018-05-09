@@ -5,9 +5,11 @@
 
 
 import userReducer from './userReducer'
+import listingReducer from './listingReducer'
 
 export {
-	
-	userReducer
-	
+
+	userReducer,
+	listingReducer
+
 }

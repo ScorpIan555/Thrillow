@@ -4,12 +4,14 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 
 var constants = _interopRequire(require("../constants"));
 
-var TurboClient = require("../utils").TurboClient;
+var _utils = require("../utils");
+
+var TurboClient = _utils.TurboClient;
+var SuperagentAsync = _utils.SuperagentAsync;
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Here are a few sample actions for User managment.
-	Feel free to remove and replace with your own actions
+	Application actions dispatched from Components for API calls and Redux, state management
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
@@ -45,6 +47,12 @@ module.exports = {
 		return function (dispatch) {
 			return dispatch(TurboClient.currentUser(constants.CURRENT_USER_RECEIVED));
 		};
-	}
+	},
 
-};
+	getZillowResults: function (params) {
+		return function (dispatch) {
+			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
+			console.log("getZillowResults from actions/index.js - params:  ", params);
+			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ZILLOW_LISTING_RECEIVED));
+		};
+	} };
