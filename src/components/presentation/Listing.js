@@ -21,7 +21,7 @@ export default (props) => {
   // const imagePitch = 'pitch=10'
   // const googleMapsApiKey = 'key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
   //
-  // // // Compose url string for src
+  // // Compose url string for src
   // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
   // const imageUrlQueryString = imageUrlArray.join('&')
   // const imageUrlArray = [imagePath, imageUrlQueryString]

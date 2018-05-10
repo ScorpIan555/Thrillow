@@ -23,7 +23,9 @@ var LocationSearchInput = (function (_React$Component) {
     _classCallCheck(this, LocationSearchInput);
 
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
-    this.state = { address: "" };
+    this.state = {
+      address: ""
+    };
   }
 
   _inherits(LocationSearchInput, _React$Component);
@@ -52,6 +54,8 @@ var LocationSearchInput = (function (_React$Component) {
     },
     render: {
       value: function render() {
+        console.log(this.state);
+        console.log(this.props);
         return React.createElement(
           PlacesAutocomplete,
           {

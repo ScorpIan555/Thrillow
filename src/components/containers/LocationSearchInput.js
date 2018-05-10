@@ -4,11 +4,13 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { address: '' }
+    this.state = {
+      address: ''
+    }
   }
 
   handleChange(address) {
-    this.setState({ address }) 
+    this.setState({ address })
     console.log(this.state.address)
   }
 
@@ -20,6 +22,8 @@ class LocationSearchInput extends React.Component {
   }
 
   render() {
+    console.log(this.state)
+    console.log(this.props)
     return (
       <PlacesAutocomplete
         value={this.state.address}

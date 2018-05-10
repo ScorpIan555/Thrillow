@@ -202,7 +202,7 @@ exports.default = function (props) {
   // const imagePitch = 'pitch=10'
   // const googleMapsApiKey = 'key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
   //
-  // // // Compose url string for src
+  // // Compose url string for src
   // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
   // const imageUrlQueryString = imageUrlArray.join('&')
   // const imageUrlArray = [imagePath, imageUrlQueryString]
@@ -1007,7 +1007,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var asyncGet = function asyncGet(url, params, actionType) {
   return function (dispatch) {
     return _superagent2.default.get(url).set('Accept', 'application/json').then(function (data) {
-      // console.log('superagent log - res:  ' +JSON.stringify(res))
+      // console.log('superagent log - res:  ' +JSON.stringify(data))
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -1914,7 +1914,9 @@ var LocationSearchInput = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
 
-    _this.state = { address: '' };
+    _this.state = {
+      address: ''
+    };
     return _this;
   }
 
@@ -1938,6 +1940,8 @@ var LocationSearchInput = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log(this.state);
+      console.log(this.props);
       return _react2.default.createElement(
         _reactPlacesAutocomplete2.default,
         {

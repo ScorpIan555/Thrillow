@@ -65,7 +65,7 @@ class LandingPage extends Component {
 }
 
 const stateToProps = (state) => {
-
+  
 }
 
 const dispatchToProps = (dispatch) => {
