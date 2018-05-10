@@ -130,14 +130,14 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([242,0]);
+/******/ 	deferredModules.push([243,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 104:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -162,32 +162,6 @@ exports.default = function (props) {
 		{ store: props.store },
 		props.component
 	);
-};
-
-/***/ }),
-
-/***/ 108:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Application constants
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-exports.default = {
-
-	USERS_RECEIVED: 'USERS_RECEIVED',
-	USER_CREATED: 'USER_CREATED',
-	USER_LOGGED_IN: 'USER_LOGGED_IN',
-	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
-	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED'
-
 };
 
 /***/ }),
@@ -530,7 +504,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _presentation = __webpack_require__(86);
+var _presentation = __webpack_require__(87);
 
 var _reactRedux = __webpack_require__(32);
 
@@ -1073,7 +1047,7 @@ var _server = __webpack_require__(202);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _ServerEntry = __webpack_require__(104);
+var _ServerEntry = __webpack_require__(105);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -1277,7 +1251,7 @@ var _TurboClient = __webpack_require__(222);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
-var _ServerEntry = __webpack_require__(104);
+var _ServerEntry = __webpack_require__(105);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -1613,7 +1587,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _containers = __webpack_require__(225);
 
-var _presentation = __webpack_require__(86);
+var _presentation = __webpack_require__(87);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1671,188 +1645,10 @@ exports.default = Home;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _constants = __webpack_require__(108);
-
-var _constants2 = _interopRequireDefault(_constants);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	This is a sample reducer or user management. If you remove 
-	and use your own reducers, remember to update the store 
-	file (../stores/index.js) with your reducers.
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-var initialState = {
-	all: null,
-	currentUser: null // signed in user
-};
-
-exports.default = function () {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
-
-	var newState = Object.assign({}, state);
-
-	switch (action.type) {
-
-		case _constants2.default.CURRENT_USER_RECEIVED:
-			newState['currentUser'] = action.data;
-			return newState;
-
-		case _constants2.default.USERS_RECEIVED:
-			newState['all'] = action.data;
-			return newState;
-
-		case _constants2.default.USER_CREATED:
-			var array = newState.all ? Object.assign([], newState.all) : [];
-			array.unshift(action.data);
-			newState['all'] = array;
-			return newState;
-
-		default:
-			return state;
-	}
-};
-
-/***/ }),
-
-/***/ 230:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.listingReducer = exports.userReducer = undefined;
-
-var _userReducer = __webpack_require__(229);
-
-var _userReducer2 = _interopRequireDefault(_userReducer);
-
-var _listingReducer = __webpack_require__(244);
-
-var _listingReducer2 = _interopRequireDefault(_listingReducer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Export your reducers here
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-exports.userReducer = _userReducer2.default;
-exports.listingReducer = _listingReducer2.default;
-
-/***/ }),
-
-/***/ 233:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _redux = __webpack_require__(77);
-
-var _reduxThunk = __webpack_require__(231);
-
-var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
-var _reducers = __webpack_require__(230);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var store;
-exports.default = {
-
-	configure: function configure(initialState) {
-		// initialState can be null
-
-		var reducers = (0, _redux.combineReducers)({ // insert reducers here
-			user: _reducers.userReducer,
-			listing: _reducers.listingReducer
-		});
-
-		if (initialState) {
-			store = (0, _redux.createStore)(reducers, initialState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-
-			return store;
-		}
-
-		store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-
-		return store;
-	},
-
-	currentStore: function currentStore() {
-		return store;
-	}
-};
-
-/***/ }),
-
-/***/ 242:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(9);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _stores = __webpack_require__(233);
-
-var _stores2 = _interopRequireDefault(_stores);
-
-var _reactRedux = __webpack_require__(32);
-
-var _Home = __webpack_require__(226);
-
-var _Home2 = _interopRequireDefault(_Home);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	This is the entry point of the React app with Redux implemented
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
-var app = _react2.default.createElement(
-	_reactRedux.Provider,
-	{ store: _stores2.default.configure(null) },
-	_react2.default.createElement(_Home2.default, null)
-);
-
-_reactDom2.default.render(app, document.getElementById('root'));
-
-/***/ }),
-
-/***/ 244:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _constants = __webpack_require__(108);
+var _constants = __webpack_require__(75);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -1902,6 +1698,184 @@ exports.default = function () {
 
 /***/ }),
 
+/***/ 230:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(75);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	This is a sample reducer or user management. If you remove 
+	and use your own reducers, remember to update the store 
+	file (../stores/index.js) with your reducers.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+var initialState = {
+	all: null,
+	currentUser: null // signed in user
+};
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+	var newState = Object.assign({}, state);
+
+	switch (action.type) {
+
+		case _constants2.default.CURRENT_USER_RECEIVED:
+			newState['currentUser'] = action.data;
+			return newState;
+
+		case _constants2.default.USERS_RECEIVED:
+			newState['all'] = action.data;
+			return newState;
+
+		case _constants2.default.USER_CREATED:
+			var array = newState.all ? Object.assign([], newState.all) : [];
+			array.unshift(action.data);
+			newState['all'] = array;
+			return newState;
+
+		default:
+			return state;
+	}
+};
+
+/***/ }),
+
+/***/ 231:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.listingReducer = exports.userReducer = undefined;
+
+var _userReducer = __webpack_require__(230);
+
+var _userReducer2 = _interopRequireDefault(_userReducer);
+
+var _listingReducer = __webpack_require__(229);
+
+var _listingReducer2 = _interopRequireDefault(_listingReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Export your reducers here
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.userReducer = _userReducer2.default;
+exports.listingReducer = _listingReducer2.default;
+
+/***/ }),
+
+/***/ 234:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _redux = __webpack_require__(78);
+
+var _reduxThunk = __webpack_require__(232);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _reducers = __webpack_require__(231);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var store;
+exports.default = {
+
+	configure: function configure(initialState) {
+		// initialState can be null
+
+		var reducers = (0, _redux.combineReducers)({ // insert reducers here
+			user: _reducers.userReducer,
+			listing: _reducers.listingReducer
+		});
+
+		if (initialState) {
+			store = (0, _redux.createStore)(reducers, initialState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+
+			return store;
+		}
+
+		store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+
+		return store;
+	},
+
+	currentStore: function currentStore() {
+		return store;
+	}
+};
+
+/***/ }),
+
+/***/ 243:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(9);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _stores = __webpack_require__(234);
+
+var _stores2 = _interopRequireDefault(_stores);
+
+var _reactRedux = __webpack_require__(32);
+
+var _Home = __webpack_require__(226);
+
+var _Home2 = _interopRequireDefault(_Home);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	This is the entry point of the React app with Redux implemented
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+var app = _react2.default.createElement(
+	_reactRedux.Provider,
+	{ store: _stores2.default.configure(null) },
+	_react2.default.createElement(_Home2.default, null)
+);
+
+_reactDom2.default.render(app, document.getElementById('root'));
+
+/***/ }),
+
 /***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1912,7 +1886,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _constants = __webpack_require__(108);
+var _constants = __webpack_require__(75);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -1971,7 +1945,33 @@ exports.default = {
 
 /***/ }),
 
-/***/ 86:
+/***/ 75:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Application constants
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+exports.default = {
+
+	USERS_RECEIVED: 'USERS_RECEIVED',
+	USER_CREATED: 'USER_CREATED',
+	USER_LOGGED_IN: 'USER_LOGGED_IN',
+	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
+	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED'
+
+};
+
+/***/ }),
+
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
