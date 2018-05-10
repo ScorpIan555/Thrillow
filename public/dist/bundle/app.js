@@ -654,6 +654,8 @@ var _actions2 = _interopRequireDefault(_actions);
 
 var _reactRedux = __webpack_require__(32);
 
+var _containers = __webpack_require__(225);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -751,7 +753,7 @@ var LandingPage = function (_Component) {
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col' },
-                                        _react2.default.createElement('input', { className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
+                                        _react2.default.createElement(_containers.LocationSearchInput, { className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
                                     ),
                                     _react2.default.createElement(
                                         'div',
@@ -1537,7 +1539,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
+exports.LocationSearchInput = exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
 
 var _Users = __webpack_require__(224);
 
@@ -1555,17 +1557,20 @@ var _Results = __webpack_require__(118);
 
 var _Results2 = _interopRequireDefault(_Results);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _LocationSearchInput = __webpack_require__(250);
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Export container components here
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
+var _LocationSearchInput2 = _interopRequireDefault(_LocationSearchInput);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Users = _Users2.default;
 exports.Nav = _Nav2.default;
 exports.LandingPage = _LandingPage2.default;
 exports.Results = _Results2.default;
+exports.LocationSearchInput = _LocationSearchInput2.default; /* * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                                             	Export container components here
+                                                             * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                                             */
 
 /***/ }),
 
@@ -1661,10 +1666,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
   all: null
-  // imageUrlArray: []
-  // imageTestUrl: "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354
-  //             &fov=90&heading=235&pitch=10
-  //             &key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs"
 };
 
 exports.default = function () {
@@ -1677,17 +1678,18 @@ exports.default = function () {
   switch (action.type) {
 
     case _constants2.default.ZILLOW_LISTING_RECEIVED:
-      // console.log('ZILLOW_LISTING_RECEIVED fired from reducer:  ' + payload)
+      // Capture request/response objects
       newState['req'] = payload.body.data.request;
       newState['all'] = payload.body.data.response.results.result;
-      // newState['latitude'] = payload.body.data.response.results.result.address.latitude
-      // newState.all.latitude = payload.body.data.response.results.result.address.latitude
-
-      // console.log("listing reducer : " + JSON.stringify(newState))
-      // console.log("listing reducer : " + JSON.stringify(newState.all))
+      // Console log request/response objects
       console.log("listing reducer REQ: " + JSON.stringify(newState.req));
       console.log("listing reducer RES: " + JSON.stringify(newState.all));
-      // console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude))
+      // Capture lat/long objects
+      newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
+      newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
+      // Console log latitude/longitude objects
+      console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
+      console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
 
       return newState;
 
@@ -1873,6 +1875,115 @@ var app = _react2.default.createElement(
 );
 
 _reactDom2.default.render(app, document.getElementById('root'));
+
+/***/ }),
+
+/***/ 250:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactPlacesAutocomplete = __webpack_require__(249);
+
+var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LocationSearchInput = function (_React$Component) {
+  _inherits(LocationSearchInput, _React$Component);
+
+  function LocationSearchInput(props) {
+    _classCallCheck(this, LocationSearchInput);
+
+    var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
+
+    _this.state = { address: '' };
+    return _this;
+  }
+
+  _createClass(LocationSearchInput, [{
+    key: 'handleChange',
+    value: function handleChange(address) {
+      this.setState({ address: address });
+      console.log(this.state.address);
+    }
+  }, {
+    key: 'handleSelect',
+    value: function handleSelect(address) {
+      (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
+        return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
+      }).then(function (latLng) {
+        return console.log('Success', latLng);
+      }).catch(function (error) {
+        return console.error('Error', error);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactPlacesAutocomplete2.default,
+        {
+          value: this.state.address,
+          onChange: this.handleChange.bind(this),
+          onSelect: this.handleSelect.bind(this)
+        },
+        function (_ref) {
+          var getInputProps = _ref.getInputProps,
+              suggestions = _ref.suggestions,
+              getSuggestionItemProps = _ref.getSuggestionItemProps;
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('input', getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input'
+            })),
+            _react2.default.createElement(
+              'div',
+              { className: 'autocomplete-dropdown-container' },
+              suggestions.map(function (suggestion) {
+                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return _react2.default.createElement(
+                  'div',
+                  getSuggestionItemProps(suggestion, { className: className, style: style }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    suggestion.description
+                  )
+                );
+              })
+            )
+          );
+        }
+      );
+    }
+  }]);
+
+  return LocationSearchInput;
+}(_react2.default.Component);
+
+exports.default = LocationSearchInput;
 
 /***/ }),
 

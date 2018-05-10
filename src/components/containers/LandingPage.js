@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import actions from '../../actions'
 import { connect } from 'react-redux'
+import { LocationSearchInput } from '../containers'
 
 class LandingPage extends Component {
   constructor() {
@@ -42,7 +43,7 @@ class LandingPage extends Component {
                               </div>
 
                               <div className="col">
-                                  <input className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
+                                  <LocationSearchInput className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
                               </div>
 
                               <div className="col-auto">

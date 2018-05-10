@@ -15,10 +15,13 @@ var LandingPage = _interopRequire(require("./LandingPage"));
 
 var Results = _interopRequire(require("./Results"));
 
+var LocationSearchInput = _interopRequire(require("./LocationSearchInput"));
+
 exports.Users = Users;
 exports.Nav = Nav;
 exports.LandingPage = LandingPage;
 exports.Results = Results;
+exports.LocationSearchInput = LocationSearchInput;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

@@ -18,6 +18,7 @@ var Component = _react.Component;
 var actions = _interopRequire(require("../../actions"));
 
 var connect = require("react-redux").connect;
+var LocationSearchInput = require("../containers").LocationSearchInput;
 var LandingPage = (function (Component) {
     function LandingPage() {
         _classCallCheck(this, LandingPage);
@@ -104,7 +105,7 @@ var LandingPage = (function (Component) {
                                         React.createElement(
                                             "div",
                                             { className: "col" },
-                                            React.createElement("input", { className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
+                                            React.createElement(LocationSearchInput, { className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
                                         ),
                                         React.createElement(
                                             "div",

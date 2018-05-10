@@ -10,7 +10,8 @@ var constants = _interopRequire(require("../constants"));
 */
 
 var initialState = {
-  all: null };
+  all: null
+};
 
 module.exports = function (_x, action) {
   var state = arguments[0] === undefined ? initialState : arguments[0];
@@ -21,17 +22,18 @@ module.exports = function (_x, action) {
   switch (action.type) {
 
     case constants.ZILLOW_LISTING_RECEIVED:
-      // console.log('ZILLOW_LISTING_RECEIVED fired from reducer:  ' + payload)
+      // Capture request/response objects
       newState.req = payload.body.data.request;
       newState.all = payload.body.data.response.results.result;
-      // newState['latitude'] = payload.body.data.response.results.result.address.latitude
-      // newState.all.latitude = payload.body.data.response.results.result.address.latitude
-
-      // console.log("listing reducer : " + JSON.stringify(newState))
-      // console.log("listing reducer : " + JSON.stringify(newState.all))
+      // Console log request/response objects
       console.log("listing reducer REQ: " + JSON.stringify(newState.req));
       console.log("listing reducer RES: " + JSON.stringify(newState.all));
-      // console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude))
+      // Capture lat/long objects
+      newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
+      newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
+      // Console log latitude/longitude objects
+      console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
+      console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
 
       return newState;
 
@@ -39,8 +41,3 @@ module.exports = function (_x, action) {
       return state;
   }
 };
-
-// imageUrlArray: []
-// imageTestUrl: "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354
-//             &fov=90&heading=235&pitch=10
-//             &key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs"
