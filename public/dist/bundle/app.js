@@ -1203,7 +1203,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var asyncGet = function asyncGet(url, params, actionType) {
   return function (dispatch) {
-    return _superagent2.default.get(url).set('Accept', 'application/json').then(function (data) {
+    return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
       // console.log('superagent log - res:  ' +JSON.stringify(data))
       if (actionType != null) {
         dispatch({

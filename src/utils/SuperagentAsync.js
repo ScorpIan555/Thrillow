@@ -3,6 +3,7 @@ import superagent from 'superagent'
 const asyncGet = (url, params, actionType) => {
   return dispatch => superagent
                       .get(url)
+                      .query(params)
                       .set('Accept', 'application/json')
                       .then(data => {
                         // console.log('superagent log - res:  ' +JSON.stringify(data))
