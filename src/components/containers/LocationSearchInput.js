@@ -1,11 +1,14 @@
 import React from 'react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { connect } from 'react-redux'
+import actions from '../../actions'
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      address: ''
+      address: '',
+      latLng: ''
     }
   }
 
@@ -17,8 +20,27 @@ class LocationSearchInput extends React.Component {
   handleSelect(address) {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
+      .then(latLng => this.setState({ latLng }) )
       .catch(error => console.error('Error', error))
+
+    console.log(address)
+    console.log("ADDRESS:  ", JSON.stringify(address))
+
+    const paramsAddress = address.split(',', 1)
+
+    const arrayFromAddressAndCitystatezip = address.split(',')
+    const citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
+
+    console.log(paramsAddress)
+    console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
+    console.log(citystatezip)
+    console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
+
+    var params = {
+      address: paramsAddress,
+      citystatezip: citystatezip
+    }
+    this.props.dispatchUserInputAddressAndLatLng(params)
   }
 
   render() {
@@ -59,4 +81,16 @@ class LocationSearchInput extends React.Component {
   }
 }
 
-export default LocationSearchInput
+const stateToProps = (state) => {
+  return {
+
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return {
+    dispatchUserInputAddressAndLatLng: (params) => dispatch(actions.dispatchUserInputAddressAndLatLng(params)),
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(LocationSearchInput)

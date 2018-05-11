@@ -18,13 +18,17 @@ var PlacesAutocomplete = _interopRequire(_reactPlacesAutocomplete);
 
 var geocodeByAddress = _reactPlacesAutocomplete.geocodeByAddress;
 var getLatLng = _reactPlacesAutocomplete.getLatLng;
+var connect = require("react-redux").connect;
+var actions = _interopRequire(require("../../actions"));
+
 var LocationSearchInput = (function (_React$Component) {
   function LocationSearchInput(props) {
     _classCallCheck(this, LocationSearchInput);
 
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
     this.state = {
-      address: ""
+      address: "",
+      latLng: ""
     };
   }
 
@@ -41,13 +45,33 @@ var LocationSearchInput = (function (_React$Component) {
     },
     handleSelect: {
       value: function handleSelect(address) {
+        var _this = this;
         geocodeByAddress(address).then(function (results) {
           return getLatLng(results[0]);
         }).then(function (latLng) {
-          return console.log("Success", latLng);
+          return _this.setState({ latLng: latLng });
         })["catch"](function (error) {
           return console.error("Error", error);
         });
+
+        console.log(address);
+        console.log("ADDRESS:  ", JSON.stringify(address));
+
+        var paramsAddress = address.split(",", 1);
+
+        var arrayFromAddressAndCitystatezip = address.split(",");
+        var citystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
+
+        console.log(paramsAddress);
+        console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress));
+        console.log(citystatezip);
+        console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip));
+
+        var params = {
+          address: paramsAddress,
+          citystatezip: citystatezip
+        };
+        this.props.dispatchUserInputAddressAndLatLng(params);
       },
       writable: true,
       configurable: true
@@ -103,5 +127,16 @@ var LocationSearchInput = (function (_React$Component) {
   return LocationSearchInput;
 })(React.Component);
 
-module.exports = LocationSearchInput;
+var stateToProps = function (state) {
+  return {};
+};
+
+var dispatchToProps = function (dispatch) {
+  return {
+    dispatchUserInputAddressAndLatLng: function (params) {
+      return dispatch(actions.dispatchUserInputAddressAndLatLng(params));
+    } };
+};
+
+module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
 // inline style for demonstration purpose

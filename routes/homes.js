@@ -7,16 +7,16 @@ router.get('/', (req, res) => {
   const zwsid = process.env.ZWSID
   const zillow = new Zillow(zwsid)
 
-  const parameters = {
+  const params = {
     // zpid: 58162086,
-    address: "25 Anthony St",
-    citystatezip: "06096"
-    // address: req.body.address,
-    // citystatezip: req.body.citystatezip
+    // address: "25 Anthony St",
+    // citystatezip: "06096"
+    address: req.params.address,
+    citystatezip: req.params.citystatezip
   }
 
   const apiCallType = 'GetSearchResults'
-  zillow.get(apiCallType, parameters)
+  zillow.get(apiCallType, params)
   .then( data => {
     res.json({
       confirmation: 'success',

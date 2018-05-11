@@ -37,6 +37,11 @@ module.exports = function (_x, action) {
 
       return newState;
 
+    case constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
+      // Capture address object input by user into search box
+      newState.userInputAddress = payload;
+      console.log("ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ", newState.userInputAddress);
+
     default:
       return state;
   }

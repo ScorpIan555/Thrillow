@@ -55,4 +55,11 @@ module.exports = {
 			console.log("getZillowResults from actions/index.js - params:  ", params);
 			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ZILLOW_LISTING_RECEIVED));
 		};
+	},
+
+	dispatchUserInputAddressAndLatLng: function (params) {
+		return function (dispatch) {
+			console.log(params);
+			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
+		};
 	} };

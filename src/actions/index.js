@@ -48,4 +48,11 @@ export default {
 		}
 	},
 
+	dispatchUserInputAddressAndLatLng: (params) => {
+		return dispatch => {
+			console.log(params)
+			return dispatch(SuperagentAsync.asyncGet('/homes', params, constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT))
+		}
+	},
+
 }

@@ -130,7 +130,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([243,0]);
+/******/ 	deferredModules.push([249,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -151,7 +151,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -166,7 +166,204 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 116:
+/***/ 109:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LocationSearchInput = exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
+
+var _Users = __webpack_require__(231);
+
+var _Users2 = _interopRequireDefault(_Users);
+
+var _Nav = __webpack_require__(203);
+
+var _Nav2 = _interopRequireDefault(_Nav);
+
+var _LandingPage = __webpack_require__(126);
+
+var _LandingPage2 = _interopRequireDefault(_LandingPage);
+
+var _Results = __webpack_require__(125);
+
+var _Results2 = _interopRequireDefault(_Results);
+
+var _LocationSearchInput = __webpack_require__(122);
+
+var _LocationSearchInput2 = _interopRequireDefault(_LocationSearchInput);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Users = _Users2.default;
+exports.Nav = _Nav2.default;
+exports.LandingPage = _LandingPage2.default;
+exports.Results = _Results2.default;
+exports.LocationSearchInput = _LocationSearchInput2.default; /* * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                                             	Export container components here
+                                                             * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                                             */
+
+/***/ }),
+
+/***/ 122:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactPlacesAutocomplete = __webpack_require__(121);
+
+var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete);
+
+var _reactRedux = __webpack_require__(27);
+
+var _actions = __webpack_require__(52);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LocationSearchInput = function (_React$Component) {
+  _inherits(LocationSearchInput, _React$Component);
+
+  function LocationSearchInput(props) {
+    _classCallCheck(this, LocationSearchInput);
+
+    var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
+
+    _this.state = {
+      address: '',
+      latLng: ''
+    };
+    return _this;
+  }
+
+  _createClass(LocationSearchInput, [{
+    key: 'handleChange',
+    value: function handleChange(address) {
+      this.setState({ address: address });
+      console.log(this.state.address);
+    }
+  }, {
+    key: 'handleSelect',
+    value: function handleSelect(address) {
+      var _this2 = this;
+
+      (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
+        return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
+      }).then(function (latLng) {
+        return _this2.setState({ latLng: latLng });
+      }).catch(function (error) {
+        return console.error('Error', error);
+      });
+
+      console.log(address);
+      console.log("ADDRESS:  ", JSON.stringify(address));
+
+      var paramsAddress = address.split(',', 1);
+
+      var arrayFromAddressAndCitystatezip = address.split(',');
+      var citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
+
+      console.log(paramsAddress);
+      console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress));
+      console.log(citystatezip);
+      console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip));
+
+      var params = {
+        address: paramsAddress,
+        citystatezip: citystatezip
+      };
+      this.props.dispatchUserInputAddressAndLatLng(params);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      console.log(this.state);
+      console.log(this.props);
+      return _react2.default.createElement(
+        _reactPlacesAutocomplete2.default,
+        {
+          value: this.state.address,
+          onChange: this.handleChange.bind(this),
+          onSelect: this.handleSelect.bind(this)
+        },
+        function (_ref) {
+          var getInputProps = _ref.getInputProps,
+              suggestions = _ref.suggestions,
+              getSuggestionItemProps = _ref.getSuggestionItemProps;
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('input', getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input'
+            })),
+            _react2.default.createElement(
+              'div',
+              { className: 'autocomplete-dropdown-container' },
+              suggestions.map(function (suggestion) {
+                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return _react2.default.createElement(
+                  'div',
+                  getSuggestionItemProps(suggestion, { className: className, style: style }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    suggestion.description
+                  )
+                );
+              })
+            )
+          );
+        }
+      );
+    }
+  }]);
+
+  return LocationSearchInput;
+}(_react2.default.Component);
+
+var stateToProps = function stateToProps(state) {
+  return {};
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
+      return dispatch(_actions2.default.dispatchUserInputAddressAndLatLng(params));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(LocationSearchInput);
+
+/***/ }),
+
+/***/ 123:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,7 +424,7 @@ var localStyle = {
 
 /***/ }),
 
-/***/ 117:
+/***/ 124:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -488,7 +685,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 118:
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -506,7 +703,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _presentation = __webpack_require__(87);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
 var _actions = __webpack_require__(52);
 
@@ -632,7 +829,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Result
 
 /***/ }),
 
-/***/ 119:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -652,9 +849,9 @@ var _actions = __webpack_require__(52);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
-var _containers = __webpack_require__(225);
+var _containers = __webpack_require__(109);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -788,7 +985,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landin
 
 /***/ }),
 
-/***/ 196:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -804,11 +1001,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
-var _reactBootstrap = __webpack_require__(115);
+var _reactBootstrap = __webpack_require__(116);
 
-var _reactDropzone = __webpack_require__(114);
+var _reactDropzone = __webpack_require__(115);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
@@ -988,7 +1185,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 /***/ }),
 
-/***/ 197:
+/***/ 204:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1031,7 +1228,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 203:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1045,7 +1242,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(202);
+var _server = __webpack_require__(209);
 
 var _server2 = _interopRequireDefault(_server);
 
@@ -1070,14 +1267,14 @@ exports.default = function (initialState, component) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 211:
 /***/ (function(module) {
 
 module.exports = {"name":"thrillow","version":"0.0.0","server":false,"private":true,"scripts":{"dev":"webpack --mode development -w","build":"npm run clean && NODE_ENV=production webpack -p && gulp prod","clean":"rm -rf ./public/dist","postinstall":"npm run build"},"dependencies":{"accepts":"^1.3.5","array-flatten":"1.1.1","bluebird":"^3.5.1","body-parser":"1.18.2","content-disposition":"0.5.2","content-type":"^1.0.4","cookie":"0.3.1","cookie-signature":"1.0.6","debug":"2.6.9","depd":"^1.1.2","dotenv":"^5.0.1","encodeurl":"^1.0.2","escape-html":"^1.0.3","etag":"^1.8.1","finalhandler":"1.1.1","fresh":"0.5.2","merge-descriptors":"1.0.1","methods":"^1.1.2","moment":"^2.20.1","node-zillow":"^1.0.1","nodemon":"^1.17.1","on-finished":"^2.3.0","parseurl":"^1.3.2","path-to-regexp":"0.1.7","proxy-addr":"^2.0.3","qs":"6.5.1","range-parser":"^1.2.0","react":"^16.2.0","react-bootstrap":"^0.32.1","react-dom":"^16.2.0","react-dropzone":"^4.2.8","react-redux":"^5.0.7","react-time":"^4.3.0","redux":"^3.7.2","redux-thunk":"^2.2.0","safe-buffer":"5.1.1","send":"0.16.2","serve-static":"1.13.2","setprototypeof":"1.1.0","statuses":"^1.4.0","superagent":"^3.8.2","turbo360":"latest","type-is":"^1.6.16","utils-merge":"1.0.1","vary":"^1.1.2","vertex360":"latest"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.3","babel-preset-env":"^1.6.1","babel-preset-react":"^6.24.1","chai":"^4.1.2","chai-http":"^3.0.0","cross-env":"^5.1.4","gulp":"^3.9.1","gulp-6to5":"^3.0.0","gulp-autoprefixer":"^5.0.0","gulp-clean-css":"^3.9.2","gulp-concat":"^2.6.1","gulp-less":"^4.0.0","gulp-rename":"^1.2.2","gulp-sass":"^3.1.0","gulp-uglify":"^3.0.0","json-loader":"^0.5.7","mocha":"^5.0.1","mocha-jscs":"^5.0.1","mocha-jshint":"^2.3.1","rimraf":"^2.6.2","uglifyjs-webpack-plugin":"^1.2.2","webpack":"^4.1.1","webpack-cli":"^2.0.10"},"deploy":["."],"format":"vertex","app":""};
 
 /***/ }),
 
-/***/ 222:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1087,11 +1284,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _turbo = __webpack_require__(221);
+var _turbo = __webpack_require__(228);
 
 var _turbo2 = _interopRequireDefault(_turbo);
 
-var _package = __webpack_require__(204);
+var _package = __webpack_require__(211);
 
 var _package2 = _interopRequireDefault(_package);
 
@@ -1238,7 +1435,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 223:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1249,7 +1446,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SuperagentAsync = exports.renderComponents = exports.ServerEntry = exports.TurboClient = undefined;
 
-var _TurboClient = __webpack_require__(222);
+var _TurboClient = __webpack_require__(229);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
@@ -1257,11 +1454,11 @@ var _ServerEntry = __webpack_require__(105);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
-var _renderComponents = __webpack_require__(203);
+var _renderComponents = __webpack_require__(210);
 
 var _renderComponents2 = _interopRequireDefault(_renderComponents);
 
-var _SuperagentAsync = __webpack_require__(197);
+var _SuperagentAsync = __webpack_require__(204);
 
 var _SuperagentAsync2 = _interopRequireDefault(_SuperagentAsync);
 
@@ -1274,7 +1471,7 @@ exports.SuperagentAsync = _SuperagentAsync2.default;
 
 /***/ }),
 
-/***/ 224:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1290,7 +1487,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
 var _actions = __webpack_require__(52);
 
@@ -1530,51 +1727,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 
 /***/ }),
 
-/***/ 225:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.LocationSearchInput = exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
-
-var _Users = __webpack_require__(224);
-
-var _Users2 = _interopRequireDefault(_Users);
-
-var _Nav = __webpack_require__(196);
-
-var _Nav2 = _interopRequireDefault(_Nav);
-
-var _LandingPage = __webpack_require__(119);
-
-var _LandingPage2 = _interopRequireDefault(_LandingPage);
-
-var _Results = __webpack_require__(118);
-
-var _Results2 = _interopRequireDefault(_Results);
-
-var _LocationSearchInput = __webpack_require__(250);
-
-var _LocationSearchInput2 = _interopRequireDefault(_LocationSearchInput);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.Users = _Users2.default;
-exports.Nav = _Nav2.default;
-exports.LandingPage = _LandingPage2.default;
-exports.Results = _Results2.default;
-exports.LocationSearchInput = _LocationSearchInput2.default; /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-                                                             	Export container components here
-                                                             * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-                                                             */
-
-/***/ }),
-
-/***/ 226:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1590,7 +1743,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _containers = __webpack_require__(225);
+var _containers = __webpack_require__(109);
 
 var _presentation = __webpack_require__(87);
 
@@ -1643,7 +1796,7 @@ exports.default = Home;
 
 /***/ }),
 
-/***/ 229:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1693,6 +1846,11 @@ exports.default = function () {
 
       return newState;
 
+    case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
+      // Capture address object input by user into search box
+      newState['userInputAddress'] = payload;
+      console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
+
     default:
       return state;
   }
@@ -1700,7 +1858,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 230:
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1757,7 +1915,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 231:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1768,11 +1926,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.listingReducer = exports.userReducer = undefined;
 
-var _userReducer = __webpack_require__(230);
+var _userReducer = __webpack_require__(236);
 
 var _userReducer2 = _interopRequireDefault(_userReducer);
 
-var _listingReducer = __webpack_require__(229);
+var _listingReducer = __webpack_require__(235);
 
 var _listingReducer2 = _interopRequireDefault(_listingReducer);
 
@@ -1788,7 +1946,7 @@ exports.listingReducer = _listingReducer2.default;
 
 /***/ }),
 
-/***/ 234:
+/***/ 240:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1800,11 +1958,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(78);
 
-var _reduxThunk = __webpack_require__(232);
+var _reduxThunk = __webpack_require__(238);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducers = __webpack_require__(231);
+var _reducers = __webpack_require__(237);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1837,7 +1995,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 243:
+/***/ 249:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1851,13 +2009,13 @@ var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _stores = __webpack_require__(234);
+var _stores = __webpack_require__(240);
 
 var _stores2 = _interopRequireDefault(_stores);
 
-var _reactRedux = __webpack_require__(32);
+var _reactRedux = __webpack_require__(27);
 
-var _Home = __webpack_require__(226);
+var _Home = __webpack_require__(232);
 
 var _Home2 = _interopRequireDefault(_Home);
 
@@ -1878,119 +2036,6 @@ _reactDom2.default.render(app, document.getElementById('root'));
 
 /***/ }),
 
-/***/ 250:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactPlacesAutocomplete = __webpack_require__(249);
-
-var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var LocationSearchInput = function (_React$Component) {
-  _inherits(LocationSearchInput, _React$Component);
-
-  function LocationSearchInput(props) {
-    _classCallCheck(this, LocationSearchInput);
-
-    var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
-
-    _this.state = {
-      address: ''
-    };
-    return _this;
-  }
-
-  _createClass(LocationSearchInput, [{
-    key: 'handleChange',
-    value: function handleChange(address) {
-      this.setState({ address: address });
-      console.log(this.state.address);
-    }
-  }, {
-    key: 'handleSelect',
-    value: function handleSelect(address) {
-      (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
-        return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
-      }).then(function (latLng) {
-        return console.log('Success', latLng);
-      }).catch(function (error) {
-        return console.error('Error', error);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      console.log(this.state);
-      console.log(this.props);
-      return _react2.default.createElement(
-        _reactPlacesAutocomplete2.default,
-        {
-          value: this.state.address,
-          onChange: this.handleChange.bind(this),
-          onSelect: this.handleSelect.bind(this)
-        },
-        function (_ref) {
-          var getInputProps = _ref.getInputProps,
-              suggestions = _ref.suggestions,
-              getSuggestionItemProps = _ref.getSuggestionItemProps;
-          return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement('input', getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input'
-            })),
-            _react2.default.createElement(
-              'div',
-              { className: 'autocomplete-dropdown-container' },
-              suggestions.map(function (suggestion) {
-                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                // inline style for demonstration purpose
-                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                return _react2.default.createElement(
-                  'div',
-                  getSuggestionItemProps(suggestion, { className: className, style: style }),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    suggestion.description
-                  )
-                );
-              })
-            )
-          );
-        }
-      );
-    }
-  }]);
-
-  return LocationSearchInput;
-}(_react2.default.Component);
-
-exports.default = LocationSearchInput;
-
-/***/ }),
-
 /***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2005,7 +2050,7 @@ var _constants = __webpack_require__(75);
 
 var _constants2 = _interopRequireDefault(_constants);
 
-var _utils = __webpack_require__(223);
+var _utils = __webpack_require__(230);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2054,6 +2099,13 @@ exports.default = {
 			console.log('getZillowResults from actions/index.js - params:  ', params);
 			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ZILLOW_LISTING_RECEIVED));
 		};
+	},
+
+	dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
+		return function (dispatch) {
+			console.log(params);
+			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
+		};
 	}
 
 };
@@ -2080,7 +2132,8 @@ exports.default = {
 	USER_CREATED: 'USER_CREATED',
 	USER_LOGGED_IN: 'USER_LOGGED_IN',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
-	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED'
+	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED',
+	ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT: 'ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT'
 
 };
 
@@ -2097,11 +2150,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Listing = exports.Footer = undefined;
 
-var _Footer = __webpack_require__(117);
+var _Footer = __webpack_require__(124);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Listing = __webpack_require__(116);
+var _Listing = __webpack_require__(123);
 
 var _Listing2 = _interopRequireDefault(_Listing);
 
