@@ -55,4 +55,11 @@ export default {
 		}
 	},
 
+	dispatchLatLngFromSearchBoxToStore: (params) => {
+		return {
+			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: params
+		}
+	}
+
 }

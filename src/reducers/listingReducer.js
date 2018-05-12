@@ -38,6 +38,9 @@ export default (state = initialState, action) => {
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress'])
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']))
 
+		case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
+			// Capture latLng object input by user into search box
+			console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!')
 			return newState
 
   default:

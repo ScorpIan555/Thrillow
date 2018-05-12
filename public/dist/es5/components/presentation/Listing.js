@@ -12,8 +12,11 @@ module.exports = function (props) {
 
   // // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
 
-  // const imagePath = props.imagePath
-  // const imageSize = props.imageSize
+  var imagePath = "https://maps.googleapis.com/maps/api/streetview";
+  var imageSize = "size=400x400";
+  var imageQueryPathArray = [imagePath, imageSize];
+  var imageQueryPath = imageQueryPathArray.join("?");
+  console.log(imageQueryPath);
   // const imageLocation = props.imageLocation
   // const imageFOV = props.imageFOV
   // const imageHeading = props.imageHeading
@@ -34,8 +37,7 @@ module.exports = function (props) {
   // const imageUrlArray = [imagePath, imageUrlQueryString]
   // const fullyComposedImageUrlString = imageUrlArray.join('?')
 
-  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}";
-
+  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
 
 
   return React.createElement(

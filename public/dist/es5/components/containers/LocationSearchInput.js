@@ -149,4 +149,7 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
+// this.props.dispatchLatLngFromSearchBoxToStore(params)
+
 // inline style for demonstration purpose
+// dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))

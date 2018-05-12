@@ -25,7 +25,6 @@ var Results = (function (Component) {
 
     _get(Object.getPrototypeOf(Results.prototype), "constructor", this).call(this);
     this.state = {
-      listing: [],
       location: {}
     };
   }
@@ -36,10 +35,23 @@ var Results = (function (Component) {
     componentDidMount: {
       value: function componentDidMount() {
         console.log("Results componentDidMount");
-        var zillowData = this.props.getZillowResults();
+        // geocodeByAddress(address)
+        //   .then(results => getLatLng(results[0]))
+        //   // .then(latLng => console.log('latLng', latLng) )
+        //   .then(latLng => this.setState({latLng}) )
+        //   .catch(error => console.error('Error', error))
+
+        var params = {
+          address: "22 Dale Street",
+          citystatezip: "Windsor Locks, CT",
+          latLng: this.props.latLng
+        };
+
+        var zillowData = this.props.getZillowResults(params);
 
         // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
         console.log("zillowData: ", zillowData);
+        console.log("zillowData: ", JSON.stringify(zillowData));
 
         this.setState({
           listing: zillowData
@@ -54,7 +66,15 @@ var Results = (function (Component) {
         // console.log(JSON.stringify(listings))
         //
         console.log(this.state);
-        console.log(this.props);
+        console.log(this.props.listing);
+
+        var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
+        var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
+
+        console.log(listingLat);
+        console.log(listingLng);
+        console.log(typeof this.props.listing);
+        console.log(typeof listingLng);
 
         return React.createElement(
           "section",
@@ -91,7 +111,7 @@ var Results = (function (Component) {
               React.createElement(
                 "li",
                 { className: "row justify-content-center align-items-center" },
-                React.createElement(Listing, null)
+                React.createElement(Listing, { lat: listingLat, lng: listingLng })
               ),
               React.createElement(
                 "li",
@@ -132,9 +152,9 @@ var Results = (function (Component) {
               React.createElement(
                 "li",
                 { className: "row justify-content-center align-items-center" },
-                React.createElement(Listing, null),
-                React.createElement(Listing, null),
-                React.createElement(Listing, null)
+                React.createElement(Listing, { lat: listingLat, lng: listingLng }),
+                React.createElement(Listing, { lat: listingLat, lng: listingLng }),
+                React.createElement(Listing, { lat: listingLat, lng: listingLng })
               ),
               React.createElement(
                 "li",
@@ -162,8 +182,7 @@ var Results = (function (Component) {
 
 var stateToProps = function (state) {
   return {
-    listing: state.listing,
-    listigLatLng: state.latLng
+    listing: state.listing
   };
 };
 

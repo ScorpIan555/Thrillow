@@ -47,6 +47,7 @@ class LocationSearchInput extends Component {
     console.log('LatLng:  ', JSON.stringify(this.state.latLng) )
     console.log('Params:  ', params)
     this.props.dispatchUserInputAddressAndLatLng(params)
+    // this.props.dispatchLatLngFromSearchBoxToStore(params)
 
   }
 
@@ -97,6 +98,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return {
     dispatchUserInputAddressAndLatLng: (params) => dispatch(actions.dispatchUserInputAddressAndLatLng(params)),
+    // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))
   }
 }
 

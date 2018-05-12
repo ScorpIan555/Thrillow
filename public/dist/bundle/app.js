@@ -303,6 +303,7 @@ var LocationSearchInput = function (_Component) {
       console.log('LatLng:  ', JSON.stringify(this.state.latLng));
       console.log('Params:  ', params);
       this.props.dispatchUserInputAddressAndLatLng(params);
+      // this.props.dispatchLatLngFromSearchBoxToStore(params)
     }
   }, {
     key: 'render',
@@ -363,6 +364,7 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
       return dispatch(_actions2.default.dispatchUserInputAddressAndLatLng(params));
     }
+    // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))
   };
 };
 
@@ -390,8 +392,11 @@ exports.default = function (props) {
 
   // // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
 
-  // const imagePath = props.imagePath
-  // const imageSize = props.imageSize
+  var imagePath = 'https://maps.googleapis.com/maps/api/streetview';
+  var imageSize = 'size=400x400';
+  var imageQueryPathArray = [imagePath, imageSize];
+  var imageQueryPath = imageQueryPathArray.join('?');
+  console.log(imageQueryPath);
   // const imageLocation = props.imageLocation
   // const imageFOV = props.imageFOV
   // const imageHeading = props.imageHeading
@@ -412,15 +417,15 @@ exports.default = function (props) {
   // const imageUrlArray = [imagePath, imageUrlQueryString]
   // const fullyComposedImageUrlString = imageUrlArray.join('?')
 
-  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}";
+  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
 
   return _react2.default.createElement(
-    "div",
-    { className: "col-sm" },
-    _react2.default.createElement("img", { style: localStyle,
-      alt: "Image",
+    'div',
+    { className: 'col-sm' },
+    _react2.default.createElement('img', { style: localStyle,
+      alt: 'Image',
       src: imageUrl,
-      className: "img-fluid rounded" })
+      className: 'img-fluid rounded' })
   );
 };
 
@@ -702,6 +707,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -733,7 +740,6 @@ var Results = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this));
 
     _this.state = {
-      listing: [],
       location: {}
     };
     return _this;
@@ -743,10 +749,23 @@ var Results = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('Results componentDidMount');
-      var zillowData = this.props.getZillowResults();
+      // geocodeByAddress(address)
+      //   .then(results => getLatLng(results[0]))
+      //   // .then(latLng => console.log('latLng', latLng) )
+      //   .then(latLng => this.setState({latLng}) )
+      //   .catch(error => console.error('Error', error))
+
+      var params = {
+        address: '22 Dale Street',
+        citystatezip: 'Windsor Locks, CT',
+        latLng: this.props.latLng
+      };
+
+      var zillowData = this.props.getZillowResults(params);
 
       // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
       console.log('zillowData: ', zillowData);
+      console.log('zillowData: ', JSON.stringify(zillowData));
 
       this.setState({
         listing: zillowData
@@ -759,7 +778,15 @@ var Results = function (_Component) {
       // console.log(JSON.stringify(listings))
       //
       console.log(this.state);
-      console.log(this.props);
+      console.log(this.props.listing);
+
+      var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
+      var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
+
+      console.log(listingLat);
+      console.log(listingLng);
+      console.log(_typeof(this.props.listing));
+      console.log(typeof listingLng === 'undefined' ? 'undefined' : _typeof(listingLng));
 
       return _react2.default.createElement(
         'section',
@@ -796,7 +823,7 @@ var Results = function (_Component) {
             _react2.default.createElement(
               'li',
               { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(_presentation.Listing, null)
+              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
             ),
             _react2.default.createElement(
               'li',
@@ -837,9 +864,9 @@ var Results = function (_Component) {
             _react2.default.createElement(
               'li',
               { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(_presentation.Listing, null),
-              _react2.default.createElement(_presentation.Listing, null),
-              _react2.default.createElement(_presentation.Listing, null)
+              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng }),
+              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng }),
+              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
             ),
             _react2.default.createElement(
               'li',
@@ -861,8 +888,7 @@ var Results = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    listing: state.listing,
-    listigLatLng: state.latLng
+    listing: state.listing
   };
 };
 
@@ -1902,6 +1928,9 @@ exports.default = function () {
       console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
       console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
 
+    case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
+      // Capture latLng object input by user into search box
+      console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!');
       return newState;
 
     default:
@@ -2159,6 +2188,13 @@ exports.default = {
 			console.log(params);
 			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
 		};
+	},
+
+	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(params) {
+		return {
+			type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: params
+		};
 	}
 
 };
@@ -2186,7 +2222,8 @@ exports.default = {
 	USER_LOGGED_IN: 'USER_LOGGED_IN',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED',
-	ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT: 'ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT'
+	ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT: 'ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT',
+	LAT_LONG_RECEIVED_FROM_SEARCH_BOX: 'LAT_LONG_RECEIVED_FROM_SEARCH_BOX'
 
 };
 

@@ -62,4 +62,13 @@ module.exports = {
 			console.log(params);
 			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
 		};
-	} };
+	},
+
+	dispatchLatLngFromSearchBoxToStore: function (params) {
+		return {
+			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: params
+		};
+	}
+
+};
