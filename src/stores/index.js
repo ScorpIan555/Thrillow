@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import { userReducer, listingReducer } from '../reducers'
+import { userReducer, listingReducer, compsReducer } from '../reducers'
 
 var store
 export default {
@@ -9,7 +9,8 @@ export default {
 
 		const reducers = combineReducers({ // insert reducers here
 			user: userReducer,
-			listing: listingReducer
+			listing: listingReducer,
+			comps: compsReducer
 		})
 
 		if (initialState){

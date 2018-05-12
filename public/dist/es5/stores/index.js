@@ -13,6 +13,7 @@ var _reducers = require("../reducers");
 
 var userReducer = _reducers.userReducer;
 var listingReducer = _reducers.listingReducer;
+var compsReducer = _reducers.compsReducer;
 
 
 var store;
@@ -23,7 +24,8 @@ module.exports = {
 
 		var reducers = combineReducers({ // insert reducers here
 			user: userReducer,
-			listing: listingReducer
+			listing: listingReducer,
+			comps: compsReducer
 		});
 
 		if (initialState) {

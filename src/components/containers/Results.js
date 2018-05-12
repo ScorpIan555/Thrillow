@@ -20,9 +20,9 @@ class Results extends Component {
     //   .catch(error => console.error('Error', error))
 
     var params = {
-      address: '22 Dale Street',  // move to listingReducer
-      citystatezip: 'Windsor Locks, CT', // move to listingReducer
-      latLng: this.props.latLng  // move to listingReducer
+      address: this.props.listing.all.address,  // move to listingReducer
+      citystatezip: this.props.listing.all.citystatezip, // move to listingReducer
+      latLng: this.props.listing.all.latLng  // move to listingReducer
 
     }
 

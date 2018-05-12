@@ -3,13 +3,14 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-
 import userReducer from './userReducer'
 import listingReducer from './listingReducer'
+import compsReducer from './compsReducer'
 
 export {
 
 	userReducer,
-	listingReducer
+	listingReducer,
+	compsReducer
 
 }

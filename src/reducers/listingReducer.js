@@ -6,13 +6,20 @@ import constants from '../constants'
 */
 
 var initialState = {
-	all: null
+	all: {
+		address: '22 Dale Street',
+		citystatezip: 'Windsor Locks, CT',
+		latLng: {
+			lat: 41.9334208,
+			lng: -72.65713199999999
+		}
+	}
+
 }
 
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
   const payload = action.data
-
 
 	switch (action.type) {
 

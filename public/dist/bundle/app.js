@@ -130,7 +130,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([249,0]);
+/******/ 	deferredModules.push([250,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -734,9 +734,9 @@ var Results = function (_Component) {
       //   .catch(error => console.error('Error', error))
 
       var params = {
-        address: '22 Dale Street', // move to listingReducer
-        citystatezip: 'Windsor Locks, CT', // move to listingReducer
-        latLng: this.props.latLng // move to listingReducer
+        address: this.props.listing.all.address, // move to listingReducer
+        citystatezip: this.props.listing.all.citystatezip, // move to listingReducer
+        latLng: this.props.listing.all.latLng // move to listingReducer
 
       };
 
@@ -1870,7 +1870,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _constants = __webpack_require__(75);
+var _constants = __webpack_require__(53);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -1882,7 +1882,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 var initialState = {
-  all: null
+  all: null,
+  listingZwid: ''
 };
 
 exports.default = function () {
@@ -1893,32 +1894,9 @@ exports.default = function () {
   var payload = action.data;
 
   switch (action.type) {
+    case _constants2.default.ZILLOW_COMPS_RECEIVED:
+      console.log('ZILLOW_COMPS_RECEIVED!');
 
-    case _constants2.default.ZILLOW_LISTING_RECEIVED:
-      // Capture request/response objects
-      newState['req'] = payload.body.data.request;
-      newState['all'] = payload.body.data.response.results.result;
-      // Console log request/response objects
-      console.log("listing reducer REQ: " + JSON.stringify(newState.req));
-      console.log("listing reducer RES: " + JSON.stringify(newState.all));
-      // Capture lat/long objects
-      newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
-      newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
-      // Console log latitude/longitude objects
-      console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
-      console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
-
-      return newState;
-
-    case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
-      // Capture address object input by user into search box
-      newState['userInputAddress'] = payload.body.data.response.results.result;
-      console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
-      console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
-
-    case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
-      // Capture latLng object input by user into search box
-      console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!');
       return newState;
 
     default:
@@ -1938,7 +1916,83 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _constants = __webpack_require__(75);
+var _constants = __webpack_require__(53);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+	Listing reducer for state management of listing results pulled from Zillow API
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+var initialState = {
+	all: {
+		address: '22 Dale Street',
+		citystatezip: 'Windsor Locks, CT',
+		latLng: {
+			lat: 41.9334208,
+			lng: -72.65713199999999
+		}
+	}
+
+};
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+	var newState = Object.assign({}, state);
+	var payload = action.data;
+
+	switch (action.type) {
+
+		case _constants2.default.ZILLOW_LISTING_RECEIVED:
+			// Capture request/response objects
+			newState['req'] = payload.body.data.request;
+			newState['all'] = payload.body.data.response.results.result;
+			// Console log request/response objects
+			console.log("listing reducer REQ: " + JSON.stringify(newState.req));
+			console.log("listing reducer RES: " + JSON.stringify(newState.all));
+			// Capture lat/long objects
+			newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
+			newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
+			// Console log latitude/longitude objects
+			console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
+			console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
+
+			return newState;
+
+		case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
+			// Capture address object input by user into search box
+			newState['userInputAddress'] = payload.body.data.response.results.result;
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
+
+		case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
+			// Capture latLng object input by user into search box
+			console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!');
+			return newState;
+
+		default:
+			return state;
+	}
+};
+
+/***/ }),
+
+/***/ 237:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(53);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -1985,7 +2039,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 237:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1994,29 +2048,32 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.listingReducer = exports.userReducer = undefined;
+exports.compsReducer = exports.listingReducer = exports.userReducer = undefined;
 
-var _userReducer = __webpack_require__(236);
+var _userReducer = __webpack_require__(237);
 
 var _userReducer2 = _interopRequireDefault(_userReducer);
 
-var _listingReducer = __webpack_require__(235);
+var _listingReducer = __webpack_require__(236);
 
 var _listingReducer2 = _interopRequireDefault(_listingReducer);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _compsReducer = __webpack_require__(235);
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Export your reducers here
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
+var _compsReducer2 = _interopRequireDefault(_compsReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.userReducer = _userReducer2.default;
 exports.listingReducer = _listingReducer2.default;
+exports.compsReducer = _compsReducer2.default; /* * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                               	Export your reducers here
+                                               * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                                               */
 
 /***/ }),
 
-/***/ 240:
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2028,11 +2085,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(78);
 
-var _reduxThunk = __webpack_require__(238);
+var _reduxThunk = __webpack_require__(239);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducers = __webpack_require__(237);
+var _reducers = __webpack_require__(238);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2044,7 +2101,8 @@ exports.default = {
 
 		var reducers = (0, _redux.combineReducers)({ // insert reducers here
 			user: _reducers.userReducer,
-			listing: _reducers.listingReducer
+			listing: _reducers.listingReducer,
+			comps: _reducers.compsReducer
 		});
 
 		if (initialState) {
@@ -2065,7 +2123,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 249:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2079,7 +2137,7 @@ var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _stores = __webpack_require__(240);
+var _stores = __webpack_require__(241);
 
 var _stores2 = _interopRequireDefault(_stores);
 
@@ -2116,7 +2174,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _constants = __webpack_require__(75);
+var _constants = __webpack_require__(53);
 
 var _constants2 = _interopRequireDefault(_constants);
 
@@ -2194,7 +2252,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 75:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
