@@ -10,8 +10,11 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var React = _interopRequire(require("react"));
+var _react = require("react");
 
+var React = _interopRequire(_react);
+
+var Component = _react.Component;
 var _reactPlacesAutocomplete = require("react-places-autocomplete");
 
 var PlacesAutocomplete = _interopRequire(_reactPlacesAutocomplete);
@@ -21,18 +24,18 @@ var getLatLng = _reactPlacesAutocomplete.getLatLng;
 var connect = require("react-redux").connect;
 var actions = _interopRequire(require("../../actions"));
 
-var LocationSearchInput = (function (_React$Component) {
+var LocationSearchInput = (function (Component) {
   function LocationSearchInput(props) {
     _classCallCheck(this, LocationSearchInput);
 
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
     this.state = {
       address: "",
-      latLng: ""
+      latLng: {}
     };
   }
 
-  _inherits(LocationSearchInput, _React$Component);
+  _inherits(LocationSearchInput, Component);
 
   _prototypeProperties(LocationSearchInput, null, {
     handleChange: {
@@ -48,29 +51,36 @@ var LocationSearchInput = (function (_React$Component) {
         var _this = this;
         geocodeByAddress(address).then(function (results) {
           return getLatLng(results[0]);
-        }).then(function (latLng) {
+        })
+        // .then(latLng => console.log('latLng', latLng) )
+        .then(function (latLng) {
           return _this.setState({ latLng: latLng });
         })["catch"](function (error) {
           return console.error("Error", error);
         });
 
-        console.log(address);
-        console.log("ADDRESS:  ", JSON.stringify(address));
+        // console.log('LatLng:  ', JSON.stringify(this) )
+        // console.log(address)
+        // console.log("ADDRESS:  ", JSON.stringify(address))
 
         var paramsAddress = address.split(",", 1);
 
         var arrayFromAddressAndCitystatezip = address.split(",");
         var citystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
 
-        console.log(paramsAddress);
-        console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress));
-        console.log(citystatezip);
-        console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip));
+        // console.log(paramsAddress)
+        // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
+        // console.log(citystatezip)
+        // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
 
         var params = {
           address: paramsAddress,
-          citystatezip: citystatezip
+          citystatezip: citystatezip,
+          latLng: this.state.latLng
         };
+
+        console.log("LatLng:  ", JSON.stringify(this.state.latLng));
+        console.log("Params:  ", params);
         this.props.dispatchUserInputAddressAndLatLng(params);
       },
       writable: true,
@@ -125,7 +135,7 @@ var LocationSearchInput = (function (_React$Component) {
   });
 
   return LocationSearchInput;
-})(React.Component);
+})(Component);
 
 var stateToProps = function (state) {
   return {};

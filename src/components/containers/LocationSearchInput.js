@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 
-class LocationSearchInput extends React.Component {
+class LocationSearchInput extends Component {
   constructor(props) {
     super(props)
     this.state = {
       address: '',
-      latLng: ''
+      latLng: {}
     }
   }
 
@@ -20,27 +20,34 @@ class LocationSearchInput extends React.Component {
   handleSelect(address) {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => this.setState({ latLng }) )
+      // .then(latLng => console.log('latLng', latLng) )
+      .then(latLng => this.setState({latLng}) )
       .catch(error => console.error('Error', error))
 
-    console.log(address)
-    console.log("ADDRESS:  ", JSON.stringify(address))
+      // console.log('LatLng:  ', JSON.stringify(this) )
+    // console.log(address)
+    // console.log("ADDRESS:  ", JSON.stringify(address))
 
     const paramsAddress = address.split(',', 1)
 
     const arrayFromAddressAndCitystatezip = address.split(',')
     const citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
 
-    console.log(paramsAddress)
-    console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
-    console.log(citystatezip)
-    console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
+    // console.log(paramsAddress)
+    // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
+    // console.log(citystatezip)
+    // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
 
     var params = {
       address: paramsAddress,
-      citystatezip: citystatezip
+      citystatezip: citystatezip,
+      latLng: this.state.latLng
     }
+
+    console.log('LatLng:  ', JSON.stringify(this.state.latLng) )
+    console.log('Params:  ', params)
     this.props.dispatchUserInputAddressAndLatLng(params)
+
   }
 
   render() {

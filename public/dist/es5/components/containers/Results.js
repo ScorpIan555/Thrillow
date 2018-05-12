@@ -53,7 +53,8 @@ var Results = (function (Component) {
         // const listings = this.props.listing.all || []
         // console.log(JSON.stringify(listings))
         //
-        // console.log(this.state)
+        console.log(this.state);
+        console.log(this.props);
 
         return React.createElement(
           "section",
@@ -61,6 +62,47 @@ var Results = (function (Component) {
           React.createElement(
             "div",
             { className: "container" },
+            React.createElement(
+              "div",
+              { className: "row justify-content-center text-center section-intro" },
+              React.createElement(
+                "div",
+                { className: "col-12 col-md-9 col-lg-8" },
+                React.createElement(
+                  "span",
+                  { className: "title-decorative" },
+                  "Perfect for Startups"
+                ),
+                React.createElement(
+                  "h3",
+                  { className: "display-4" },
+                  "Potential rental deals"
+                ),
+                React.createElement(
+                  "span",
+                  { className: "lead" },
+                  "803 rentals listed under their Rent Zestimate in New York"
+                )
+              )
+            ),
+            React.createElement(
+              "ul",
+              { className: "feature-list feature-list-lg" },
+              React.createElement(
+                "li",
+                { className: "row justify-content-center align-items-center" },
+                React.createElement(Listing, null)
+              ),
+              React.createElement(
+                "li",
+                { className: "row justify-content-center align-items-center" },
+                React.createElement(
+                  "button",
+                  { type: "button", "class": "btn btn-primary btn-lg" },
+                  "Show Listings"
+                )
+              )
+            ),
             React.createElement(
               "div",
               { className: "row justify-content-center text-center section-intro" },
@@ -120,7 +162,8 @@ var Results = (function (Component) {
 
 var stateToProps = function (state) {
   return {
-    listing: state.listing
+    listing: state.listing,
+    listigLatLng: state.latLng
   };
 };
 

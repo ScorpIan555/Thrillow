@@ -232,7 +232,7 @@ var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete)
 
 var _reactRedux = __webpack_require__(27);
 
-var _actions = __webpack_require__(52);
+var _actions = __webpack_require__(47);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -244,8 +244,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LocationSearchInput = function (_React$Component) {
-  _inherits(LocationSearchInput, _React$Component);
+var LocationSearchInput = function (_Component) {
+  _inherits(LocationSearchInput, _Component);
 
   function LocationSearchInput(props) {
     _classCallCheck(this, LocationSearchInput);
@@ -254,7 +254,7 @@ var LocationSearchInput = function (_React$Component) {
 
     _this.state = {
       address: '',
-      latLng: ''
+      latLng: {}
     };
     return _this;
   }
@@ -272,29 +272,36 @@ var LocationSearchInput = function (_React$Component) {
 
       (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
         return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
-      }).then(function (latLng) {
+      })
+      // .then(latLng => console.log('latLng', latLng) )
+      .then(function (latLng) {
         return _this2.setState({ latLng: latLng });
       }).catch(function (error) {
         return console.error('Error', error);
       });
 
-      console.log(address);
-      console.log("ADDRESS:  ", JSON.stringify(address));
+      // console.log('LatLng:  ', JSON.stringify(this) )
+      // console.log(address)
+      // console.log("ADDRESS:  ", JSON.stringify(address))
 
       var paramsAddress = address.split(',', 1);
 
       var arrayFromAddressAndCitystatezip = address.split(',');
       var citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
 
-      console.log(paramsAddress);
-      console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress));
-      console.log(citystatezip);
-      console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip));
+      // console.log(paramsAddress)
+      // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
+      // console.log(citystatezip)
+      // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
 
       var params = {
         address: paramsAddress,
-        citystatezip: citystatezip
+        citystatezip: citystatezip,
+        latLng: this.state.latLng
       };
+
+      console.log('LatLng:  ', JSON.stringify(this.state.latLng));
+      console.log('Params:  ', params);
       this.props.dispatchUserInputAddressAndLatLng(params);
     }
   }, {
@@ -345,7 +352,7 @@ var LocationSearchInput = function (_React$Component) {
   }]);
 
   return LocationSearchInput;
-}(_react2.default.Component);
+}(_react.Component);
 
 var stateToProps = function stateToProps(state) {
   return {};
@@ -397,7 +404,7 @@ exports.default = function (props) {
   // const imageFOV = 'fov=90'
   // const imageHeading = 'heading=235'
   // const imagePitch = 'pitch=10'
-  // const googleMapsApiKey = 'key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
+  // const googleMapsApiKey = 'key=
   //
   // // Compose url string for src
   // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
@@ -405,7 +412,7 @@ exports.default = function (props) {
   // const imageUrlArray = [imagePath, imageUrlQueryString]
   // const fullyComposedImageUrlString = imageUrlArray.join('?')
 
-  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
+  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}";
 
   return _react2.default.createElement(
     "div",
@@ -705,7 +712,7 @@ var _presentation = __webpack_require__(87);
 
 var _reactRedux = __webpack_require__(27);
 
-var _actions = __webpack_require__(52);
+var _actions = __webpack_require__(47);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -751,7 +758,8 @@ var Results = function (_Component) {
       // const listings = this.props.listing.all || []
       // console.log(JSON.stringify(listings))
       //
-      // console.log(this.state)
+      console.log(this.state);
+      console.log(this.props);
 
       return _react2.default.createElement(
         'section',
@@ -759,6 +767,47 @@ var Results = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row justify-content-center text-center section-intro' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-12 col-md-9 col-lg-8' },
+              _react2.default.createElement(
+                'span',
+                { className: 'title-decorative' },
+                'Perfect for Startups'
+              ),
+              _react2.default.createElement(
+                'h3',
+                { className: 'display-4' },
+                'Potential rental deals'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'lead' },
+                '803 rentals listed under their Rent Zestimate in New York'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'feature-list feature-list-lg' },
+            _react2.default.createElement(
+              'li',
+              { className: 'row justify-content-center align-items-center' },
+              _react2.default.createElement(_presentation.Listing, null)
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'row justify-content-center align-items-center' },
+              _react2.default.createElement(
+                'button',
+                { type: 'button', 'class': 'btn btn-primary btn-lg' },
+                'Show Listings'
+              )
+            )
+          ),
           _react2.default.createElement(
             'div',
             { className: 'row justify-content-center text-center section-intro' },
@@ -812,7 +861,8 @@ var Results = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    listing: state.listing
+    listing: state.listing,
+    listigLatLng: state.latLng
   };
 };
 
@@ -845,7 +895,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _actions = __webpack_require__(52);
+var _actions = __webpack_require__(47);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -1009,7 +1059,7 @@ var _reactDropzone = __webpack_require__(115);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
-var _actions = __webpack_require__(52);
+var _actions = __webpack_require__(47);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -1489,7 +1539,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(27);
 
-var _actions = __webpack_require__(52);
+var _actions = __webpack_require__(47);
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -1848,8 +1898,11 @@ exports.default = function () {
 
     case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
       // Capture address object input by user into search box
-      newState['userInputAddress'] = payload;
+      newState['userInputAddress'] = payload.body.data.response.results.result;
       console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
+      console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
+
+      return newState;
 
     default:
       return state;
@@ -2036,7 +2089,7 @@ _reactDom2.default.render(app, document.getElementById('root'));
 
 /***/ }),
 
-/***/ 52:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

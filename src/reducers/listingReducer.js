@@ -34,8 +34,11 @@ export default (state = initialState, action) => {
 
 		case constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
 			// Capture address object input by user into search box
-			newState['userInputAddress'] = payload
+			newState['userInputAddress'] = payload.body.data.response.results.result
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress'])
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']))
+
+			return newState
 
   default:
     return state

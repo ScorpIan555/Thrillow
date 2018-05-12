@@ -26,7 +26,7 @@ module.exports = function (props) {
   // const imageFOV = 'fov=90'
   // const imageHeading = 'heading=235'
   // const imagePitch = 'pitch=10'
-  // const googleMapsApiKey = 'key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
+  // const googleMapsApiKey = 'key=
   //
   // // Compose url string for src
   // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
@@ -34,7 +34,7 @@ module.exports = function (props) {
   // const imageUrlArray = [imagePath, imageUrlQueryString]
   // const fullyComposedImageUrlString = imageUrlArray.join('?')
 
-  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
+  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}";
 
 
 
