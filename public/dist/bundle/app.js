@@ -389,14 +389,26 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
+  console.log(props);
+  var imageLat = props.lat;
+  var imageLng = props.lng;
+  console.log(imageLat);
+  console.log(imageLng);
 
-  // // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
-
+  // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
+  // Build the image path string that each listing will pull from the Google Maps Street View API
   var imagePath = 'https://maps.googleapis.com/maps/api/streetview';
   var imageSize = 'size=400x400';
   var imageQueryPathArray = [imagePath, imageSize];
   var imageQueryPath = imageQueryPathArray.join('?');
   console.log(imageQueryPath);
+  // Compose location using the lat/long props passed in from Results.js
+  var imageLocation = 'location=' + imageLat + ',' + imageLng;
+  var imageFOVHeadingPitchApiKey = '&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs';
+  var imageFOVHeadingPitchApiKeyArray = [imageQueryPath, imageLocation, imageFOVHeadingPitchApiKey];
+  var imageUrlComposed = imageFOVHeadingPitchApiKeyArray.join('&');
+  console.log(imageUrlComposed);
+
   // const imageLocation = props.imageLocation
   // const imageFOV = props.imageFOV
   // const imageHeading = props.imageHeading
@@ -424,7 +436,7 @@ exports.default = function (props) {
     { className: 'col-sm' },
     _react2.default.createElement('img', { style: localStyle,
       alt: 'Image',
-      src: imageUrl,
+      src: imageUrlComposed,
       className: 'img-fluid rounded' })
   );
 };
