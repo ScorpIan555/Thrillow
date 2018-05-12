@@ -20,12 +20,13 @@ class Results extends Component {
     //   .catch(error => console.error('Error', error))
 
     var params = {
-      address: '22 Dale Street',
-      citystatezip: 'Windsor Locks, CT',
-      latLng: this.props.latLng
+      address: '22 Dale Street',  // move to listingReducer
+      citystatezip: 'Windsor Locks, CT', // move to listingReducer
+      latLng: this.props.latLng  // move to listingReducer
+
     }
 
-    const zillowData = this.props.getZillowResults(params)
+    const zillowData = this.props.getZillowListingResults(params)
 
     // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
     console.log('zillowData: ', zillowData)
@@ -38,19 +39,16 @@ class Results extends Component {
 
 
 render() {
-  // const listings = this.props.listing.all || []
-  // console.log(JSON.stringify(listings))
-  //
-  console.log(this.state)
-  console.log(this.props.listing)
-
+  // Capture latitude and longitude from stateToProps
   let listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null
   let listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null
-
+  // Logs
+  // console.log(this.state)
+  // console.log(this.props.listing)
   console.log(listingLat)
   console.log(listingLng)
-  console.log(typeof(this.props.listing))
-  console.log(typeof(listingLng))
+  // console.log(typeof(this.props.listing))
+  // console.log(typeof(listingLng))
 
   return (
       <section>
@@ -67,13 +65,16 @@ render() {
 
             <ul className="feature-list feature-list-lg">
                 <li className="row justify-content-center align-items-center">
+
                     <Listing lat={listingLat} lng={listingLng} />
+
                 </li>
                 <li className="row justify-content-center align-items-center">
                   <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
                 </li>
             </ul>
             <div className="row justify-content-center text-center section-intro">
+
                 <div className="col-12 col-md-9 col-lg-8">
                     <span className="title-decorative">Perfect for Startups</span>
                     <h3 className="display-4">Potential rental deals</h3>
@@ -85,9 +86,15 @@ render() {
 
             <ul className="feature-list feature-list-lg">
                 <li className="row justify-content-center align-items-center">
+                  <div className="col-sm">
                     <Listing lat={listingLat} lng={listingLng} />
+                  </div>
+                  <div className="col-sm">
                     <Listing lat={listingLat} lng={listingLng} />
+                  </div>
+                  <div className="col-sm">
                     <Listing lat={listingLat} lng={listingLng} />
+                  </div>
                 </li>
                 <li className="row justify-content-center align-items-center">
                   <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
@@ -109,7 +116,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    getZillowResults: (params) => dispatch(actions.getZillowResults(params)),
+    getZillowListingResults: (params) => dispatch(actions.getZillowListingResults(params)),
     // getLocation: () => dispatch(actions.getLocation())
   }
 }

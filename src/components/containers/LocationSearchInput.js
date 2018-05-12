@@ -11,44 +11,30 @@ class LocationSearchInput extends Component {
       latLng: {}
     }
   }
-
+  // Handle change for controlled component
   handleChange(address) {
     this.setState({ address })
     console.log(this.state.address)
   }
-
+  // Handle select for controlled component
   handleSelect(address) {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      // .then(latLng => console.log('latLng', latLng) )
       .then(latLng => this.setState({latLng}) )
       .catch(error => console.error('Error', error))
-
-      // console.log('LatLng:  ', JSON.stringify(this) )
-    // console.log(address)
-    // console.log("ADDRESS:  ", JSON.stringify(address))
-
+    // Split address from search box for input into Zillow API
     const paramsAddress = address.split(',', 1)
-
+    // Split citystatezip from search box for input into Zillow API
     const arrayFromAddressAndCitystatezip = address.split(',')
     const citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
-
-    // console.log(paramsAddress)
-    // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
-    // console.log(citystatezip)
-    // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
-
+    // Store Zillow API parameters in client, to be passed into back-end
     var params = {
       address: paramsAddress,
       citystatezip: citystatezip,
       latLng: this.state.latLng
     }
-
-    console.log('LatLng:  ', JSON.stringify(this.state.latLng) )
-    console.log('Params:  ', params)
+    // Send search box input params to back-end thru Redux
     this.props.dispatchUserInputAddressAndLatLng(params)
-    // this.props.dispatchLatLngFromSearchBoxToStore(params)
-
   }
 
   render() {
@@ -73,8 +59,8 @@ class LocationSearchInput extends Component {
                 const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                            ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                            : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
                 return (
                   <div {...getSuggestionItemProps(suggestion, { className, style })}>
                     <span>{suggestion.description}</span>

@@ -42,12 +42,13 @@ var Results = (function (Component) {
         //   .catch(error => console.error('Error', error))
 
         var params = {
-          address: "22 Dale Street",
-          citystatezip: "Windsor Locks, CT",
-          latLng: this.props.latLng
+          address: "22 Dale Street", // move to listingReducer
+          citystatezip: "Windsor Locks, CT", // move to listingReducer
+          latLng: this.props.latLng // move to listingReducer
+
         };
 
-        var zillowData = this.props.getZillowResults(params);
+        var zillowData = this.props.getZillowListingResults(params);
 
         // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
         console.log("zillowData: ", zillowData);
@@ -62,19 +63,16 @@ var Results = (function (Component) {
     },
     render: {
       value: function render() {
-        // const listings = this.props.listing.all || []
-        // console.log(JSON.stringify(listings))
-        //
-        console.log(this.state);
-        console.log(this.props.listing);
-
+        // Capture latitude and longitude from stateToProps
         var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
         var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
-
+        // Logs
+        // console.log(this.state)
+        // console.log(this.props.listing)
         console.log(listingLat);
         console.log(listingLng);
-        console.log(typeof this.props.listing);
-        console.log(typeof listingLng);
+        // console.log(typeof(this.props.listing))
+        // console.log(typeof(listingLng))
 
         return React.createElement(
           "section",
@@ -152,9 +150,21 @@ var Results = (function (Component) {
               React.createElement(
                 "li",
                 { className: "row justify-content-center align-items-center" },
-                React.createElement(Listing, { lat: listingLat, lng: listingLng }),
-                React.createElement(Listing, { lat: listingLat, lng: listingLng }),
-                React.createElement(Listing, { lat: listingLat, lng: listingLng })
+                React.createElement(
+                  "div",
+                  { className: "col-sm" },
+                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "col-sm" },
+                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "col-sm" },
+                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
+                )
               ),
               React.createElement(
                 "li",
@@ -188,8 +198,8 @@ var stateToProps = function (state) {
 
 var dispatchToProps = function (dispatch) {
   return {
-    getZillowResults: function (params) {
-      return dispatch(actions.getZillowResults(params));
+    getZillowListingResults: function (params) {
+      return dispatch(actions.getZillowListingResults(params));
     } };
 };
 

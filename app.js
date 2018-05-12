@@ -28,11 +28,12 @@ const app = vertex.app(config)  */
 const index = require('./routes/index')
 const api = require('./routes/api')
 const homes = require('./routes/homes')
+const comps = require('./routes/comps')
 
 // set routes
 app.use('/', index)
 app.use('/api', api)
 app.use('/homes', homes)
-
+app.use('/comps', comps)
 
 module.exports = app

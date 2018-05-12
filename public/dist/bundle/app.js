@@ -258,6 +258,8 @@ var LocationSearchInput = function (_Component) {
     };
     return _this;
   }
+  // Handle change for controlled component
+
 
   _createClass(LocationSearchInput, [{
     key: 'handleChange',
@@ -265,6 +267,8 @@ var LocationSearchInput = function (_Component) {
       this.setState({ address: address });
       console.log(this.state.address);
     }
+    // Handle select for controlled component
+
   }, {
     key: 'handleSelect',
     value: function handleSelect(address) {
@@ -272,38 +276,23 @@ var LocationSearchInput = function (_Component) {
 
       (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
         return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
-      })
-      // .then(latLng => console.log('latLng', latLng) )
-      .then(function (latLng) {
+      }).then(function (latLng) {
         return _this2.setState({ latLng: latLng });
       }).catch(function (error) {
         return console.error('Error', error);
       });
-
-      // console.log('LatLng:  ', JSON.stringify(this) )
-      // console.log(address)
-      // console.log("ADDRESS:  ", JSON.stringify(address))
-
+      // Split address from search box for input into Zillow API
       var paramsAddress = address.split(',', 1);
-
+      // Split citystatezip from search box for input into Zillow API
       var arrayFromAddressAndCitystatezip = address.split(',');
       var citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
-
-      // console.log(paramsAddress)
-      // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
-      // console.log(citystatezip)
-      // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
-
+      // Store Zillow API parameters in client, to be passed into back-end
       var params = {
         address: paramsAddress,
         citystatezip: citystatezip,
         latLng: this.state.latLng
-      };
-
-      console.log('LatLng:  ', JSON.stringify(this.state.latLng));
-      console.log('Params:  ', params);
-      this.props.dispatchUserInputAddressAndLatLng(params);
-      // this.props.dispatchLatLngFromSearchBoxToStore(params)
+        // Send search box input params to back-end thru Redux
+      };this.props.dispatchUserInputAddressAndLatLng(params);
     }
   }, {
     key: 'render',
@@ -392,8 +381,8 @@ exports.default = function (props) {
   console.log(props);
   var imageLat = props.lat;
   var imageLng = props.lng;
-  console.log(imageLat);
-  console.log(imageLng);
+  // console.log(imageLat)
+  // console.log(imageLng)
 
   // Pass image-related props into local variables which will be componsed into a full url string for use as src prop
   // Build the image path string that each listing will pull from the Google Maps Street View API
@@ -401,43 +390,22 @@ exports.default = function (props) {
   var imageSize = 'size=400x400';
   var imageQueryPathArray = [imagePath, imageSize];
   var imageQueryPath = imageQueryPathArray.join('?');
-  console.log(imageQueryPath);
+  // console.log(imageQueryPath)
   // Compose location using the lat/long props passed in from Results.js
   var imageLocation = 'location=' + imageLat + ',' + imageLng;
   var imageFOVHeadingPitchApiKey = '&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs';
   var imageFOVHeadingPitchApiKeyArray = [imageQueryPath, imageLocation, imageFOVHeadingPitchApiKey];
   var imageUrlComposed = imageFOVHeadingPitchApiKeyArray.join('&');
-  console.log(imageUrlComposed);
-
-  // const imageLocation = props.imageLocation
-  // const imageFOV = props.imageFOV
-  // const imageHeading = props.imageHeading
-  // const imagePitch = props.imagePitch
-  // const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
-
-  // const imagePath = 'https://maps.googleapis.com/maps/api/streetview'
-  // const imageSize = 'size=400x400'
-  // const imageLocation = 'location=40.720032,-73.988354'
-  // const imageFOV = 'fov=90'
-  // const imageHeading = 'heading=235'
-  // const imagePitch = 'pitch=10'
-  // const googleMapsApiKey = 'key=
-  //
-  // // Compose url string for src
-  // const imageUrlQueryArray = [imageSize, imageLocation, imageFOV, imageHeading, imagePitch, googleMapsApiKey]
-  // const imageUrlQueryString = imageUrlArray.join('&')
-  // const imageUrlArray = [imagePath, imageUrlQueryString]
-  // const fullyComposedImageUrlString = imageUrlArray.join('?')
-
-  var imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
+  // console.log(imageUrlComposed)
 
   return _react2.default.createElement(
     'div',
-    { className: 'col-sm' },
+    null,
     _react2.default.createElement('img', { style: localStyle,
       alt: 'Image',
       src: imageUrlComposed,
-      className: 'img-fluid rounded' })
+      className: 'img-fluid rounded'
+    })
   );
 };
 
@@ -719,8 +687,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -768,12 +734,13 @@ var Results = function (_Component) {
       //   .catch(error => console.error('Error', error))
 
       var params = {
-        address: '22 Dale Street',
-        citystatezip: 'Windsor Locks, CT',
-        latLng: this.props.latLng
+        address: '22 Dale Street', // move to listingReducer
+        citystatezip: 'Windsor Locks, CT', // move to listingReducer
+        latLng: this.props.latLng // move to listingReducer
+
       };
 
-      var zillowData = this.props.getZillowResults(params);
+      var zillowData = this.props.getZillowListingResults(params);
 
       // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
       console.log('zillowData: ', zillowData);
@@ -786,19 +753,16 @@ var Results = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      // const listings = this.props.listing.all || []
-      // console.log(JSON.stringify(listings))
-      //
-      console.log(this.state);
-      console.log(this.props.listing);
-
+      // Capture latitude and longitude from stateToProps
       var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
       var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
-
+      // Logs
+      // console.log(this.state)
+      // console.log(this.props.listing)
       console.log(listingLat);
       console.log(listingLng);
-      console.log(_typeof(this.props.listing));
-      console.log(typeof listingLng === 'undefined' ? 'undefined' : _typeof(listingLng));
+      // console.log(typeof(this.props.listing))
+      // console.log(typeof(listingLng))
 
       return _react2.default.createElement(
         'section',
@@ -876,9 +840,21 @@ var Results = function (_Component) {
             _react2.default.createElement(
               'li',
               { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng }),
-              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng }),
-              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
+              _react2.default.createElement(
+                'div',
+                { className: 'col-sm' },
+                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-sm' },
+                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-sm' },
+                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
+              )
             ),
             _react2.default.createElement(
               'li',
@@ -906,8 +882,8 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    getZillowResults: function getZillowResults(params) {
-      return dispatch(_actions2.default.getZillowResults(params));
+    getZillowListingResults: function getZillowListingResults(params) {
+      return dispatch(_actions2.default.getZillowListingResults(params));
     }
     // getLocation: () => dispatch(actions.getLocation())
   };
@@ -2187,12 +2163,17 @@ exports.default = {
 		};
 	},
 
-	getZillowResults: function getZillowResults(params) {
+	getZillowListingResults: function getZillowListingResults(params) {
 		return function (dispatch) {
 			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
-			console.log('getZillowResults from actions/index.js - params:  ', params);
+			console.log('getZillowListingResults from actions/index.js - params:  ', params);
 			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ZILLOW_LISTING_RECEIVED));
 		};
+	},
+
+	getZillowCompsResults: function getZillowCompsResults(params) {
+		console.log('getZillowCompsResults from actions/index.js - params:  ', params);
+		return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
 	},
 
 	dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
@@ -2200,14 +2181,14 @@ exports.default = {
 			console.log(params);
 			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
 		};
-	},
-
-	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(params) {
-		return {
-			type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			data: params
-		};
 	}
+
+	// dispatchLatLngFromSearchBoxToStore: (params) => {
+	// 	return {
+	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+	// 		data: params
+	// 	}
+	// }
 
 };
 
@@ -2235,7 +2216,8 @@ exports.default = {
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED',
 	ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT: 'ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT',
-	LAT_LONG_RECEIVED_FROM_SEARCH_BOX: 'LAT_LONG_RECEIVED_FROM_SEARCH_BOX'
+	LAT_LONG_RECEIVED_FROM_SEARCH_BOX: 'LAT_LONG_RECEIVED_FROM_SEARCH_BOX',
+	ZILLOW_COMPS_RECEIVED: 'ZILLOW_COMPS_RECEIVED'
 
 };
 

@@ -39,6 +39,7 @@ var LocationSearchInput = (function (Component) {
 
   _prototypeProperties(LocationSearchInput, null, {
     handleChange: {
+      // Handle change for controlled component
       value: function handleChange(address) {
         this.setState({ address: address });
         console.log(this.state.address);
@@ -47,40 +48,28 @@ var LocationSearchInput = (function (Component) {
       configurable: true
     },
     handleSelect: {
+      // Handle select for controlled component
       value: function handleSelect(address) {
         var _this = this;
         geocodeByAddress(address).then(function (results) {
           return getLatLng(results[0]);
-        })
-        // .then(latLng => console.log('latLng', latLng) )
-        .then(function (latLng) {
+        }).then(function (latLng) {
           return _this.setState({ latLng: latLng });
         })["catch"](function (error) {
           return console.error("Error", error);
         });
-
-        // console.log('LatLng:  ', JSON.stringify(this) )
-        // console.log(address)
-        // console.log("ADDRESS:  ", JSON.stringify(address))
-
+        // Split address from search box for input into Zillow API
         var paramsAddress = address.split(",", 1);
-
+        // Split citystatezip from search box for input into Zillow API
         var arrayFromAddressAndCitystatezip = address.split(",");
         var citystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
-
-        // console.log(paramsAddress)
-        // console.log("PARAMS ADDRESS:  ", JSON.stringify(paramsAddress))
-        // console.log(citystatezip)
-        // console.log("CITYSTATEZIP:  ", JSON.stringify(citystatezip))
-
+        // Store Zillow API parameters in client, to be passed into back-end
         var params = {
           address: paramsAddress,
           citystatezip: citystatezip,
           latLng: this.state.latLng
         };
-
-        console.log("LatLng:  ", JSON.stringify(this.state.latLng));
-        console.log("Params:  ", params);
+        // Send search box input params to back-end thru Redux
         this.props.dispatchUserInputAddressAndLatLng(params);
       },
       writable: true,
@@ -149,7 +138,5 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
-// this.props.dispatchLatLngFromSearchBoxToStore(params)
-
 // inline style for demonstration purpose
 // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))

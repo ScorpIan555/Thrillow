@@ -49,12 +49,17 @@ module.exports = {
 		};
 	},
 
-	getZillowResults: function (params) {
+	getZillowListingResults: function (params) {
 		return function (dispatch) {
 			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
-			console.log("getZillowResults from actions/index.js - params:  ", params);
+			console.log("getZillowListingResults from actions/index.js - params:  ", params);
 			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ZILLOW_LISTING_RECEIVED));
 		};
+	},
+
+	getZillowCompsResults: function (params) {
+		console.log("getZillowCompsResults from actions/index.js - params:  ", params);
+		return dispatch(SuperagentAsync.asyncGet("/comps", params, constants.ZILLOW_COMPS_RECEIVED));
 	},
 
 	dispatchUserInputAddressAndLatLng: function (params) {
@@ -62,13 +67,12 @@ module.exports = {
 			console.log(params);
 			return dispatch(SuperagentAsync.asyncGet("/homes", params, constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
 		};
-	},
+	} };
 
-	dispatchLatLngFromSearchBoxToStore: function (params) {
-		return {
-			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			data: params
-		};
-	}
 
-};
+// dispatchLatLngFromSearchBoxToStore: (params) => {
+// 	return {
+// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+// 		data: params
+// 	}
+// }
