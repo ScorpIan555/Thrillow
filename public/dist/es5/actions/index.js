@@ -58,8 +58,10 @@ module.exports = {
 	},
 
 	getZillowCompsResults: function (params) {
-		console.log("getZillowCompsResults from actions/index.js - params:  ", params);
-		return dispatch(SuperagentAsync.asyncGet("/comps", params, constants.ZILLOW_COMPS_RECEIVED));
+		return function (dispatch) {
+			console.log("getZillowCompsResults from actions/index.js - params:  ", params);
+			return dispatch(SuperagentAsync.asyncGet("/comps", params, constants.ZILLOW_COMPS_RECEIVED));
+		};
 	},
 
 	dispatchUserInputAddressAndLatLng: function (params) {

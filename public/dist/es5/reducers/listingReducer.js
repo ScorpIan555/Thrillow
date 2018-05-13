@@ -16,7 +16,9 @@ var initialState = {
 		latLng: {
 			lat: 41.9334208,
 			lng: -72.65713199999999
-		}
+		},
+		zpid: "58162520",
+		count: 3
 	}
 
 };
@@ -33,14 +35,14 @@ module.exports = function (_x, action) {
 			newState.req = payload.body.data.request;
 			newState.all = payload.body.data.response.results.result;
 			// Console log request/response objects
-			console.log("listing reducer REQ: " + JSON.stringify(newState.req));
-			console.log("listing reducer RES: " + JSON.stringify(newState.all));
+			console.log("listingReducer REQ: " + JSON.stringify(newState.req));
+			console.log("listingReducer RES: " + JSON.stringify(newState.all));
 			// Capture lat/long objects
 			newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
 			newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
 			// Console log latitude/longitude objects
-			console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
-			console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
+			console.log("listingReducer LATITUDE: " + JSON.stringify(newState.all.latitude));
+			console.log("listingReducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
 
 			return newState;
 

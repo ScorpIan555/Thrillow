@@ -20,23 +20,21 @@ class Results extends Component {
     //   .catch(error => console.error('Error', error))
 
     var params = {
-      address: this.props.listing.all.address,  // move to listingReducer
-      citystatezip: this.props.listing.all.citystatezip, // move to listingReducer
-      latLng: this.props.listing.all.latLng  // move to listingReducer
-
+      address: this.props.listing.all.address,  //
+      citystatezip: this.props.listing.all.citystatezip, //
+      latLng: this.props.listing.all.latLng,  //
+      count: this.props.listing.all.count, //
+      zpid: this.props.listing.all.zpid
     }
 
-    const zillowData = this.props.getZillowListingResults(params)
+    this.props.getZillowListingResults(params)
+    // .then(params => {
+      this.props.getZillowCompsResults(params)
+    // })
 
-    // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
-    console.log('zillowData: ', zillowData)
-    console.log('zillowData: ', JSON.stringify(zillowData))
+    console.log('ZPID:  ', JSON.stringify(params.zpid))
 
-    this.setState({
-      listing: zillowData
-    })
   }
-
 
 render() {
   // Capture latitude and longitude from stateToProps
@@ -117,7 +115,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return {
     getZillowListingResults: (params) => dispatch(actions.getZillowListingResults(params)),
-    // getLocation: () => dispatch(actions.getLocation())
+    getZillowCompsResults: (params) => dispatch(actions.getZillowCompsResults(params))
   }
 }
 

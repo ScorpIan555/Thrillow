@@ -49,8 +49,10 @@ export default {
 	},
 
 	getZillowCompsResults: (params) => {
-		console.log('getZillowCompsResults from actions/index.js - params:  ', params)
-		return dispatch(SuperagentAsync.asyncGet('/comps', params, constants.ZILLOW_COMPS_RECEIVED))
+		return dispatch => {
+			console.log('getZillowCompsResults from actions/index.js - params:  ', params)
+			return dispatch(SuperagentAsync.asyncGet('/comps', params, constants.ZILLOW_COMPS_RECEIVED))
+		}
 	},
 
 	dispatchUserInputAddressAndLatLng: (params) => {

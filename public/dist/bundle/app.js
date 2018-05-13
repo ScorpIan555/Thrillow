@@ -734,21 +734,19 @@ var Results = function (_Component) {
       //   .catch(error => console.error('Error', error))
 
       var params = {
-        address: this.props.listing.all.address, // move to listingReducer
-        citystatezip: this.props.listing.all.citystatezip, // move to listingReducer
-        latLng: this.props.listing.all.latLng // move to listingReducer
-
+        address: this.props.listing.all.address, //
+        citystatezip: this.props.listing.all.citystatezip, //
+        latLng: this.props.listing.all.latLng, //
+        count: this.props.listing.all.count, //
+        zpid: this.props.listing.all.zpid
       };
 
-      var zillowData = this.props.getZillowListingResults(params);
+      this.props.getZillowListingResults(params);
+      // .then(params => {
+      this.props.getZillowCompsResults(params);
+      // })
 
-      // console.log("Results.js this.props.listing  :" + JSON.stringify(this.props.listing))
-      console.log('zillowData: ', zillowData);
-      console.log('zillowData: ', JSON.stringify(zillowData));
-
-      this.setState({
-        listing: zillowData
-      });
+      console.log('ZPID:  ', JSON.stringify(params.zpid));
     }
   }, {
     key: 'render',
@@ -884,8 +882,10 @@ var dispatchToProps = function dispatchToProps(dispatch) {
   return {
     getZillowListingResults: function getZillowListingResults(params) {
       return dispatch(_actions2.default.getZillowListingResults(params));
+    },
+    getZillowCompsResults: function getZillowCompsResults(params) {
+      return dispatch(_actions2.default.getZillowCompsResults(params));
     }
-    // getLocation: () => dispatch(actions.getLocation())
   };
 };
 
@@ -1896,6 +1896,19 @@ exports.default = function () {
   switch (action.type) {
     case _constants2.default.ZILLOW_COMPS_RECEIVED:
       console.log('ZILLOW_COMPS_RECEIVED!');
+      // Capture request/response objects
+      newState['req'] = payload.body.data.request;
+      // newState['all'] = payload.body.data.response.results.result
+      // Console log request/response objects
+      console.log("compsReducer REQ: " + JSON.stringify(newState.req));
+      // console.log("compsReducer RES: " + JSON.stringify(newState.all))
+      // Capture lat/long objects
+      // newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0]
+      // newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0]
+      // Console log latitude/longitude objects
+      // console.log("compsReducer LATITUDE: " + JSON.stringify(newState.all.latitude))
+      // console.log("compsReducer LONGITUDE: " + JSON.stringify(newState.all.longitude))
+
 
       return newState;
 
@@ -1934,7 +1947,9 @@ var initialState = {
 		latLng: {
 			lat: 41.9334208,
 			lng: -72.65713199999999
-		}
+		},
+		zpid: '58162520',
+		count: 3
 	}
 
 };
@@ -1953,14 +1968,14 @@ exports.default = function () {
 			newState['req'] = payload.body.data.request;
 			newState['all'] = payload.body.data.response.results.result;
 			// Console log request/response objects
-			console.log("listing reducer REQ: " + JSON.stringify(newState.req));
-			console.log("listing reducer RES: " + JSON.stringify(newState.all));
+			console.log("listingReducer REQ: " + JSON.stringify(newState.req));
+			console.log("listingReducer RES: " + JSON.stringify(newState.all));
 			// Capture lat/long objects
 			newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
 			newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
 			// Console log latitude/longitude objects
-			console.log("listing reducer LATITUDE: " + JSON.stringify(newState.all.latitude));
-			console.log("listing reducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
+			console.log("listingReducer LATITUDE: " + JSON.stringify(newState.all.latitude));
+			console.log("listingReducer LONGITUDE: " + JSON.stringify(newState.all.longitude));
 
 			return newState;
 
@@ -2230,8 +2245,10 @@ exports.default = {
 	},
 
 	getZillowCompsResults: function getZillowCompsResults(params) {
-		console.log('getZillowCompsResults from actions/index.js - params:  ', params);
-		return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
+		return function (dispatch) {
+			console.log('getZillowCompsResults from actions/index.js - params:  ', params);
+			return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
+		};
 	},
 
 	dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
