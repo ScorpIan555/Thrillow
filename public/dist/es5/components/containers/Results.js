@@ -63,8 +63,8 @@ var Results = (function (Component) {
       value: function render() {
         // Capture principal listing
         // Capture latitude and longitude from stateToProps
-        var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
-        var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
+        var listingLat = this.props.listing.all.latitude || [];
+        var listingLng = this.props.listing.all.longitude || [];
         // Logs
         console.log("this.state:  ", this.state);
         console.log("this.props.comps:  ", this.props.comps);

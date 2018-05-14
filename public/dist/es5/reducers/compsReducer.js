@@ -18,8 +18,10 @@ module.exports = function (_x, action) {
   var payload = action.data;
 
   switch (action.type) {
+
     case constants.ZILLOW_COMPS_RECEIVED:
       console.log("ZILLOW_COMPS_RECEIVED!");
+
       // Capture request/response objects
       newState.req = payload.body.data.request;
       newState.all = payload.body.data.response.properties;
@@ -31,17 +33,6 @@ module.exports = function (_x, action) {
       console.log("compsReducer RES: " + JSON.stringify(newState.all));
       console.log("compsReducer PRINCIPAL: " + JSON.stringify(newState.all.principal));
       console.log("compsReducer COMPARABLES: " + JSON.stringify(newState.all.comparables));
-      // Capture lat/long objects
-      // newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0]
-      // newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0]
-      // Console log latitude/longitude objects
-      // console.log("compsReducer LATITUDE: " + JSON.stringify(newState.all.latitude))
-      // console.log("compsReducer LONGITUDE: " + JSON.stringify(newState.all.longitude))
-
-
-
-      // Set up logic for result set, then feed into Listing component
-
 
       return newState;
 
@@ -49,5 +40,3 @@ module.exports = function (_x, action) {
       return state;
   }
 };
-
-// listingZwid: ''

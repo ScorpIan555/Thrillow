@@ -79,43 +79,57 @@ var LocationSearchInput = (function (Component) {
       value: function render() {
         console.log(this.state);
         console.log(this.props);
+
         return React.createElement(
-          PlacesAutocomplete,
-          {
-            value: this.state.address,
-            onChange: this.handleChange.bind(this),
-            onSelect: this.handleSelect.bind(this)
-          },
-          function (_ref) {
-            var getInputProps = _ref.getInputProps;
-            var suggestions = _ref.suggestions;
-            var getSuggestionItemProps = _ref.getSuggestionItemProps;
-            return React.createElement(
-              "div",
-              null,
-              React.createElement("input", getInputProps({
-                placeholder: "Search Places ...",
-                className: "location-search-input"
-              })),
-              React.createElement(
+          "div",
+          null,
+          React.createElement(
+            PlacesAutocomplete,
+            {
+              value: this.state.address,
+              onChange: this.handleChange.bind(this),
+              onSelect: this.handleSelect.bind(this)
+            },
+            function (_ref) {
+              var getInputProps = _ref.getInputProps;
+              var suggestions = _ref.suggestions;
+              var getSuggestionItemProps = _ref.getSuggestionItemProps;
+              return React.createElement(
                 "div",
-                { className: "autocomplete-dropdown-container" },
-                suggestions.map(function (suggestion) {
-                  var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
-                  var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
-                  return React.createElement(
-                    "div",
-                    getSuggestionItemProps(suggestion, { className: className, style: style }),
-                    React.createElement(
-                      "span",
-                      null,
-                      suggestion.description
-                    )
-                  );
-                })
-              )
-            );
-          }
+                null,
+                React.createElement("input", getInputProps({
+                  placeholder: "Search Places ...",
+                  className: "location-search-input"
+                })),
+                React.createElement(
+                  "div",
+                  { className: "autocomplete-dropdown-container" },
+                  suggestions.map(function (suggestion) {
+                    var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
+                    var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
+                    return React.createElement(
+                      "div",
+                      getSuggestionItemProps(suggestion, { className: className, style: style }),
+                      React.createElement(
+                        "span",
+                        null,
+                        suggestion.description
+                      )
+                    );
+                  })
+                )
+              );
+            }
+          ),
+          React.createElement(
+            "div",
+            { className: "col-auto" },
+            React.createElement(
+              "button",
+              { onClick: this.handleChange, className: "btn btn-lg btn-success", type: "submit" },
+              "Search"
+            )
+          )
         );
       },
       writable: true,

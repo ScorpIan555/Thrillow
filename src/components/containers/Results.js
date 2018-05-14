@@ -44,8 +44,8 @@ class Results extends Component {
 render() {
   // Capture principal listing
   // Capture latitude and longitude from stateToProps
-  let listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null
-  let listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null
+  let listingLat = this.props.listing.all.latitude || []
+  let listingLng = this.props.listing.all.longitude || []
   // Logs
   console.log('this.state:  ', this.state)
   console.log('this.props.comps:  ', this.props.comps)

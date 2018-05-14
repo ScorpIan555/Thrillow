@@ -297,46 +297,61 @@ var LocationSearchInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+
       console.log(this.state);
       console.log(this.props);
+
       return _react2.default.createElement(
-        _reactPlacesAutocomplete2.default,
-        {
-          value: this.state.address,
-          onChange: this.handleChange.bind(this),
-          onSelect: this.handleSelect.bind(this)
-        },
-        function (_ref) {
-          var getInputProps = _ref.getInputProps,
-              suggestions = _ref.suggestions,
-              getSuggestionItemProps = _ref.getSuggestionItemProps;
-          return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement('input', getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input'
-            })),
-            _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _reactPlacesAutocomplete2.default,
+          {
+            value: this.state.address,
+            onChange: this.handleChange.bind(this),
+            onSelect: this.handleSelect.bind(this)
+          },
+          function (_ref) {
+            var getInputProps = _ref.getInputProps,
+                suggestions = _ref.suggestions,
+                getSuggestionItemProps = _ref.getSuggestionItemProps;
+            return _react2.default.createElement(
               'div',
-              { className: 'autocomplete-dropdown-container' },
-              suggestions.map(function (suggestion) {
-                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                // inline style for demonstration purpose
-                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                return _react2.default.createElement(
-                  'div',
-                  getSuggestionItemProps(suggestion, { className: className, style: style }),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    suggestion.description
-                  )
-                );
-              })
-            )
-          );
-        }
+              null,
+              _react2.default.createElement('input', getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input'
+              })),
+              _react2.default.createElement(
+                'div',
+                { className: 'autocomplete-dropdown-container' },
+                suggestions.map(function (suggestion) {
+                  var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                  // inline style for demonstration purpose
+                  var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                  return _react2.default.createElement(
+                    'div',
+                    getSuggestionItemProps(suggestion, { className: className, style: style }),
+                    _react2.default.createElement(
+                      'span',
+                      null,
+                      suggestion.description
+                    )
+                  );
+                })
+              )
+            );
+          }
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'col-auto' },
+          _react2.default.createElement(
+            'button',
+            { onClick: this.handleChange, className: 'btn btn-lg btn-success', type: 'submit' },
+            'Search'
+          )
+        )
       );
     }
   }]);
@@ -758,8 +773,8 @@ var Results = function (_Component) {
     value: function render() {
       // Capture principal listing
       // Capture latitude and longitude from stateToProps
-      var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
-      var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
+      var listingLat = this.props.listing.all.latitude || [];
+      var listingLng = this.props.listing.all.longitude || [];
       // Logs
       console.log('this.state:  ', this.state);
       console.log('this.props.comps:  ', this.props.comps);
@@ -1887,7 +1902,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
   all: []
-  // listingZwid: ''
 };
 
 exports.default = function () {
@@ -1898,8 +1912,10 @@ exports.default = function () {
   var payload = action.data;
 
   switch (action.type) {
+
     case _constants2.default.ZILLOW_COMPS_RECEIVED:
       console.log('ZILLOW_COMPS_RECEIVED!');
+
       // Capture request/response objects
       newState['req'] = payload.body.data.request;
       newState['all'] = payload.body.data.response.properties;
@@ -1911,16 +1927,6 @@ exports.default = function () {
       console.log("compsReducer RES: " + JSON.stringify(newState.all));
       console.log("compsReducer PRINCIPAL: " + JSON.stringify(newState.all.principal));
       console.log("compsReducer COMPARABLES: " + JSON.stringify(newState.all.comparables));
-      // Capture lat/long objects
-      // newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0]
-      // newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0]
-      // Console log latitude/longitude objects
-      // console.log("compsReducer LATITUDE: " + JSON.stringify(newState.all.latitude))
-      // console.log("compsReducer LONGITUDE: " + JSON.stringify(newState.all.longitude))
-
-
-      // Set up logic for result set, then feed into Listing component
-
 
       return newState;
 
@@ -1958,12 +1964,11 @@ var initialState = {
 		citystatezip: 'Windsor Locks, CT',
 		latLng: {
 			lat: 41.9334208,
-			lng: -72.65713199999999
+			lng: -72.6571319
 		},
 		zpid: '58162520',
 		count: 3
 	}
-
 };
 
 exports.default = function () {
@@ -1976,12 +1981,15 @@ exports.default = function () {
 	switch (action.type) {
 
 		case _constants2.default.ZILLOW_LISTING_RECEIVED:
+			console.log('ZILLOW_LISTING_RECEIVED!');
+
 			// Capture request/response objects
 			newState['req'] = payload.body.data.request;
 			newState['all'] = payload.body.data.response.results.result;
 			// Console log request/response objects
 			console.log("listingReducer REQ: " + JSON.stringify(newState.req));
 			console.log("listingReducer RES: " + JSON.stringify(newState.all));
+
 			// Capture lat/long objects
 			newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
 			newState.all.longitude = payload.body.data.response.results.result[0].address[0].longitude[0];
@@ -1994,13 +2002,14 @@ exports.default = function () {
 		case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
 			// Capture address object input by user into search box
 			newState['userInputAddress'] = payload.body.data.response.results.result;
+			// Console log response objects
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
 
-		case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
-			// Capture latLng object input by user into search box
-			console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!');
-			return newState;
+		// case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
+		// 	// Capture latLng object input by user into search box
+		// 	console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!')
+		// 	return newState
 
 		default:
 			return state;
