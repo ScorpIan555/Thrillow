@@ -61,16 +61,23 @@ var Results = (function (Component) {
     },
     render: {
       value: function render() {
+        // Capture principal listing
         // Capture latitude and longitude from stateToProps
         var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
         var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
         // Logs
-        // console.log(this.state)
-        // console.log(this.props.listing)
-        console.log(listingLat);
-        console.log(listingLng);
+        console.log("this.state:  ", this.state);
+        console.log("this.props.comps:  ", this.props.comps);
+        console.log("listingLat ", listingLat);
+        console.log("listingLng ", listingLng);
         // console.log(typeof(this.props.listing))
         // console.log(typeof(listingLng))
+
+        // Capture comps array
+        var comps = this.props.comps.all.comparables || [];
+
+        console.log(comps);
+
 
         return React.createElement(
           "section",
@@ -148,21 +155,13 @@ var Results = (function (Component) {
               React.createElement(
                 "li",
                 { className: "row justify-content-center align-items-center" },
-                React.createElement(
-                  "div",
-                  { className: "col-sm" },
-                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-sm" },
-                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-sm" },
-                  React.createElement(Listing, { lat: listingLat, lng: listingLng })
-                )
+                comps.map(function (comp, i) {
+                  return React.createElement(
+                    "div",
+                    { className: "col-sm" },
+                    React.createElement(Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                  );
+                })
               ),
               React.createElement(
                 "li",
@@ -190,7 +189,8 @@ var Results = (function (Component) {
 
 var stateToProps = function (state) {
   return {
-    listing: state.listing
+    listing: state.listing,
+    comps: state.comps
   };
 };
 
@@ -206,3 +206,7 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(Results);
+// this.setState({
+//   listing: this.props.listing.all,
+//   comps: this.props.comps.all
+// })

@@ -6,7 +6,7 @@ import constants from '../constants'
 */
 
 var initialState = {
-	all: null,
+	all: [],
   // listingZwid: ''
 }
 
@@ -21,7 +21,8 @@ export default (state = initialState, action) => {
       newState['req'] = payload.body.data.request
       newState['all'] = payload.body.data.response.properties
       newState.all.principal = payload.body.data.response.properties.principal
-      newState.all.comparables = payload.body.data.response.properties.comparables
+      newState.all.comparables = payload.body.data.response.properties.comparables[0].comp
+
       // Console log request/response objects
       console.log("compsReducer REQ: " + JSON.stringify(newState.req))
       console.log("compsReducer RES: " + JSON.stringify(newState.all))

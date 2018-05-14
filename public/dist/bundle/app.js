@@ -747,20 +747,31 @@ var Results = function (_Component) {
       // })
 
       console.log('ZPID:  ', JSON.stringify(params.zpid));
+
+      // this.setState({
+      //   listing: this.props.listing.all,
+      //   comps: this.props.comps.all
+      // })
     }
   }, {
     key: 'render',
     value: function render() {
+      // Capture principal listing
       // Capture latitude and longitude from stateToProps
       var listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null;
       var listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null;
       // Logs
-      // console.log(this.state)
-      // console.log(this.props.listing)
-      console.log(listingLat);
-      console.log(listingLng);
+      console.log('this.state:  ', this.state);
+      console.log('this.props.comps:  ', this.props.comps);
+      console.log('listingLat ', listingLat);
+      console.log('listingLng ', listingLng);
       // console.log(typeof(this.props.listing))
       // console.log(typeof(listingLng))
+
+      // Capture comps array
+      var comps = this.props.comps.all.comparables || [];
+
+      console.log(comps);
 
       return _react2.default.createElement(
         'section',
@@ -838,21 +849,13 @@ var Results = function (_Component) {
             _react2.default.createElement(
               'li',
               { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-sm' },
-                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-sm' },
-                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-sm' },
-                _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
-              )
+              comps.map(function (comp, i) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'col-sm' },
+                  _react2.default.createElement(_presentation.Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                );
+              })
             ),
             _react2.default.createElement(
               'li',
@@ -874,7 +877,8 @@ var Results = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    listing: state.listing
+    listing: state.listing,
+    comps: state.comps
   };
 };
 
@@ -1882,7 +1886,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 var initialState = {
-  all: null
+  all: []
   // listingZwid: ''
 };
 
@@ -1900,7 +1904,8 @@ exports.default = function () {
       newState['req'] = payload.body.data.request;
       newState['all'] = payload.body.data.response.properties;
       newState.all.principal = payload.body.data.response.properties.principal;
-      newState.all.comparables = payload.body.data.response.properties.comparables;
+      newState.all.comparables = payload.body.data.response.properties.comparables[0].comp;
+
       // Console log request/response objects
       console.log("compsReducer REQ: " + JSON.stringify(newState.req));
       console.log("compsReducer RES: " + JSON.stringify(newState.all));

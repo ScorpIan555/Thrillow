@@ -29,24 +29,36 @@ class Results extends Component {
 
     this.props.getZillowListingResults(params)
     // .then(params => {
-      this.props.getZillowCompsResults(params)
+    this.props.getZillowCompsResults(params)
     // })
 
     console.log('ZPID:  ', JSON.stringify(params.zpid))
 
+    // this.setState({
+    //   listing: this.props.listing.all,
+    //   comps: this.props.comps.all
+    // })
+
   }
 
 render() {
+  // Capture principal listing
   // Capture latitude and longitude from stateToProps
   let listingLat = this.props.listing.all !== null ? this.props.listing.all.latitude : null
   let listingLng = this.props.listing.all !== null ? this.props.listing.all.longitude : null
   // Logs
-  // console.log(this.state)
-  // console.log(this.props.listing)
-  console.log(listingLat)
-  console.log(listingLng)
+  console.log('this.state:  ', this.state)
+  console.log('this.props.comps:  ', this.props.comps)
+  console.log('listingLat ', listingLat)
+  console.log('listingLng ', listingLng)
   // console.log(typeof(this.props.listing))
   // console.log(typeof(listingLng))
+
+  // Capture comps array
+  let comps = this.props.comps.all.comparables || []
+
+  console.log(comps)
+
 
   return (
       <section>
@@ -84,15 +96,16 @@ render() {
 
             <ul className="feature-list feature-list-lg">
                 <li className="row justify-content-center align-items-center">
-                  <div className="col-sm">
-                    <Listing lat={listingLat} lng={listingLng} />
-                  </div>
-                  <div className="col-sm">
-                    <Listing lat={listingLat} lng={listingLng} />
-                  </div>
-                  <div className="col-sm">
-                    <Listing lat={listingLat} lng={listingLng} />
-                  </div>
+
+                  { comps.map((comp, i) => {
+                      return (
+                        <div className="col-sm">
+                          <Listing key={comp.zpid} lat={comp.address[0].latitude[0]} lng={comp.address[0].longitude[0]} />
+                        </div>
+                      )
+                    })
+                  }
+
                 </li>
                 <li className="row justify-content-center align-items-center">
                   <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
@@ -108,7 +121,8 @@ render() {
 
 const stateToProps = (state) => {
   return {
-    listing: state.listing
+    listing: state.listing,
+    comps: state.comps
   }
 }
 
