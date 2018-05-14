@@ -9,21 +9,13 @@ router.get('/', (req, res) => {
   console.log('REQ', req.query)
   // console.log('REQ', req.params)
 
-  var address1 = req.query.address
-  var citystatezip1 = req.query.citystatezip
+  var address = req.query.address
+  var citystatezip = req.query.citystatezip
   console.log('REQ', req.query.address)
 
-  // var address1 = req.params.address
-  // var citystatezip1 = req.params.citystatezip
-  // console.log('REQ', req.params.address)
-
-
   const params = {
-    // zpid: 58162086,
-    // address: "25 Anthony St",
-    // citystatezip: "06096"
-    address: address1,
-    citystatezip: citystatezip1
+    address: address,
+    citystatezip: citystatezip
   }
 
   const apiCallType = 'GetSearchResults'
@@ -39,28 +31,6 @@ router.get('/', (req, res) => {
   .catch(err => {
     throw err
   })
-
-  // const parameters = {
-  //   zpid: 58162086,
-  //   count: 10
-  //   // address: req.body.address,
-  //   // citystatezip: req.body.citystatezip
-  // }
-  //
-  // const apiCallType = 'GetComps'
-  //
-  // zillow.get(apiCallType, parameters)
-  // .then( data => {
-  //   res.json({
-  //     confirmation: 'success',
-  //     data: data
-  //   })
-  //   console.log(JSON.stringify(data))
-  //   return data
-  // })
-  // .catch(err => {
-  //   throw err
-  // })
 
   // const parameters = {
   //   zpid: 58162086,
@@ -83,7 +53,6 @@ router.get('/', (req, res) => {
   // .catch(err => {
   //   throw err
   // })
-
 
 })
 
