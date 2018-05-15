@@ -254,7 +254,7 @@ var LocationSearchInput = function (_Component) {
 
     _this.state = {
       address: '',
-      latLng: {}
+      latLng: []
     };
     return _this;
   }
@@ -274,6 +274,8 @@ var LocationSearchInput = function (_Component) {
     value: function handleSelect(address) {
       var _this2 = this;
 
+      console.log('address: ', address);
+      console.log('this.state: ', this.state);
       (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
         return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
       }).then(function (latLng) {
@@ -281,6 +283,9 @@ var LocationSearchInput = function (_Component) {
       }).catch(function (error) {
         return console.error('Error', error);
       });
+
+      //Log latLng
+      console.log('this.state after setState for latLng: ', this.state);
       // Split address from search box for input into Zillow API
       var paramsAddress = address.split(',', 1);
       // Split citystatezip from search box for input into Zillow API
@@ -293,6 +298,10 @@ var LocationSearchInput = function (_Component) {
         latLng: this.state.latLng
         // Send search box input params to back-end thru Redux
       };this.props.dispatchUserInputAddressAndLatLng(params);
+
+      // this.setState({
+      //
+      // })
     }
   }, {
     key: 'render',
@@ -302,56 +311,43 @@ var LocationSearchInput = function (_Component) {
       console.log(this.props);
 
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _reactPlacesAutocomplete2.default,
-          {
-            value: this.state.address,
-            onChange: this.handleChange.bind(this),
-            onSelect: this.handleSelect.bind(this)
-          },
-          function (_ref) {
-            var getInputProps = _ref.getInputProps,
-                suggestions = _ref.suggestions,
-                getSuggestionItemProps = _ref.getSuggestionItemProps;
-            return _react2.default.createElement(
+        _reactPlacesAutocomplete2.default,
+        {
+          value: this.state.address,
+          onChange: this.handleChange.bind(this),
+          onSelect: this.handleSelect.bind(this)
+        },
+        function (_ref) {
+          var getInputProps = _ref.getInputProps,
+              suggestions = _ref.suggestions,
+              getSuggestionItemProps = _ref.getSuggestionItemProps;
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('input', getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input'
+            })),
+            _react2.default.createElement(
               'div',
-              null,
-              _react2.default.createElement('input', getInputProps({
-                placeholder: 'Search Places ...',
-                className: 'location-search-input'
-              })),
-              _react2.default.createElement(
-                'div',
-                { className: 'autocomplete-dropdown-container' },
-                suggestions.map(function (suggestion) {
-                  var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                  // inline style for demonstration purpose
-                  var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                  return _react2.default.createElement(
-                    'div',
-                    getSuggestionItemProps(suggestion, { className: className, style: style }),
-                    _react2.default.createElement(
-                      'span',
-                      null,
-                      suggestion.description
-                    )
-                  );
-                })
-              )
-            );
-          }
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-auto' },
-          _react2.default.createElement(
-            'button',
-            { onClick: this.handleChange, className: 'btn btn-lg btn-success', type: 'submit' },
-            'Search'
-          )
-        )
+              { className: 'autocomplete-dropdown-container' },
+              suggestions.map(function (suggestion) {
+                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return _react2.default.createElement(
+                  'div',
+                  getSuggestionItemProps(suggestion, { className: className, style: style }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    suggestion.description
+                  )
+                );
+              })
+            )
+          );
+        }
       );
     }
   }]);
@@ -733,7 +729,7 @@ var Results = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this));
 
     _this.state = {
-      location: {}
+      // location: {}
     };
     return _this;
   }
@@ -749,11 +745,11 @@ var Results = function (_Component) {
       //   .catch(error => console.error('Error', error))
 
       var params = {
-        address: this.props.listing.all.address, //
-        citystatezip: this.props.listing.all.citystatezip, //
-        latLng: this.props.listing.all.latLng, //
-        count: this.props.listing.all.count, //
-        zpid: this.props.listing.all.zpid
+        address: this.props.listing.all[0].address, //
+        citystatezip: this.props.listing.all[1].citystatezip, //
+        latLng: this.props.listing.all[2].latLng, //
+        count: this.props.listing.all[3].count, //
+        zpid: this.props.listing.all[4].zpid
       };
 
       this.props.getZillowListingResults(params);
@@ -772,11 +768,16 @@ var Results = function (_Component) {
     key: 'render',
     value: function render() {
       // Capture principal listing
-      // Capture latitude and longitude from stateToProps
-      var listingLat = this.props.listing.all.latitude || [];
-      var listingLng = this.props.listing.all.longitude || [];
+      // Capture latitude and longitude from stateToProps (Zillow)
+      var listingLat = this.props.listing.all[0].latitude || [];
+      var listingLng = this.props.listing.all[0].longitude || [];
+      // Capture latitude and longitude from stateToProps (Google Maps)
+      // let listingLat = this.props.listing.all[0].latLng[0].lat || []
+      // let listingLng = this.props.listing.all[0].latLng[0].lng || []
       // Logs
       console.log('this.state:  ', this.state);
+      console.log('this.props:  ', this.props);
+      console.log('this.props.listing.all:  ', this.props.listing.all);
       console.log('this.props.comps:  ', this.props.comps);
       console.log('listingLat ', listingLat);
       console.log('listingLng ', listingLng);
@@ -1959,16 +1960,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 var initialState = {
-	all: {
-		address: '22 Dale Street',
-		citystatezip: 'Windsor Locks, CT',
-		latLng: {
+	all: [{ address: '22 Dale Street' }, { citystatezip: 'Windsor Locks, CT' }, { latLng: {
 			lat: 41.9334208,
 			lng: -72.6571319
-		},
-		zpid: '58162520',
-		count: 3
-	}
+		}
+	}, { count: 3 }, { zpid: '58162520' }]
 };
 
 exports.default = function () {

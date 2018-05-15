@@ -24,9 +24,7 @@ var Results = (function (Component) {
     _classCallCheck(this, Results);
 
     _get(Object.getPrototypeOf(Results.prototype), "constructor", this).call(this);
-    this.state = {
-      location: {}
-    };
+    this.state = {};
   }
 
   _inherits(Results, Component);
@@ -42,11 +40,11 @@ var Results = (function (Component) {
         //   .catch(error => console.error('Error', error))
 
         var params = {
-          address: this.props.listing.all.address, //
-          citystatezip: this.props.listing.all.citystatezip, //
-          latLng: this.props.listing.all.latLng, //
-          count: this.props.listing.all.count, //
-          zpid: this.props.listing.all.zpid
+          address: this.props.listing.all[0].address, //
+          citystatezip: this.props.listing.all[1].citystatezip, //
+          latLng: this.props.listing.all[2].latLng, //
+          count: this.props.listing.all[3].count, //
+          zpid: this.props.listing.all[4].zpid
         };
 
         this.props.getZillowListingResults(params);
@@ -62,11 +60,16 @@ var Results = (function (Component) {
     render: {
       value: function render() {
         // Capture principal listing
-        // Capture latitude and longitude from stateToProps
-        var listingLat = this.props.listing.all.latitude || [];
-        var listingLng = this.props.listing.all.longitude || [];
+        // Capture latitude and longitude from stateToProps (Zillow)
+        var listingLat = this.props.listing.all[0].latitude || [];
+        var listingLng = this.props.listing.all[0].longitude || [];
+        // Capture latitude and longitude from stateToProps (Google Maps)
+        // let listingLat = this.props.listing.all[0].latLng[0].lat || []
+        // let listingLng = this.props.listing.all[0].latLng[0].lng || []
         // Logs
         console.log("this.state:  ", this.state);
+        console.log("this.props:  ", this.props);
+        console.log("this.props.listing.all:  ", this.props.listing.all);
         console.log("this.props.comps:  ", this.props.comps);
         console.log("listingLat ", listingLat);
         console.log("listingLng ", listingLng);
@@ -206,6 +209,7 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(Results);
+// location: {}
 // this.setState({
 //   listing: this.props.listing.all,
 //   comps: this.props.comps.all

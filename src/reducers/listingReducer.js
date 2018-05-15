@@ -5,17 +5,18 @@ import constants from '../constants'
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-var initialState = {
-	all: {
-		address: '22 Dale Street',
-		citystatezip: 'Windsor Locks, CT',
-		latLng: {
-			lat: 41.9334208,
-			lng: -72.6571319
-		},
-		zpid: '58162520',
-		count: 3
-	}
+const initialState = {
+	all: [
+			{ address: '22 Dale Street' },
+			{ citystatezip: 'Windsor Locks, CT' },
+			{ latLng: {
+							lat: 41.9334208,
+							lng: -72.6571319
+						}
+					},
+			{ count: 3 },
+			{ zpid: '58162520' },
+	]
 }
 
 export default (state = initialState, action) => {
@@ -49,6 +50,8 @@ export default (state = initialState, action) => {
 			// Console log response objects
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress'])
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']))
+
+
 
 		// case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
 		// 	// Capture latLng object input by user into search box

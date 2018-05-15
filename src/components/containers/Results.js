@@ -7,7 +7,7 @@ class Results extends Component {
   constructor() {
     super()
     this.state = {
-      location: {}
+      // location: {}
     }
   }
 
@@ -20,11 +20,11 @@ class Results extends Component {
     //   .catch(error => console.error('Error', error))
 
     var params = {
-      address: this.props.listing.all.address,  //
-      citystatezip: this.props.listing.all.citystatezip, //
-      latLng: this.props.listing.all.latLng,  //
-      count: this.props.listing.all.count, //
-      zpid: this.props.listing.all.zpid
+      address: this.props.listing.all[0].address,  //
+      citystatezip: this.props.listing.all[1].citystatezip, //
+      latLng: this.props.listing.all[2].latLng,  //
+      count: this.props.listing.all[3].count, //
+      zpid: this.props.listing.all[4].zpid
     }
 
     this.props.getZillowListingResults(params)
@@ -43,11 +43,16 @@ class Results extends Component {
 
 render() {
   // Capture principal listing
-  // Capture latitude and longitude from stateToProps
-  let listingLat = this.props.listing.all.latitude || []
-  let listingLng = this.props.listing.all.longitude || []
+  // Capture latitude and longitude from stateToProps (Zillow)
+  let listingLat = this.props.listing.all[0].latitude || []
+  let listingLng = this.props.listing.all[0].longitude || []
+  // Capture latitude and longitude from stateToProps (Google Maps)
+  // let listingLat = this.props.listing.all[0].latLng[0].lat || []
+  // let listingLng = this.props.listing.all[0].latLng[0].lng || []
   // Logs
   console.log('this.state:  ', this.state)
+  console.log('this.props:  ', this.props)
+  console.log('this.props.listing.all:  ', this.props.listing.all)
   console.log('this.props.comps:  ', this.props.comps)
   console.log('listingLat ', listingLat)
   console.log('listingLng ', listingLng)

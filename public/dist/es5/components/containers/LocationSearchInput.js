@@ -31,7 +31,7 @@ var LocationSearchInput = (function (Component) {
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
     this.state = {
       address: "",
-      latLng: {}
+      latLng: []
     };
   }
 
@@ -51,6 +51,8 @@ var LocationSearchInput = (function (Component) {
       // Handle select for controlled component
       value: function handleSelect(address) {
         var _this = this;
+        console.log("address: ", address);
+        console.log("this.state: ", this.state);
         geocodeByAddress(address).then(function (results) {
           return getLatLng(results[0]);
         }).then(function (latLng) {
@@ -58,6 +60,9 @@ var LocationSearchInput = (function (Component) {
         })["catch"](function (error) {
           return console.error("Error", error);
         });
+
+        //Log latLng
+        console.log("this.state after setState for latLng: ", this.state);
         // Split address from search box for input into Zillow API
         var paramsAddress = address.split(",", 1);
         // Split citystatezip from search box for input into Zillow API
@@ -81,55 +86,42 @@ var LocationSearchInput = (function (Component) {
         console.log(this.props);
 
         return React.createElement(
-          "div",
-          null,
-          React.createElement(
-            PlacesAutocomplete,
-            {
-              value: this.state.address,
-              onChange: this.handleChange.bind(this),
-              onSelect: this.handleSelect.bind(this)
-            },
-            function (_ref) {
-              var getInputProps = _ref.getInputProps;
-              var suggestions = _ref.suggestions;
-              var getSuggestionItemProps = _ref.getSuggestionItemProps;
-              return React.createElement(
+          PlacesAutocomplete,
+          {
+            value: this.state.address,
+            onChange: this.handleChange.bind(this),
+            onSelect: this.handleSelect.bind(this)
+          },
+          function (_ref) {
+            var getInputProps = _ref.getInputProps;
+            var suggestions = _ref.suggestions;
+            var getSuggestionItemProps = _ref.getSuggestionItemProps;
+            return React.createElement(
+              "div",
+              null,
+              React.createElement("input", getInputProps({
+                placeholder: "Search Places ...",
+                className: "location-search-input"
+              })),
+              React.createElement(
                 "div",
-                null,
-                React.createElement("input", getInputProps({
-                  placeholder: "Search Places ...",
-                  className: "location-search-input"
-                })),
-                React.createElement(
-                  "div",
-                  { className: "autocomplete-dropdown-container" },
-                  suggestions.map(function (suggestion) {
-                    var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
-                    var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
-                    return React.createElement(
-                      "div",
-                      getSuggestionItemProps(suggestion, { className: className, style: style }),
-                      React.createElement(
-                        "span",
-                        null,
-                        suggestion.description
-                      )
-                    );
-                  })
-                )
-              );
-            }
-          ),
-          React.createElement(
-            "div",
-            { className: "col-auto" },
-            React.createElement(
-              "button",
-              { onClick: this.handleChange, className: "btn btn-lg btn-success", type: "submit" },
-              "Search"
-            )
-          )
+                { className: "autocomplete-dropdown-container" },
+                suggestions.map(function (suggestion) {
+                  var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
+                  var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
+                  return React.createElement(
+                    "div",
+                    getSuggestionItemProps(suggestion, { className: className, style: style }),
+                    React.createElement(
+                      "span",
+                      null,
+                      suggestion.description
+                    )
+                  );
+                })
+              )
+            );
+          }
         );
       },
       writable: true,
@@ -152,5 +144,8 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
+// this.setState({
+//
+// })
 // inline style for demonstration purpose
 // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))

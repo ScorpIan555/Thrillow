@@ -11,7 +11,10 @@ router.get('/', (req, res) => {
 
   var address = req.query.address
   var citystatezip = req.query.citystatezip
+  var latLng =  req.query.latLng
   console.log('REQ', req.query.address)
+  console.log('REQ', req.query.citystatezip)
+  console.log('REQ', req.query.latLng)
 
   const params = {
     address: address,

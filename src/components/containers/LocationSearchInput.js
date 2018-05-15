@@ -8,7 +8,7 @@ class LocationSearchInput extends Component {
     super(props)
     this.state = {
       address: '',
-      latLng: {}
+      latLng: [] 
     }
   }
   // Handle change for controlled component
@@ -18,10 +18,15 @@ class LocationSearchInput extends Component {
   }
   // Handle select for controlled component
   handleSelect(address) {
+    console.log('address: ', address)
+    console.log('this.state: ', this.state)
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => this.setState({latLng}) )
       .catch(error => console.error('Error', error))
+
+    //Log latLng
+    console.log('this.state after setState for latLng: ', this.state)
     // Split address from search box for input into Zillow API
     const paramsAddress = address.split(',', 1)
     // Split citystatezip from search box for input into Zillow API
@@ -35,6 +40,10 @@ class LocationSearchInput extends Component {
     }
     // Send search box input params to back-end thru Redux
     this.props.dispatchUserInputAddressAndLatLng(params)
+
+    // this.setState({
+    //
+    // })
   }
 
   render() {
