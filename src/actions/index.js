@@ -43,31 +43,31 @@ export default {
 	getZillowListingResults: (params) => {
 		return dispatch => {
 			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
-			console.log('getZillowListingResults from actions/index.js - params:  ', params)
+			// console.log('getZillowListingResults from actions/index.js - params:  ', params)
 			return dispatch(SuperagentAsync.asyncGet('/homes', params, constants.ZILLOW_LISTING_RECEIVED))
 		}
 	},
 
 	getZillowCompsResults: (params) => {
 		return dispatch => {
-			console.log('getZillowCompsResults from actions/index.js - params:  ', params)
+			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
 			return dispatch(SuperagentAsync.asyncGet('/comps', params, constants.ZILLOW_COMPS_RECEIVED))
 		}
 	},
 
-	dispatchAddressFromSearchBoxToZillowAPI: (params) => {
-		return dispatch => {
-			console.log('dispatchAddressFromSearchBoxToZillowAPI.params: ', params)
-			return dispatch(SuperagentAsync.asyncGet('/homes', params, constants.ADDRESS_RECEIVED_FROM_SEARCH_BOX))
-		}
-	},
-
 	dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => {
-		console.log('dispatchLatLngFromSearchBoxToStore.params: ', latLngFromGeocodeApi)
-		return {
-			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			data: latLngFromGeocodeApi
+			return {
+				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+				data: latLngFromGeocodeApi
+			}
 		}
-	}
+
+	// sendAddress: (latLngFromGeocodeApi) => {
+	// 	return {
+	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+	// 		data: latLngFromGeocodeApi
+	// 	}
+	// }
+	// }
 
 }

@@ -39,6 +39,7 @@ var LocationSearchInput = (function (Component) {
 
   _prototypeProperties(LocationSearchInput, null, {
     handleChange: {
+
       // Handle change for controlled component
       value: function handleChange(address) {
         this.setState({ address: address });
@@ -48,11 +49,14 @@ var LocationSearchInput = (function (Component) {
       configurable: true
     },
     handleSelect: {
-      // Handle select for controlled component
+
+      // Handle user input to search box
       value: function handleSelect(address) {
         var _this = this;
-        console.log("address: ", address);
-        console.log("this.state: ", this.state);
+
+
+        // Call address object input by user on Google Maps Geolocate API
+        // Returns object containing latitude & longitude coordinates
         geocodeByAddress(address).then(function (results) {
           return getLatLng(results[0]);
         }).then(function (latLng) {
@@ -61,27 +65,23 @@ var LocationSearchInput = (function (Component) {
           return console.error("Error", error);
         });
 
-        // //Log latLng
-        // console.log('this.state after setState for latLng: ', this.state)
+        // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
+        var latLngFromGeocodeApi = this.state.latLng;
         // Split address from search box for input into Zillow API
         var paramsAddress = address.split(",", 1);
         // Split citystatezip from search box for input into Zillow API
         var arrayFromAddressAndCitystatezip = address.split(",");
-        var citystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
+        var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
+
         // Store Zillow API parameters in client, to be passed into back-end
         var params = {
           address: paramsAddress,
-          citystatezip: citystatezip
+          citystatezip: paramsCitystatezip
         };
 
-        var latLngFromGeocodeApi = this.state.latLng;
-        console.log("latLngFromGeocodeApi", latLngFromGeocodeApi);
-
-        // this.setState({
-        //
-        // })
-        // Send search box input params to back-end thru Redux
-        this.props.getZillowListingResults(params).then(this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+        this.props.getZillowListingResults(params).then(
+        // Send search box input params to back-end asynchronously thru Redux
+        this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
       },
       writable: true,
       configurable: true
@@ -144,7 +144,6 @@ var stateToProps = function (state) {
 
 var dispatchToProps = function (dispatch) {
   return {
-    // dispatchAddressFromSearchBoxToZillowAPI: (params) => dispatch(actions.dispatchAddressFromSearchBoxToZillowAPI(params)),
     getZillowListingResults: function (params) {
       return dispatch(actions.getZillowListingResults(params));
     },
@@ -155,7 +154,4 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
-// this.setState({
-//
-// })
 // inline style for demonstration purpose

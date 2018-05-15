@@ -258,6 +258,7 @@ var LocationSearchInput = function (_Component) {
     };
     return _this;
   }
+
   // Handle change for controlled component
 
 
@@ -267,15 +268,16 @@ var LocationSearchInput = function (_Component) {
       this.setState({ address: address });
       console.log(this.state.address);
     }
-    // Handle select for controlled component
+
+    // Handle user input to search box
 
   }, {
     key: 'handleSelect',
     value: function handleSelect(address) {
       var _this2 = this;
 
-      console.log('address: ', address);
-      console.log('this.state: ', this.state);
+      // Call address object input by user on Google Maps Geolocate API
+      // Returns object containing latitude & longitude coordinates
       (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
         return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
       }).then(function (latLng) {
@@ -284,31 +286,23 @@ var LocationSearchInput = function (_Component) {
         return console.error('Error', error);
       });
 
-      // //Log latLng
-      // console.log('this.state after setState for latLng: ', this.state)
+      // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
+      var latLngFromGeocodeApi = this.state.latLng;
       // Split address from search box for input into Zillow API
       var paramsAddress = address.split(',', 1);
       // Split citystatezip from search box for input into Zillow API
       var arrayFromAddressAndCitystatezip = address.split(',');
-      var citystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
+      var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
+
       // Store Zillow API parameters in client, to be passed into back-end
       var params = {
         address: paramsAddress,
-        citystatezip: citystatezip
+        citystatezip: paramsCitystatezip
       };
 
-      var latLngFromGeocodeApi = this.state.latLng;
-      console.log('latLngFromGeocodeApi', latLngFromGeocodeApi);
-
-      // this.setState({
-      //
-      // })
-      // Send search box input params to back-end thru Redux
-      this.props.getZillowListingResults(params).then(this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
-
-      // this.setState({
-      //
-      // })
+      this.props.getZillowListingResults(params).then(
+      // Send search box input params to back-end asynchronously thru Redux
+      this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
   }, {
     key: 'render',
@@ -368,7 +362,6 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    // dispatchAddressFromSearchBoxToZillowAPI: (params) => dispatch(actions.dispatchAddressFromSearchBoxToZillowAPI(params)),
     getZillowListingResults: function getZillowListingResults(params) {
       return dispatch(_actions2.default.getZillowListingResults(params));
     },
@@ -2267,32 +2260,32 @@ exports.default = {
 	getZillowListingResults: function getZillowListingResults(params) {
 		return function (dispatch) {
 			// console.log('getZillowResults from actions/index.js - url:  ' + console.log(url))
-			console.log('getZillowListingResults from actions/index.js - params:  ', params);
+			// console.log('getZillowListingResults from actions/index.js - params:  ', params)
 			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ZILLOW_LISTING_RECEIVED));
 		};
 	},
 
 	getZillowCompsResults: function getZillowCompsResults(params) {
 		return function (dispatch) {
-			console.log('getZillowCompsResults from actions/index.js - params:  ', params);
+			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
 			return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
 		};
 	},
 
-	dispatchAddressFromSearchBoxToZillowAPI: function dispatchAddressFromSearchBoxToZillowAPI(params) {
-		return function (dispatch) {
-			console.log('dispatchAddressFromSearchBoxToZillowAPI.params: ', params);
-			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_RECEIVED_FROM_SEARCH_BOX));
-		};
-	},
-
 	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
-		console.log('dispatchLatLngFromSearchBoxToStore.params: ', latLngFromGeocodeApi);
 		return {
 			type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
 			data: latLngFromGeocodeApi
 		};
 	}
+
+	// sendAddress: (latLngFromGeocodeApi) => {
+	// 	return {
+	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+	// 		data: latLngFromGeocodeApi
+	// 	}
+	// }
+	// }
 
 };
 
