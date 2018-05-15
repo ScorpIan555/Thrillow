@@ -13,6 +13,7 @@ const asyncGet = (url, params, actionType) => {
                             params: params,
                             data: data
                           })
+                          // console.log(params)
                           console.log(data)
                           return data
                         }

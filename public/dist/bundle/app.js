@@ -254,7 +254,7 @@ var LocationSearchInput = function (_Component) {
 
     _this.state = {
       address: '',
-      latLng: []
+      latLng: {}
     };
     return _this;
   }
@@ -280,12 +280,12 @@ var LocationSearchInput = function (_Component) {
         return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
       }).then(function (latLng) {
         return _this2.setState({ latLng: latLng });
-      }).catch(function (error) {
+      }).then(console.log('this.state after setState for latLng: ', this.state)).catch(function (error) {
         return console.error('Error', error);
       });
 
-      //Log latLng
-      console.log('this.state after setState for latLng: ', this.state);
+      // //Log latLng
+      // console.log('this.state after setState for latLng: ', this.state)
       // Split address from search box for input into Zillow API
       var paramsAddress = address.split(',', 1);
       // Split citystatezip from search box for input into Zillow API
@@ -294,10 +294,17 @@ var LocationSearchInput = function (_Component) {
       // Store Zillow API parameters in client, to be passed into back-end
       var params = {
         address: paramsAddress,
-        citystatezip: citystatezip,
-        latLng: this.state.latLng
-        // Send search box input params to back-end thru Redux
-      };this.props.dispatchUserInputAddressAndLatLng(params);
+        citystatezip: citystatezip
+      };
+
+      var latLngFromGeocodeApi = this.state.latLng;
+      console.log('latLngFromGeocodeApi', latLngFromGeocodeApi);
+
+      // this.setState({
+      //
+      // })
+      // Send search box input params to back-end thru Redux
+      this.props.getZillowListingResults(params).then(this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
 
       // this.setState({
       //
@@ -361,10 +368,13 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
-      return dispatch(_actions2.default.dispatchUserInputAddressAndLatLng(params));
+    // dispatchAddressFromSearchBoxToZillowAPI: (params) => dispatch(actions.dispatchAddressFromSearchBoxToZillowAPI(params)),
+    getZillowListingResults: function getZillowListingResults(params) {
+      return dispatch(_actions2.default.getZillowListingResults(params));
+    },
+    dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
+      return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
-    // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))
   };
 };
 
@@ -737,7 +747,7 @@ var Results = function (_Component) {
   _createClass(Results, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('Results componentDidMount');
+      console.log('Results componentDidMount, this.props: ', this.props);
       // geocodeByAddress(address)
       //   .then(results => getLatLng(results[0]))
       //   // .then(latLng => console.log('latLng', latLng) )
@@ -747,9 +757,8 @@ var Results = function (_Component) {
       var params = {
         address: this.props.listing.all[0].address, //
         citystatezip: this.props.listing.all[1].citystatezip, //
-        latLng: this.props.listing.all[2].latLng, //
-        count: this.props.listing.all[3].count, //
-        zpid: this.props.listing.all[4].zpid
+        count: this.props.listing.all[2].count, //
+        zpid: this.props.listing.all[3].zpid
       };
 
       this.props.getZillowListingResults(params);
@@ -769,16 +778,17 @@ var Results = function (_Component) {
     value: function render() {
       // Capture principal listing
       // Capture latitude and longitude from stateToProps (Zillow)
-      var listingLat = this.props.listing.all[0].latitude || [];
-      var listingLng = this.props.listing.all[0].longitude || [];
+      var listingLat = this.props.latLng || [];
+      var listingLng = this.props.latLng || [];
       // Capture latitude and longitude from stateToProps (Google Maps)
       // let listingLat = this.props.listing.all[0].latLng[0].lat || []
       // let listingLng = this.props.listing.all[0].latLng[0].lng || []
       // Logs
-      console.log('this.state:  ', this.state);
       console.log('this.props:  ', this.props);
-      console.log('this.props.listing.all:  ', this.props.listing.all);
+      console.log('this.props.listing:  ', this.props.listing);
       console.log('this.props.comps:  ', this.props.comps);
+      console.log('this.props.listing.latLng:  ', this.props.listing.latLng);
+      console.log('this.props.latLng:  ', this.props.latLng);
       console.log('listingLat ', listingLat);
       console.log('listingLng ', listingLng);
       // console.log(typeof(this.props.listing))
@@ -787,7 +797,7 @@ var Results = function (_Component) {
       // Capture comps array
       var comps = this.props.comps.all.comparables || [];
 
-      console.log(comps);
+      console.log('comps: ', comps);
 
       return _react2.default.createElement(
         'section',
@@ -824,7 +834,7 @@ var Results = function (_Component) {
             _react2.default.createElement(
               'li',
               { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(_presentation.Listing, { lat: listingLat, lng: listingLng })
+              _react2.default.createElement(_presentation.Listing, { lat: listingLat.lat, lng: listingLng.lng })
             ),
             _react2.default.createElement(
               'li',
@@ -894,7 +904,8 @@ var Results = function (_Component) {
 var stateToProps = function stateToProps(state) {
   return {
     listing: state.listing,
-    comps: state.comps
+    comps: state.comps,
+    latLng: state.listing.latLng
   };
 };
 
@@ -1295,6 +1306,7 @@ var asyncGet = function asyncGet(url, params, actionType) {
           params: params,
           data: data
         });
+        // console.log(params)
         console.log(data);
         return data;
       }
@@ -1960,11 +1972,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 var initialState = {
-	all: [{ address: '22 Dale Street' }, { citystatezip: 'Windsor Locks, CT' }, { latLng: {
-			lat: 41.9334208,
-			lng: -72.6571319
-		}
-	}, { count: 3 }, { zpid: '58162520' }]
+	all: [{ address: '22 Dale Street' }, { citystatezip: 'Windsor Locks, CT' }, { count: 3 }, { zpid: '58162520' }],
+	latLng: {
+		lat: 41.9334208,
+		lng: -72.6571319
+	}
 };
 
 exports.default = function () {
@@ -1984,7 +1996,9 @@ exports.default = function () {
 			newState['all'] = payload.body.data.response.results.result;
 			// Console log request/response objects
 			console.log("listingReducer REQ: " + JSON.stringify(newState.req));
+			console.log("listingReducer REQ: ", newState);
 			console.log("listingReducer RES: " + JSON.stringify(newState.all));
+			console.log("listingReducer RES: ", newState.all);
 
 			// Capture lat/long objects
 			newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0];
@@ -1995,17 +2009,14 @@ exports.default = function () {
 
 			return newState;
 
-		case _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
+		case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
 			// Capture address object input by user into search box
-			newState['userInputAddress'] = payload.body.data.response.results.result;
+			newState['latLng'] = payload;
 			// Console log response objects
-			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress']);
-			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']));
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['latLng']);
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['latLng']));
 
-		// case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
-		// 	// Capture latLng object input by user into search box
-		// 	console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!')
-		// 	return newState
+			return newState;
 
 		default:
 			return state;
@@ -2268,19 +2279,20 @@ exports.default = {
 		};
 	},
 
-	dispatchUserInputAddressAndLatLng: function dispatchUserInputAddressAndLatLng(params) {
+	dispatchAddressFromSearchBoxToZillowAPI: function dispatchAddressFromSearchBoxToZillowAPI(params) {
 		return function (dispatch) {
-			console.log(params);
-			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT));
+			console.log('dispatchAddressFromSearchBoxToZillowAPI.params: ', params);
+			return dispatch(_utils.SuperagentAsync.asyncGet('/homes', params, _constants2.default.ADDRESS_RECEIVED_FROM_SEARCH_BOX));
+		};
+	},
+
+	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
+		console.log('dispatchLatLngFromSearchBoxToStore.params: ', latLngFromGeocodeApi);
+		return {
+			type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: latLngFromGeocodeApi
 		};
 	}
-
-	// dispatchLatLngFromSearchBoxToStore: (params) => {
-	// 	return {
-	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-	// 		data: params
-	// 	}
-	// }
 
 };
 
@@ -2307,7 +2319,7 @@ exports.default = {
 	USER_LOGGED_IN: 'USER_LOGGED_IN',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 	ZILLOW_LISTING_RECEIVED: 'ZILLOW_LISTING_RECEIVED',
-	ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT: 'ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT',
+	ADDRESS_RECEIVED_FROM_SEARCH_BOX: 'ADDRESS_RECEIVED_FROM_SEARCH_BOX',
 	LAT_LONG_RECEIVED_FROM_SEARCH_BOX: 'LAT_LONG_RECEIVED_FROM_SEARCH_BOX',
 	ZILLOW_COMPS_RECEIVED: 'ZILLOW_COMPS_RECEIVED'
 

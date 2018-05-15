@@ -6,19 +6,34 @@ const Zillow = require('node-zillow')
 router.get('/', (req, res) => {
   const zwsid = process.env.ZWSID
   const zillow = new Zillow(zwsid)
-  console.log('REQ', req.query)
+  // console.log('REQ', req.query)
   // console.log('REQ', req.params)
 
   var address = req.query.address
   var citystatezip = req.query.citystatezip
-  var latLng =  req.query.latLng
-  console.log('REQ', req.query.address)
-  console.log('REQ', req.query.citystatezip)
-  console.log('REQ', req.query.latLng)
+  // var latLng =  {
+  //   lat: req.query.latLng.lat,
+  //   lng: req.query.latLng.lng
+  // }
+  // var count = req.query.count
+  // var zpid = req.query.zpid
+  // console.log('REQ', req.query.address)
+  // console.log('REQ', req.query.citystatezip)
+  // console.log('REQ', req.query.latLng.lat)
+  // console.log('REQ', req.query.latLng.lng)
+  // console.log('REQ', req.query.latLng.count)
+  // console.log('REQ', req.query.latLng.zpid)
+
 
   const params = {
     address: address,
-    citystatezip: citystatezip
+    citystatezip: citystatezip,
+    // latLng: {
+    //   lat: latLng.lat,
+    //   lng: latLng.lng
+    // },
+    // count: count,
+    // zpid: zpid
   }
 
   const apiCallType = 'GetSearchResults'

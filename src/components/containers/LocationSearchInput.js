@@ -8,7 +8,7 @@ class LocationSearchInput extends Component {
     super(props)
     this.state = {
       address: '',
-      latLng: [] 
+      latLng: {}
     }
   }
   // Handle change for controlled component
@@ -23,10 +23,11 @@ class LocationSearchInput extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => this.setState({latLng}) )
+      .then(console.log('this.state after setState for latLng: ', this.state))
       .catch(error => console.error('Error', error))
 
-    //Log latLng
-    console.log('this.state after setState for latLng: ', this.state)
+    // //Log latLng
+    // console.log('this.state after setState for latLng: ', this.state)
     // Split address from search box for input into Zillow API
     const paramsAddress = address.split(',', 1)
     // Split citystatezip from search box for input into Zillow API
@@ -35,11 +36,18 @@ class LocationSearchInput extends Component {
     // Store Zillow API parameters in client, to be passed into back-end
     var params = {
       address: paramsAddress,
-      citystatezip: citystatezip,
-      latLng: this.state.latLng
+      citystatezip: citystatezip
     }
+
+    const latLngFromGeocodeApi = this.state.latLng
+    console.log('latLngFromGeocodeApi', latLngFromGeocodeApi)
+
+    // this.setState({
+    //
+    // })
     // Send search box input params to back-end thru Redux
-    this.props.dispatchUserInputAddressAndLatLng(params)
+    this.props.getZillowListingResults(params)
+    .then(this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi))
 
     // this.setState({
     //
@@ -96,8 +104,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    dispatchUserInputAddressAndLatLng: (params) => dispatch(actions.dispatchUserInputAddressAndLatLng(params)),
-    // dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))
+    // dispatchAddressFromSearchBoxToZillowAPI: (params) => dispatch(actions.dispatchAddressFromSearchBoxToZillowAPI(params)),
+    getZillowListingResults: (params) => dispatch(actions.getZillowListingResults(params)),
+    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi))
   }
 }
 

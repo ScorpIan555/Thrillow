@@ -31,7 +31,7 @@ var LocationSearchInput = (function (Component) {
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
     this.state = {
       address: "",
-      latLng: []
+      latLng: {}
     };
   }
 
@@ -57,12 +57,12 @@ var LocationSearchInput = (function (Component) {
           return getLatLng(results[0]);
         }).then(function (latLng) {
           return _this.setState({ latLng: latLng });
-        })["catch"](function (error) {
+        }).then(console.log("this.state after setState for latLng: ", this.state))["catch"](function (error) {
           return console.error("Error", error);
         });
 
-        //Log latLng
-        console.log("this.state after setState for latLng: ", this.state);
+        // //Log latLng
+        // console.log('this.state after setState for latLng: ', this.state)
         // Split address from search box for input into Zillow API
         var paramsAddress = address.split(",", 1);
         // Split citystatezip from search box for input into Zillow API
@@ -71,11 +71,17 @@ var LocationSearchInput = (function (Component) {
         // Store Zillow API parameters in client, to be passed into back-end
         var params = {
           address: paramsAddress,
-          citystatezip: citystatezip,
-          latLng: this.state.latLng
+          citystatezip: citystatezip
         };
+
+        var latLngFromGeocodeApi = this.state.latLng;
+        console.log("latLngFromGeocodeApi", latLngFromGeocodeApi);
+
+        // this.setState({
+        //
+        // })
         // Send search box input params to back-end thru Redux
-        this.props.dispatchUserInputAddressAndLatLng(params);
+        this.props.getZillowListingResults(params).then(this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
       },
       writable: true,
       configurable: true
@@ -138,9 +144,14 @@ var stateToProps = function (state) {
 
 var dispatchToProps = function (dispatch) {
   return {
-    dispatchUserInputAddressAndLatLng: function (params) {
-      return dispatch(actions.dispatchUserInputAddressAndLatLng(params));
-    } };
+    // dispatchAddressFromSearchBoxToZillowAPI: (params) => dispatch(actions.dispatchAddressFromSearchBoxToZillowAPI(params)),
+    getZillowListingResults: function (params) {
+      return dispatch(actions.getZillowListingResults(params));
+    },
+    dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
+      return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+    }
+  };
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
@@ -148,4 +159,3 @@ module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
 //
 // })
 // inline style for demonstration purpose
-// dispatchLatLngFromSearchBoxToStore: (params) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(params))

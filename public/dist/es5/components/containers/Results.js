@@ -32,7 +32,7 @@ var Results = (function (Component) {
   _prototypeProperties(Results, null, {
     componentDidMount: {
       value: function componentDidMount() {
-        console.log("Results componentDidMount");
+        console.log("Results componentDidMount, this.props: ", this.props);
         // geocodeByAddress(address)
         //   .then(results => getLatLng(results[0]))
         //   // .then(latLng => console.log('latLng', latLng) )
@@ -42,9 +42,8 @@ var Results = (function (Component) {
         var params = {
           address: this.props.listing.all[0].address, //
           citystatezip: this.props.listing.all[1].citystatezip, //
-          latLng: this.props.listing.all[2].latLng, //
-          count: this.props.listing.all[3].count, //
-          zpid: this.props.listing.all[4].zpid
+          count: this.props.listing.all[2].count, //
+          zpid: this.props.listing.all[3].zpid
         };
 
         this.props.getZillowListingResults(params);
@@ -61,16 +60,17 @@ var Results = (function (Component) {
       value: function render() {
         // Capture principal listing
         // Capture latitude and longitude from stateToProps (Zillow)
-        var listingLat = this.props.listing.all[0].latitude || [];
-        var listingLng = this.props.listing.all[0].longitude || [];
+        var listingLat = this.props.latLng || [];
+        var listingLng = this.props.latLng || [];
         // Capture latitude and longitude from stateToProps (Google Maps)
         // let listingLat = this.props.listing.all[0].latLng[0].lat || []
         // let listingLng = this.props.listing.all[0].latLng[0].lng || []
         // Logs
-        console.log("this.state:  ", this.state);
         console.log("this.props:  ", this.props);
-        console.log("this.props.listing.all:  ", this.props.listing.all);
+        console.log("this.props.listing:  ", this.props.listing);
         console.log("this.props.comps:  ", this.props.comps);
+        console.log("this.props.listing.latLng:  ", this.props.listing.latLng);
+        console.log("this.props.latLng:  ", this.props.latLng);
         console.log("listingLat ", listingLat);
         console.log("listingLng ", listingLng);
         // console.log(typeof(this.props.listing))
@@ -79,8 +79,7 @@ var Results = (function (Component) {
         // Capture comps array
         var comps = this.props.comps.all.comparables || [];
 
-        console.log(comps);
-
+        console.log("comps: ", comps);
 
         return React.createElement(
           "section",
@@ -117,7 +116,7 @@ var Results = (function (Component) {
               React.createElement(
                 "li",
                 { className: "row justify-content-center align-items-center" },
-                React.createElement(Listing, { lat: listingLat, lng: listingLng })
+                React.createElement(Listing, { lat: listingLat.lat, lng: listingLng.lng })
               ),
               React.createElement(
                 "li",
@@ -193,7 +192,8 @@ var Results = (function (Component) {
 var stateToProps = function (state) {
   return {
     listing: state.listing,
-    comps: state.comps
+    comps: state.comps,
+    latLng: state.listing.latLng
   };
 };
 

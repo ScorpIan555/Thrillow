@@ -55,18 +55,19 @@ export default {
 		}
 	},
 
-	dispatchUserInputAddressAndLatLng: (params) => {
+	dispatchAddressFromSearchBoxToZillowAPI: (params) => {
 		return dispatch => {
-			console.log(params)
-			return dispatch(SuperagentAsync.asyncGet('/homes', params, constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT))
+			console.log('dispatchAddressFromSearchBoxToZillowAPI.params: ', params)
+			return dispatch(SuperagentAsync.asyncGet('/homes', params, constants.ADDRESS_RECEIVED_FROM_SEARCH_BOX))
 		}
 	},
 
-	// dispatchLatLngFromSearchBoxToStore: (params) => {
-	// 	return {
-	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-	// 		data: params
-	// 	}
-	// }
+	dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => {
+		console.log('dispatchLatLngFromSearchBoxToStore.params: ', latLngFromGeocodeApi)
+		return {
+			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: latLngFromGeocodeApi
+		}
+	}
 
 }

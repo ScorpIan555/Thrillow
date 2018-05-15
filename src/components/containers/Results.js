@@ -12,7 +12,7 @@ class Results extends Component {
   }
 
   componentDidMount() {
-    console.log('Results componentDidMount')
+    console.log('Results componentDidMount, this.props: ', this.props)
     // geocodeByAddress(address)
     //   .then(results => getLatLng(results[0]))
     //   // .then(latLng => console.log('latLng', latLng) )
@@ -22,9 +22,8 @@ class Results extends Component {
     var params = {
       address: this.props.listing.all[0].address,  //
       citystatezip: this.props.listing.all[1].citystatezip, //
-      latLng: this.props.listing.all[2].latLng,  //
-      count: this.props.listing.all[3].count, //
-      zpid: this.props.listing.all[4].zpid
+      count: this.props.listing.all[2].count, //
+      zpid: this.props.listing.all[3].zpid
     }
 
     this.props.getZillowListingResults(params)
@@ -44,16 +43,17 @@ class Results extends Component {
 render() {
   // Capture principal listing
   // Capture latitude and longitude from stateToProps (Zillow)
-  let listingLat = this.props.listing.all[0].latitude || []
-  let listingLng = this.props.listing.all[0].longitude || []
+  let listingLat = this.props.latLng || []
+  let listingLng = this.props.latLng || []
   // Capture latitude and longitude from stateToProps (Google Maps)
   // let listingLat = this.props.listing.all[0].latLng[0].lat || []
   // let listingLng = this.props.listing.all[0].latLng[0].lng || []
   // Logs
-  console.log('this.state:  ', this.state)
   console.log('this.props:  ', this.props)
-  console.log('this.props.listing.all:  ', this.props.listing.all)
+  console.log('this.props.listing:  ', this.props.listing)
   console.log('this.props.comps:  ', this.props.comps)
+  console.log('this.props.listing.latLng:  ', this.props.listing.latLng)
+  console.log('this.props.latLng:  ', this.props.latLng)
   console.log('listingLat ', listingLat)
   console.log('listingLng ', listingLng)
   // console.log(typeof(this.props.listing))
@@ -62,8 +62,7 @@ render() {
   // Capture comps array
   let comps = this.props.comps.all.comparables || []
 
-  console.log(comps)
-
+  console.log('comps: ', comps)
 
   return (
       <section>
@@ -81,7 +80,7 @@ render() {
             <ul className="feature-list feature-list-lg">
                 <li className="row justify-content-center align-items-center">
 
-                    <Listing lat={listingLat} lng={listingLng} />
+                    <Listing lat={listingLat.lat} lng={listingLng.lng} />
 
                 </li>
                 <li className="row justify-content-center align-items-center">
@@ -127,7 +126,8 @@ render() {
 const stateToProps = (state) => {
   return {
     listing: state.listing,
-    comps: state.comps
+    comps: state.comps,
+    latLng: state.listing.latLng
   }
 }
 

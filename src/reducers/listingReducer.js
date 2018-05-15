@@ -9,14 +9,13 @@ const initialState = {
 	all: [
 			{ address: '22 Dale Street' },
 			{ citystatezip: 'Windsor Locks, CT' },
-			{ latLng: {
-							lat: 41.9334208,
-							lng: -72.6571319
-						}
-					},
 			{ count: 3 },
 			{ zpid: '58162520' },
-	]
+	],
+	latLng: {
+					lat: 41.9334208,
+					lng: -72.6571319
+				}
 }
 
 export default (state = initialState, action) => {
@@ -33,7 +32,9 @@ export default (state = initialState, action) => {
       newState['all'] = payload.body.data.response.results.result
       // Console log request/response objects
       console.log("listingReducer REQ: " + JSON.stringify(newState.req))
+			console.log("listingReducer REQ: ", newState)
       console.log("listingReducer RES: " + JSON.stringify(newState.all))
+			console.log("listingReducer RES: ", newState.all)
 
       // Capture lat/long objects
       newState.all.latitude = payload.body.data.response.results.result[0].address[0].latitude[0]
@@ -44,19 +45,15 @@ export default (state = initialState, action) => {
 
       return newState
 
-		case constants.ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:
+		case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
 			// Capture address object input by user into search box
-			newState['userInputAddress'] = payload.body.data.response.results.result
+			newState['latLng'] = payload
 			// Console log response objects
-			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['userInputAddress'])
-			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['userInputAddress']))
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['latLng'])
+			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['latLng']))
 
+			return newState
 
-
-		// case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
-		// 	// Capture latLng object input by user into search box
-		// 	console.log('LAT_LONG_RECEIVED_FROM_SEARCH_BOX!')
-		// 	return newState
 
   default:
     return state

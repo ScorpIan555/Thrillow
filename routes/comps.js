@@ -4,47 +4,15 @@ const router = vertex.router()
 const Zillow = require('node-zillow')
 
 router.get('/', (req, res) => {
+  // Initialize Zillow API
   const zwsid = process.env.ZWSID
   const zillow = new Zillow(zwsid)
-  // console.log('REQ', req.query)
-  // // console.log('REQ', req.params)
-
-  var compZpid = req.query.zpid
-  var compCount = req.query.count
-  console.log('REQ.QUERY:  ', req.query.zpid)
-
-  // var address1 = req.params.address
-  // var citystatezip1 = req.params.citystatezip
-  // console.log('REQ', req.params.address)
-
-
-  // const params = {
-  //   // zpid: 58162086,
-  //   // address: "25 Anthony St",
-  //   // citystatezip: "06096"
-  //   address: address1,
-  //   citystatezip: citystatezip1
-  // }
-  //
-  // const apiCallType = 'GetSearchResults'
-  // zillow.get(apiCallType, params)
-  // .then( data => {
-  //   res.json({
-  //     confirmation: 'success',
-  //     data: data
-  //   })
-  //   console.log(JSON.stringify(data))
-  //   return data
-  // })
-  // .catch(err => {
-  //   throw err
-  // })
-
+  // Capture required query parameters for 'GetComps' Zillow API Call
   const params = {
-    zpid: compZpid,
-    count: compCount
+    count: req.query.count,
+    zpid: req.query.zpid
   }
-
+  // Zillow API Call Type
   const apiCallType = 'GetComps'
 
   zillow.get(apiCallType, params)
