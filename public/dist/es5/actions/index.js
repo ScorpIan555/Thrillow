@@ -59,7 +59,7 @@ module.exports = {
 
 	getZillowCompsResults: function (params) {
 		return function (dispatch) {
-			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
+			console.log("getZillowCompsResults from actions/index.js - params:  ", params);
 			return dispatch(SuperagentAsync.asyncGet("/comps", params, constants.ZILLOW_COMPS_RECEIVED));
 		};
 	},

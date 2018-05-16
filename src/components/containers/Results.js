@@ -27,17 +27,11 @@ class Results extends Component {
     }
 
     this.props.getZillowListingResults(params)
-    // .then(params => {
-    this.props.getZillowCompsResults(params)
-    // })
+    .then(
+      this.props.getZillowCompsResults(params)
+    )
 
     console.log('ZPID:  ', JSON.stringify(params.zpid))
-
-    // this.setState({
-    //   listing: this.props.listing.all,
-    //   comps: this.props.comps.all
-    // })
-
   }
 
 render() {

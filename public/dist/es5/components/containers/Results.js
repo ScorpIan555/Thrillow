@@ -46,10 +46,7 @@ var Results = (function (Component) {
           zpid: this.props.listing.all[3].zpid
         };
 
-        this.props.getZillowListingResults(params);
-        // .then(params => {
-        this.props.getZillowCompsResults(params);
-        // })
+        this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params));
 
         console.log("ZPID:  ", JSON.stringify(params.zpid));
       },
@@ -210,7 +207,3 @@ var dispatchToProps = function (dispatch) {
 
 module.exports = connect(stateToProps, dispatchToProps)(Results);
 // location: {}
-// this.setState({
-//   listing: this.props.listing.all,
-//   comps: this.props.comps.all
-// })

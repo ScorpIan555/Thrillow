@@ -7,7 +7,8 @@ var superagent = _interopRequire(require("superagent"));
 var asyncGet = function (url, params, actionType) {
   return function (dispatch) {
     return superagent.get(url).query(params).set("Accept", "application/json").then(function (data) {
-      // console.log('superagent log - res:  ' +JSON.stringify(data))
+      console.log("superagent log - res:  ", data);
+      console.log("superagent log - res:  " + JSON.stringify(data));
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -20,6 +21,7 @@ var asyncGet = function (url, params, actionType) {
       }
     })["catch"](function (err) {
       console.log(err.message);
+      console.log(err);
     });
   };
 };

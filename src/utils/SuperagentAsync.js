@@ -6,7 +6,8 @@ const asyncGet = (url, params, actionType) => {
                       .query(params)
                       .set('Accept', 'application/json')
                       .then(data => {
-                        // console.log('superagent log - res:  ' +JSON.stringify(data))
+                        console.log('superagent log - res:  ', data)
+                        console.log('superagent log - res:  ' + JSON.stringify(data))
                         if(actionType != null) {
                           dispatch({
                             type: actionType,
@@ -20,6 +21,7 @@ const asyncGet = (url, params, actionType) => {
                       })
                       .catch( err => {
                         console.log(err.message)
+                        console.log(err)
                       })
 }
 

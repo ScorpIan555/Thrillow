@@ -79,7 +79,19 @@ var LocationSearchInput = (function (Component) {
           citystatezip: paramsCitystatezip
         };
 
-        this.props.getZillowListingResults(params).then(
+        this.props.getZillowListingResults(params).then(function (results) {
+          console.log("getZillowListingResults: ", results);
+          console.log("getZillowListingResults: ", JSON.stringify(results));
+          console.log("getZillowListingResults: ", JSON.stringify(results.body.data.response.results.result[0]));
+          console.log("getZillowListingResults: ", JSON.stringify(results.body.data.response.results.result[0].zpid[0]));
+
+          params.zpid = results.body.data.response.results.result[0].zpid[0];
+          params.count = 3;
+          console.log(params);
+          console.log(JSON.stringify(params));
+
+          _this.props.getZillowCompsResults(params);
+        }).then(
         // Send search box input params to back-end asynchronously thru Redux
         this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
       },
@@ -149,6 +161,9 @@ var dispatchToProps = function (dispatch) {
     },
     dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
       return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+    },
+    getZillowCompsResults: function (params) {
+      return dispatch(actions.getZillowCompsResults(params));
     }
   };
 };

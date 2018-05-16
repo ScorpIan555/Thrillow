@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
     case constants.ZILLOW_COMPS_RECEIVED:
-      console.log('ZILLOW_COMPS_RECEIVED!')
+      console.log('ZILLOW_COMPS_RECEIVED!', payload.body.data.response)
 
       // Capture request/response objects
       newState['req'] = payload.body.data.request

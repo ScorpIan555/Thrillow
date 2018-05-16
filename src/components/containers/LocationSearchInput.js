@@ -44,10 +44,24 @@ class LocationSearchInput extends Component {
     }
 
     this.props.getZillowListingResults(params)
+    .then(results => {
+      console.log('getZillowListingResults: ', results)
+      console.log('getZillowListingResults: ', JSON.stringify(results))
+      console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0]))
+      console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0].zpid[0]))
+
+      params.zpid = results.body.data.response.results.result[0].zpid[0]
+      params.count = 3
+      console.log(params)
+      console.log(JSON.stringify(params))
+
+      this.props.getZillowCompsResults(params)
+    })
     .then(
       // Send search box input params to back-end asynchronously thru Redux
       this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)
     )
+
   }
 
   render() {
@@ -101,7 +115,8 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return {
     getZillowListingResults: (params) => dispatch(actions.getZillowListingResults(params)),
-    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi))
+    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)),
+    getZillowCompsResults: (params) => dispatch(actions.getZillowCompsResults(params))
   }
 }
 

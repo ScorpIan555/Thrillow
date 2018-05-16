@@ -300,7 +300,19 @@ var LocationSearchInput = function (_Component) {
         citystatezip: paramsCitystatezip
       };
 
-      this.props.getZillowListingResults(params).then(
+      this.props.getZillowListingResults(params).then(function (results) {
+        console.log('getZillowListingResults: ', results);
+        console.log('getZillowListingResults: ', JSON.stringify(results));
+        console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0]));
+        console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0].zpid[0]));
+
+        params.zpid = results.body.data.response.results.result[0].zpid[0];
+        params.count = 3;
+        console.log(params);
+        console.log(JSON.stringify(params));
+
+        _this2.props.getZillowCompsResults(params);
+      }).then(
       // Send search box input params to back-end asynchronously thru Redux
       this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
@@ -367,6 +379,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     },
     dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
       return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+    },
+    getZillowCompsResults: function getZillowCompsResults(params) {
+      return dispatch(_actions2.default.getZillowCompsResults(params));
     }
   };
 };
@@ -754,17 +769,9 @@ var Results = function (_Component) {
         zpid: this.props.listing.all[3].zpid
       };
 
-      this.props.getZillowListingResults(params);
-      // .then(params => {
-      this.props.getZillowCompsResults(params);
-      // })
+      this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params));
 
       console.log('ZPID:  ', JSON.stringify(params.zpid));
-
-      // this.setState({
-      //   listing: this.props.listing.all,
-      //   comps: this.props.comps.all
-      // })
     }
   }, {
     key: 'render',
@@ -1292,7 +1299,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var asyncGet = function asyncGet(url, params, actionType) {
   return function (dispatch) {
     return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
-      // console.log('superagent log - res:  ' +JSON.stringify(data))
+      console.log('superagent log - res:  ', data);
+      console.log('superagent log - res:  ' + JSON.stringify(data));
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -1305,6 +1313,7 @@ var asyncGet = function asyncGet(url, params, actionType) {
       }
     }).catch(function (err) {
       console.log(err.message);
+      console.log(err);
     });
   };
 };
@@ -1920,7 +1929,7 @@ exports.default = function () {
   switch (action.type) {
 
     case _constants2.default.ZILLOW_COMPS_RECEIVED:
-      console.log('ZILLOW_COMPS_RECEIVED!');
+      console.log('ZILLOW_COMPS_RECEIVED!', payload.body.data.response);
 
       // Capture request/response objects
       newState['req'] = payload.body.data.request;
@@ -2267,7 +2276,7 @@ exports.default = {
 
 	getZillowCompsResults: function getZillowCompsResults(params) {
 		return function (dispatch) {
-			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
+			console.log('getZillowCompsResults from actions/index.js - params:  ', params);
 			return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
 		};
 	},
