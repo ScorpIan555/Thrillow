@@ -7,15 +7,19 @@ class LocationSearchInput extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      // Initialize component with address string utilized in Google Geolocate API
       address: '',
+      // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
       latLng: {}
     }
   }
 
   // Handle change for controlled component
   handleChange(address) {
+
     this.setState({ address })
-    console.log(this.state.address)
+    // Log state change
+    console.log(JSON.stringify(this.state.address))
   }
 
   // Handle user input to search box
@@ -43,25 +47,22 @@ class LocationSearchInput extends Component {
       citystatezip: paramsCitystatezip
     }
 
+    // Call Zillow 'GetSearchResults' API, return listing results
     this.props.getZillowListingResults(params)
-    .then(results => {
-      console.log('getZillowListingResults: ', results)
-      console.log('getZillowListingResults: ', JSON.stringify(results))
-      console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0]))
-      console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0].zpid[0]))
+    .then(listingResults => {
 
-      params.zpid = results.body.data.response.results.result[0].zpid[0]
+      // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+      params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
       params.count = 3
-      console.log(params)
-      console.log(JSON.stringify(params))
 
+      // Call Zillow 'GetComps' API, return comp results
       this.props.getZillowCompsResults(params)
     })
     .then(
-      // Send search box input params to back-end asynchronously thru Redux
+
+      // Send search box input params to store asynchronously thru Redux
       this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)
     )
-
   }
 
   render() {
@@ -114,9 +115,12 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
+    // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
     getZillowListingResults: (params) => dispatch(actions.getZillowListingResults(params)),
-    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)),
-    getZillowCompsResults: (params) => dispatch(actions.getZillowCompsResults(params))
+    // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
+    getZillowCompsResults: (params) => dispatch(actions.getZillowCompsResults(params)),
+    // Dispatch latLng object returned from Google Maps Geolocate API call to store
+    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi))
   }
 }
 

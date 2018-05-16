@@ -253,7 +253,9 @@ var LocationSearchInput = function (_Component) {
     var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
 
     _this.state = {
+      // Initialize component with address string utilized in Google Geolocate API
       address: '',
+      // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
       latLng: {}
     };
     return _this;
@@ -265,8 +267,10 @@ var LocationSearchInput = function (_Component) {
   _createClass(LocationSearchInput, [{
     key: 'handleChange',
     value: function handleChange(address) {
+
       this.setState({ address: address });
-      console.log(this.state.address);
+      // Log state change
+      console.log(JSON.stringify(this.state.address));
     }
 
     // Handle user input to search box
@@ -298,22 +302,19 @@ var LocationSearchInput = function (_Component) {
       var params = {
         address: paramsAddress,
         citystatezip: paramsCitystatezip
-      };
 
-      this.props.getZillowListingResults(params).then(function (results) {
-        console.log('getZillowListingResults: ', results);
-        console.log('getZillowListingResults: ', JSON.stringify(results));
-        console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0]));
-        console.log('getZillowListingResults: ', JSON.stringify(results.body.data.response.results.result[0].zpid[0]));
+        // Call Zillow 'GetSearchResults' API, return listing results
+      };this.props.getZillowListingResults(params).then(function (listingResults) {
 
-        params.zpid = results.body.data.response.results.result[0].zpid[0];
+        // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+        params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
         params.count = 3;
-        console.log(params);
-        console.log(JSON.stringify(params));
 
+        // Call Zillow 'GetComps' API, return comp results
         _this2.props.getZillowCompsResults(params);
       }).then(
-      // Send search box input params to back-end asynchronously thru Redux
+
+      // Send search box input params to store asynchronously thru Redux
       this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
   }, {
@@ -374,14 +375,17 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
+    // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
     getZillowListingResults: function getZillowListingResults(params) {
       return dispatch(_actions2.default.getZillowListingResults(params));
     },
-    dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
-      return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
-    },
+    // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
     getZillowCompsResults: function getZillowCompsResults(params) {
       return dispatch(_actions2.default.getZillowCompsResults(params));
+    },
+    // Dispatch latLng object returned from Google Maps Geolocate API call to store
+    dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
+      return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
   };
 };
@@ -770,7 +774,6 @@ var Results = function (_Component) {
       };
 
       this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params));
-
       console.log('ZPID:  ', JSON.stringify(params.zpid));
     }
   }, {
@@ -1299,8 +1302,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var asyncGet = function asyncGet(url, params, actionType) {
   return function (dispatch) {
     return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
-      console.log('superagent log - res:  ', data);
-      console.log('superagent log - res:  ' + JSON.stringify(data));
+      // console.log('superagent log - res:  ', data)
+      // console.log('superagent log - res:  ' + JSON.stringify(data))
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -1929,7 +1932,7 @@ exports.default = function () {
   switch (action.type) {
 
     case _constants2.default.ZILLOW_COMPS_RECEIVED:
-      console.log('ZILLOW_COMPS_RECEIVED!', payload.body.data.response);
+      console.log('ZILLOW_COMPS_RECEIVED!');
 
       // Capture request/response objects
       newState['req'] = payload.body.data.request;
@@ -1939,7 +1942,6 @@ exports.default = function () {
 
       // Console log request/response objects
       console.log("compsReducer REQ: " + JSON.stringify(newState.req));
-      console.log("compsReducer RES: " + JSON.stringify(newState.all));
       console.log("compsReducer PRINCIPAL: " + JSON.stringify(newState.all.principal));
       console.log("compsReducer COMPARABLES: " + JSON.stringify(newState.all.comparables));
 

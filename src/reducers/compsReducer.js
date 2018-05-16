@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
     case constants.ZILLOW_COMPS_RECEIVED:
-      console.log('ZILLOW_COMPS_RECEIVED!', payload.body.data.response)
+      console.log('ZILLOW_COMPS_RECEIVED!')
 
       // Capture request/response objects
       newState['req'] = payload.body.data.request
@@ -26,7 +26,6 @@ export default (state = initialState, action) => {
 
       // Console log request/response objects
       console.log("compsReducer REQ: " + JSON.stringify(newState.req))
-      console.log("compsReducer RES: " + JSON.stringify(newState.all))
       console.log("compsReducer PRINCIPAL: " + JSON.stringify(newState.all.principal))
       console.log("compsReducer COMPARABLES: " + JSON.stringify(newState.all.comparables))
 

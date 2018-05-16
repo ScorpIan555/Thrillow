@@ -30,7 +30,9 @@ var LocationSearchInput = (function (Component) {
 
     _get(Object.getPrototypeOf(LocationSearchInput.prototype), "constructor", this).call(this, props);
     this.state = {
+      // Initialize component with address string utilized in Google Geolocate API
       address: "",
+      // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
       latLng: {}
     };
   }
@@ -43,7 +45,8 @@ var LocationSearchInput = (function (Component) {
       // Handle change for controlled component
       value: function handleChange(address) {
         this.setState({ address: address });
-        console.log(this.state.address);
+        // Log state change
+        console.log(JSON.stringify(this.state.address));
       },
       writable: true,
       configurable: true
@@ -79,20 +82,17 @@ var LocationSearchInput = (function (Component) {
           citystatezip: paramsCitystatezip
         };
 
-        this.props.getZillowListingResults(params).then(function (results) {
-          console.log("getZillowListingResults: ", results);
-          console.log("getZillowListingResults: ", JSON.stringify(results));
-          console.log("getZillowListingResults: ", JSON.stringify(results.body.data.response.results.result[0]));
-          console.log("getZillowListingResults: ", JSON.stringify(results.body.data.response.results.result[0].zpid[0]));
-
-          params.zpid = results.body.data.response.results.result[0].zpid[0];
+        // Call Zillow 'GetSearchResults' API, return listing results
+        this.props.getZillowListingResults(params).then(function (listingResults) {
+          // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+          params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
           params.count = 3;
-          console.log(params);
-          console.log(JSON.stringify(params));
 
+          // Call Zillow 'GetComps' API, return comp results
           _this.props.getZillowCompsResults(params);
         }).then(
-        // Send search box input params to back-end asynchronously thru Redux
+
+        // Send search box input params to store asynchronously thru Redux
         this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
       },
       writable: true,
@@ -156,14 +156,17 @@ var stateToProps = function (state) {
 
 var dispatchToProps = function (dispatch) {
   return {
+    // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
     getZillowListingResults: function (params) {
       return dispatch(actions.getZillowListingResults(params));
     },
-    dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
-      return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
-    },
+    // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
     getZillowCompsResults: function (params) {
       return dispatch(actions.getZillowCompsResults(params));
+    },
+    // Dispatch latLng object returned from Google Maps Geolocate API call to store
+    dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
+      return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
     }
   };
 };

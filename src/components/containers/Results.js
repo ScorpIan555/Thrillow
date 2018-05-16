@@ -30,7 +30,6 @@ class Results extends Component {
     .then(
       this.props.getZillowCompsResults(params)
     )
-
     console.log('ZPID:  ', JSON.stringify(params.zpid))
   }
 

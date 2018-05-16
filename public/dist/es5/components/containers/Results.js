@@ -47,7 +47,6 @@ var Results = (function (Component) {
         };
 
         this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params));
-
         console.log("ZPID:  ", JSON.stringify(params.zpid));
       },
       writable: true,

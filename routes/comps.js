@@ -4,8 +4,10 @@ const router = vertex.router()
 const Zillow = require('node-zillow')
 
 router.get('/', (req, res) => {
-  // Initialize Zillow API
+  // https://www.zillow.com/howto/api/GetComps.htm
+  // Zillow Web Service Identifier (ZWSID), required for every request to Zillow web services
   const zwsid = process.env.ZWSID
+    // Initialize Zillow API
   const zillow = new Zillow(zwsid)
   // Capture required query parameters for 'GetComps' Zillow API Call
   const params = {
@@ -14,7 +16,7 @@ router.get('/', (req, res) => {
   }
   // Zillow API Call Type
   const apiCallType = 'GetComps'
-
+  // Zillow API Call
   zillow.get(apiCallType, params)
   .then( data => {
     res.json({
@@ -27,29 +29,6 @@ router.get('/', (req, res) => {
   .catch(err => {
     throw err
   })
-
-  // const parameters = {
-  //   zpid: 58162086,
-  //
-  //   // address: req.body.address,
-  //   // citystatezip: req.body.citystatezip
-  // }
-  // //
-  // const apiCallType = 'GetUpdatedPropertyDetails'
-  //
-  // zillow.get(apiCallType, parameters)
-  // .then( data => {
-  //   res.json({
-  //     confirmation: 'success',
-  //     data: data
-  //   })
-  //   console.log(JSON.stringify(data))
-  //   return data
-  // })
-  // .catch(err => {
-  //   throw err
-  // })
-
 })
 
 module.exports = router
