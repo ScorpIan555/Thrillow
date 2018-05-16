@@ -56,6 +56,7 @@ export default {
 	},
 
 	dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => {
+		return dispatch => {
 			return {
 				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
 				data: latLngFromGeocodeApi
