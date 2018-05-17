@@ -290,6 +290,8 @@ var LocationSearchInput = function (_Component) {
         return console.error('Error', error);
       });
 
+      console.log('this.state:', this.state);
+
       // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
       var latLngFromGeocodeApi = this.state.latLng;
       // Split address from search box for input into Zillow API
@@ -302,27 +304,30 @@ var LocationSearchInput = function (_Component) {
       var params = {
         address: paramsAddress,
         citystatezip: paramsCitystatezip
+      };
 
-        // Call Zillow 'GetSearchResults' API, return listing results
-      };this.props.getZillowListingResults(params).then(function (listingResults) {
+      console.log('this.state:', params);
+      console.log('this.state:', this.state);
+      console.log('this.props:', this.props);
 
+      // Send search box input params to store asynchronously thru Redux
+      this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi);
+
+      // Call Zillow 'GetSearchResults' API, return listing results
+      this.props.getZillowListingResults(params).then(function (listingResults) {
         // Capture parameters needed to call Zillow 'GetComps' API, return comp results
         params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
         params.count = 3;
-
         // Call Zillow 'GetComps' API, return comp results
         _this2.props.getZillowCompsResults(params);
-      }).then(
-
-      // Send search box input params to store asynchronously thru Redux
-      this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+      });
     }
   }, {
     key: 'render',
     value: function render() {
 
-      console.log(this.state);
-      console.log(this.props);
+      console.log('this.state:', this.state);
+      console.log('this.props:', this.props);
 
       return _react2.default.createElement(
         _reactPlacesAutocomplete2.default,
@@ -1321,6 +1326,28 @@ var asyncGet = function asyncGet(url, params, actionType) {
   };
 };
 
+var asyncSend = function asyncSend(url, params, actionType) {
+  return function (dispatch) {
+    return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
+      // console.log('superagent log - res:  ', data)
+      // console.log('superagent log - res:  ' + JSON.stringify(data))
+      if (actionType != null) {
+        dispatch({
+          type: actionType,
+          params: params,
+          data: data
+        });
+        // console.log(params)
+        console.log(data);
+        return data;
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+      console.log(err);
+    });
+  };
+};
+
 exports.default = {
 
   asyncGet: asyncGet
@@ -2284,6 +2311,12 @@ exports.default = {
 	},
 
 	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
+		var params = latLngFromGeocodeApi;
+		console.log('dispatchLatLngFromSearchBoxToStore ', latLngFromGeocodeApi);
+		console.log('dispatchLatLngFromSearchBoxToStore ', params);
+		// return dispatch => {
+		// 	return dispatch(SuperagentAsync.asyncSend('/homes/addressCall', params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
+		// }
 		return {
 			type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
 			data: latLngFromGeocodeApi

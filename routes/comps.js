@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
       confirmation: 'success',
       data: data
     })
-    console.log(JSON.stringify(data))
+    // console.log(JSON.stringify(data))
     return data
   })
   .catch(err => {

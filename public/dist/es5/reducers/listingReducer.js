@@ -54,7 +54,6 @@ module.exports = function (_x, action) {
 
 			return newState;
 
-
 		default:
 			return state;
 	}

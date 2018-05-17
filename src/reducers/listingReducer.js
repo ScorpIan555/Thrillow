@@ -54,7 +54,6 @@ export default (state = initialState, action) => {
 
 			return newState
 
-
   default:
     return state
 	}

@@ -33,6 +33,8 @@ class LocationSearchInput extends Component {
       .then(console.log('this.state after setState for latLng: ', this.state))
       .catch(error => console.error('Error', error))
 
+      console.log('this.state:', this.state)
+      
     // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
     const latLngFromGeocodeApi = this.state.latLng
     // Split address from search box for input into Zillow API
@@ -47,28 +49,28 @@ class LocationSearchInput extends Component {
       citystatezip: paramsCitystatezip
     }
 
+    console.log('this.state:', params)
+    console.log('this.state:', this.state)
+    console.log('this.props:', this.props)
+
+    // Send search box input params to store asynchronously thru Redux
+    this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)
+
     // Call Zillow 'GetSearchResults' API, return listing results
     this.props.getZillowListingResults(params)
     .then(listingResults => {
-
       // Capture parameters needed to call Zillow 'GetComps' API, return comp results
       params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
       params.count = 3
-
       // Call Zillow 'GetComps' API, return comp results
       this.props.getZillowCompsResults(params)
     })
-    .then(
-
-      // Send search box input params to store asynchronously thru Redux
-      this.props.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi)
-    )
   }
 
   render() {
 
-    console.log(this.state)
-    console.log(this.props)
+    console.log('this.state:', this.state)
+    console.log('this.props:', this.props)
 
     return (
 

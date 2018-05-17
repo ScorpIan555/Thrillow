@@ -56,12 +56,18 @@ export default {
 	},
 
 	dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => {
-		return dispatch => {
-			return {
-				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-				data: latLngFromGeocodeApi
-			}
+		const params = latLngFromGeocodeApi
+		console.log('dispatchLatLngFromSearchBoxToStore ', latLngFromGeocodeApi)
+		console.log('dispatchLatLngFromSearchBoxToStore ', params)
+		// return dispatch => {
+		// 	return dispatch(SuperagentAsync.asyncSend('/homes/addressCall', params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
+		// }
+		return {
+			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			data: latLngFromGeocodeApi
 		}
+
+	}
 
 	// sendAddress: (latLngFromGeocodeApi) => {
 	// 	return {

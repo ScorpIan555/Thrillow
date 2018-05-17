@@ -22,12 +22,16 @@ router.get('/', (req, res) => {
       confirmation: 'success',
       data: data
     })
-    console.log(JSON.stringify(data))
+    // console.log(JSON.stringify(data))
     return data
   })
   .catch(err => {
     throw err
   })
+})
+
+router.get('/addressCall', (req, res) => {
+  console.log('addressCall')
 })
 
 module.exports = router
