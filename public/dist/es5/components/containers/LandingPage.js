@@ -15,6 +15,12 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var _reactPlacesAutocomplete = require("react-places-autocomplete");
+
+var PlacesAutocomplete = _interopRequire(_reactPlacesAutocomplete);
+
+var geocodeByAddress = _reactPlacesAutocomplete.geocodeByAddress;
+var getLatLng = _reactPlacesAutocomplete.getLatLng;
 var actions = _interopRequire(require("../../actions"));
 
 var connect = require("react-redux").connect;
@@ -24,12 +30,70 @@ var LandingPage = (function (Component) {
         _classCallCheck(this, LandingPage);
 
         _get(Object.getPrototypeOf(LandingPage.prototype), "constructor", this).call(this);
-        this.state = {};
+        this.state = {
+            // Initialize component with address string utilized in Google Geolocate API
+            address: "",
+            // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
+            latLng: {}
+        };
     }
 
     _inherits(LandingPage, Component);
 
     _prototypeProperties(LandingPage, null, {
+        buttonClick: {
+            value: function buttonClick() {
+                // event.preventDefault()
+
+                this.executeAddressSearch();
+            },
+            writable: true,
+            configurable: true
+        },
+        executeAddressSearch: {
+            value: function executeAddressSearch() {
+                // event.preventDefault()
+
+                console.log("Address Search Executed!");
+                this.handleSelect();
+            },
+            writable: true,
+            configurable: true
+        },
+        handleChange: {
+
+            // Handle change for controlled component
+            value: function handleChange(address) {
+                this.setState({ address: address });
+                // Log state change
+                console.log(JSON.stringify(this.state.address));
+            },
+            writable: true,
+            configurable: true
+        },
+        handleSelect: {
+
+            // Handle user input to search box
+            value: function handleSelect(address) {
+                // need to capture the return value 'latLng', probably by calling this from Results.js, then
+                // passing the value down a promise chain
+
+                geocodeByAddress(address).then(function (results) {
+                    return getLatLng(results[0]);
+                })
+                // .then(latLng => console.log('Success', latLng))
+                .then(function (latLng) {
+                    return latLng;
+                }).then(function (latLng) {
+                    return console.log("Success", latLng);
+                })["catch"](function (error) {
+                    return console.error("Error", error);
+                });
+
+            },
+            writable: true,
+            configurable: true
+        },
         render: {
             value: function render() {
                 return React.createElement(
@@ -105,14 +169,14 @@ var LandingPage = (function (Component) {
                                         React.createElement(
                                             "div",
                                             { className: "col" },
-                                            React.createElement(LocationSearchInput, { className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
+                                            React.createElement(LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), searchHandler: this.executeAddressSearch.bind(this), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
                                         ),
                                         React.createElement(
                                             "div",
                                             { className: "col-auto" },
                                             React.createElement(
                                                 "button",
-                                                { className: "btn btn-lg btn-success", type: "submit" },
+                                                { className: "btn btn-lg btn-success", type: "submit", onClick: this.buttonClick.bind(this) },
                                                 "Search"
                                             )
                                         )
@@ -134,8 +198,64 @@ var LandingPage = (function (Component) {
 var stateToProps = function (state) {};
 
 var dispatchToProps = function (dispatch) {
-    return {};
+    return {
+        // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
+        getZillowListingResults: function (params) {
+            return dispatch(actions.getZillowListingResults(params));
+        },
+        // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
+        getZillowCompsResults: function (params) {
+            return dispatch(actions.getZillowCompsResults(params));
+        },
+        // Dispatch latLng object returned from Google Maps Geolocate API call to store
+        dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
+            return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+        }
+    };
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LandingPage);
-// getZillowRequest: () => dispatch(actions.getZillowRequest())
+// Call address object input by user on Google Maps Geolocate API
+// Returns object containing latitude & longitude coordinates
+// geocodeByAddress(address)
+//   // .then(results => getLatLng(results[0]))
+//   .then(results => getLatLng(results[0])) )
+//   .then(latLng => this.setState({latLng}) )
+//   .then(console.log('this.state after setState for latLng: ', this.state))
+//   .then(
+//     // Send search box input params to store asynchronously thru Redux
+//     this.props.dispatchLatLngFromSearchBoxToStore(this.state.latLng)
+//   )
+//   .catch(error => console.error('Error', error))
+//
+//   console.log('this.state:', this.state)
+
+// // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
+// const latLngFromGeocodeApi = this.state.latLng
+// // Split address from search box for input into Zillow API
+// const paramsAddress = address.split(',', 1)
+// // Split citystatezip from search box for input into Zillow API
+// const arrayFromAddressAndCitystatezip = address.split(',')
+// const paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
+//
+// // Store Zillow API parameters in client, to be passed into back-end
+// var params = {
+//   address: paramsAddress,
+//   citystatezip: paramsCitystatezip
+// }
+//
+// console.log('this.state:', params)
+// console.log('this.state:', this.state)
+// console.log('this.props:', this.props)
+//
+//
+//
+// // Call Zillow 'GetSearchResults' API, return listing results
+// this.props.getZillowListingResults(params)
+// .then(listingResults => {
+//   // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+//   params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
+//   params.count = 3
+//   // Call Zillow 'GetComps' API, return comp results
+//   this.props.getZillowCompsResults(params)
+// })
