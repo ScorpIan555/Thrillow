@@ -43,10 +43,10 @@ var LandingPage = (function (Component) {
     _prototypeProperties(LandingPage, null, {
         handleChange: {
 
-            // buttonClick(event) {
+            // onButtonClick(event, address) {
             //   event.preventDefault()
             //   console.log('Address Search Executed!')
-            //   this.handleSelect()
+            //   this.handleSelect(address)
             // }
 
             // executeAddressSearch() {
@@ -118,6 +118,11 @@ var LandingPage = (function (Component) {
         },
         render: {
             value: function render() {
+                var addressValue = this.state.address;
+                var addressValueType = typeof this.state.address;
+                console.log("addressValue: ", addressValue);
+                console.log("addressValueType: ", addressValueType);
+
                 return React.createElement(
                     "section",
                     { className: "bg-dark text-white space-xlg" },
@@ -191,14 +196,14 @@ var LandingPage = (function (Component) {
                                         React.createElement(
                                             "div",
                                             { className: "col" },
-                                            React.createElement(LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
+                                            React.createElement(LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
                                         ),
                                         React.createElement(
                                             "div",
                                             { className: "col-auto" },
                                             React.createElement(
                                                 "button",
-                                                { className: "btn btn-lg btn-success", type: "submit", onClick: this.handleSelect.bind(this) },
+                                                { className: "btn btn-lg btn-success", onClick: this.handleChange.bind(this) },
                                                 "Search"
                                             )
                                         )

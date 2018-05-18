@@ -869,6 +869,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -912,10 +914,10 @@ var LandingPage = function (_Component) {
         return _this;
     }
 
-    // buttonClick(event) {
+    // onButtonClick(event, address) {
     //   event.preventDefault()
     //   console.log('Address Search Executed!')
-    //   this.handleSelect()
+    //   this.handleSelect(address)
     // }
 
     // executeAddressSearch() {
@@ -990,6 +992,11 @@ var LandingPage = function (_Component) {
         key: 'render',
         value: function render() {
 
+            var addressValue = this.state.address;
+            var addressValueType = _typeof(this.state.address);
+            console.log('addressValue: ', addressValue);
+            console.log('addressValueType: ', addressValueType);
+
             return _react2.default.createElement(
                 'section',
                 { className: 'bg-dark text-white space-xlg' },
@@ -1063,14 +1070,14 @@ var LandingPage = function (_Component) {
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col' },
-                                        _react2.default.createElement(_containers.LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
+                                        _react2.default.createElement(_containers.LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
                                     ),
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col-auto' },
                                         _react2.default.createElement(
                                             'button',
-                                            { className: 'btn btn-lg btn-success', type: 'submit', onClick: this.handleSelect.bind(this) },
+                                            { className: 'btn btn-lg btn-success', onClick: this.handleChange.bind(this) },
                                             'Search'
                                         )
                                     )

@@ -15,10 +15,10 @@ class LandingPage extends Component {
     }
   }
 
-  // buttonClick(event) {
+  // onButtonClick(event, address) {
   //   event.preventDefault()
   //   console.log('Address Search Executed!')
-  //   this.handleSelect()
+  //   this.handleSelect(address)
   // }
 
   // executeAddressSearch() {
@@ -76,6 +76,11 @@ class LandingPage extends Component {
 
   render() {
 
+    const addressValue = this.state.address
+    const addressValueType = typeof(this.state.address)
+    console.log('addressValue: ', addressValue)
+    console.log('addressValueType: ', addressValueType)
+
     return(
       <section className="bg-dark text-white space-xlg">
 
@@ -108,11 +113,11 @@ class LandingPage extends Component {
                               </div>
 
                               <div className="col">
-                                  <LocationSearchInput value={this.state.address} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
+                                  <LocationSearchInput value={addressValue} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
                               </div>
 
                               <div className="col-auto">
-                                  <button className="btn btn-lg btn-success" type="submit" onClick={this.handleSelect.bind(this)} >Search</button>
+                                  <button className="btn btn-lg btn-success" onClick={this.handleChange.bind(this)} >Search</button>
                               </div>
 
                           </div>

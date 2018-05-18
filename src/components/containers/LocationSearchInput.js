@@ -20,6 +20,7 @@ class LocationSearchInput extends Component {
     console.log('this.props:', this.props)
 
     return (
+      
 
         <PlacesAutocomplete
           value={this.props.value}
