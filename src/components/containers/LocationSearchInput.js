@@ -14,14 +14,6 @@ class LocationSearchInput extends Component {
     }
   }
 
-  // Handle change for controlled component
-  handleChange(address) {
-
-    this.setState({ address })
-    // Log state change
-    console.log(JSON.stringify(this.state.address))
-  }
-
   render() {
 
     console.log('this.state:', this.state)

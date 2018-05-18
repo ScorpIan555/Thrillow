@@ -15,18 +15,18 @@ class LandingPage extends Component {
     }
   }
 
-  buttonClick() {
-    // event.preventDefault()
+  // buttonClick(event) {
+  //   event.preventDefault()
+  //   console.log('Address Search Executed!')
+  //   this.handleSelect()
+  // }
 
-    this.executeAddressSearch()
-  }
-
-  executeAddressSearch() {
-    // event.preventDefault()
-
-    console.log('Address Search Executed!')
-    this.handleSelect()
-  }
+  // executeAddressSearch() {
+  //   // event.preventDefault()
+  //
+  //
+  //   this.handleSelect()
+  // }
 
   // Handle change for controlled component
   handleChange(address) {
@@ -38,61 +38,40 @@ class LandingPage extends Component {
 
   // Handle user input to search box
   handleSelect(address) {
-    // need to capture the return value 'latLng', probably by calling this from Results.js, then
-    // passing the value down a promise chain
-
+    // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      // .then(latLng => console.log('Success', latLng))
-      .then(latLng => latLng)
-      .then(latLng => console.log('Success', latLng))
+       // Simulatneously, asynchronously call both the dispatchToStore & the Zillow API call
+      .then(latLng => this.addressCalls(latLng, address))
       .catch(error => console.error('Error', error))
+  }
 
+  // 1) Dispatch coordinates from Google Geolocate API to store for use in client
+  // 2) Dispatch call to Zillow API thru the back-end
+  addressCalls(latLng, address) {
+    // Send coordinates from Geolocate API to store asynchronously thru Redux
+    this.props.dispatchLatLngFromSearchBoxToStore(latLng)
 
-    // Call address object input by user on Google Maps Geolocate API
-    // Returns object containing latitude & longitude coordinates
-    // geocodeByAddress(address)
-    //   // .then(results => getLatLng(results[0]))
-    //   .then(results => getLatLng(results[0])) )
-    //   .then(latLng => this.setState({latLng}) )
-    //   .then(console.log('this.state after setState for latLng: ', this.state))
-    //   .then(
-    //     // Send search box input params to store asynchronously thru Redux
-    //     this.props.dispatchLatLngFromSearchBoxToStore(this.state.latLng)
-    //   )
-    //   .catch(error => console.error('Error', error))
-    //
-    //   console.log('this.state:', this.state)
-
-    // // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
-    // const latLngFromGeocodeApi = this.state.latLng
-    // // Split address from search box for input into Zillow API
-    // const paramsAddress = address.split(',', 1)
-    // // Split citystatezip from search box for input into Zillow API
-    // const arrayFromAddressAndCitystatezip = address.split(',')
-    // const paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
-    //
-    // // Store Zillow API parameters in client, to be passed into back-end
-    // var params = {
-    //   address: paramsAddress,
-    //   citystatezip: paramsCitystatezip
-    // }
-    //
-    // console.log('this.state:', params)
-    // console.log('this.state:', this.state)
-    // console.log('this.props:', this.props)
-    //
-    //
-    //
-    // // Call Zillow 'GetSearchResults' API, return listing results
-    // this.props.getZillowListingResults(params)
-    // .then(listingResults => {
-    //   // Capture parameters needed to call Zillow 'GetComps' API, return comp results
-    //   params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
-    //   params.count = 3
-    //   // Call Zillow 'GetComps' API, return comp results
-    //   this.props.getZillowCompsResults(params)
-    // })
+    // Split address from search box for input into Zillow API
+    const paramsAddress = address.split(',', 1)
+    // Split citystatezip from search box for input into Zillow API
+    const arrayFromAddressAndCitystatezip = address.split(',')
+    const paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
+    // Store Zillow API parameters in client, to be passed into back-end
+    var params = {
+      address: paramsAddress,
+      citystatezip: paramsCitystatezip
+    }
+    // Call Zillow 'GetSearchResults' API, return listing results
+    this.props.getZillowListingResults(params)
+      .then(listingResults => {
+        // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+        params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
+        // Set required parameter 'count'
+        params.count = 3
+        // Call Zillow 'GetComps' API, return comp results
+        this.props.getZillowCompsResults(params)
+      })
   }
 
   render() {
@@ -129,11 +108,11 @@ class LandingPage extends Component {
                               </div>
 
                               <div className="col">
-                                  <LocationSearchInput value={this.state.address} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} searchHandler={this.executeAddressSearch.bind(this)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
+                                  <LocationSearchInput value={this.state.address} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
                               </div>
 
                               <div className="col-auto">
-                                  <button className="btn btn-lg btn-success" type="submit" onClick={this.buttonClick.bind(this)} >Search</button>
+                                  <button className="btn btn-lg btn-success" type="submit" onClick={this.handleSelect.bind(this)} >Search</button>
                               </div>
 
                           </div>
@@ -161,7 +140,7 @@ const dispatchToProps = (dispatch) => {
     // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
     getZillowCompsResults: (params) => dispatch(actions.getZillowCompsResults(params)),
     // Dispatch latLng object returned from Google Maps Geolocate API call to store
-    dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi))
+    dispatchLatLngFromSearchBoxToStore: (latLng) => dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLng))
 	}
 }
 

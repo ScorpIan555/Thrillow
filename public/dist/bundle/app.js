@@ -137,7 +137,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 105:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -166,7 +166,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 110:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -189,11 +189,11 @@ var _LandingPage = __webpack_require__(126);
 
 var _LandingPage2 = _interopRequireDefault(_LandingPage);
 
-var _Results = __webpack_require__(125);
+var _Results = __webpack_require__(121);
 
 var _Results2 = _interopRequireDefault(_Results);
 
-var _LocationSearchInput = __webpack_require__(122);
+var _LocationSearchInput = __webpack_require__(118);
 
 var _LocationSearchInput2 = _interopRequireDefault(_LocationSearchInput);
 
@@ -210,7 +210,7 @@ exports.LocationSearchInput = _LocationSearchInput2.default; /* * * * * * * * * 
 
 /***/ }),
 
-/***/ 122:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -226,7 +226,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactPlacesAutocomplete = __webpack_require__(121);
+var _reactPlacesAutocomplete = __webpack_require__(88);
 
 var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete);
 
@@ -261,18 +261,7 @@ var LocationSearchInput = function (_Component) {
     return _this;
   }
 
-  // Handle change for controlled component
-
-
   _createClass(LocationSearchInput, [{
-    key: 'handleChange',
-    value: function handleChange(address) {
-
-      this.setState({ address: address });
-      // Log state change
-      console.log(JSON.stringify(this.state.address));
-    }
-  }, {
     key: 'render',
     value: function render() {
 
@@ -337,7 +326,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Locati
 
 /***/ }),
 
-/***/ 123:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -392,7 +381,7 @@ var localStyle = {
 
 /***/ }),
 
-/***/ 124:
+/***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -653,7 +642,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 125:
+/***/ 121:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -886,7 +875,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactPlacesAutocomplete = __webpack_require__(121);
+var _reactPlacesAutocomplete = __webpack_require__(88);
 
 var _reactPlacesAutocomplete2 = _interopRequireDefault(_reactPlacesAutocomplete);
 
@@ -896,7 +885,7 @@ var _actions2 = _interopRequireDefault(_actions);
 
 var _reactRedux = __webpack_require__(27);
 
-var _containers = __webpack_require__(109);
+var _containers = __webpack_require__(110);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -923,25 +912,23 @@ var LandingPage = function (_Component) {
         return _this;
     }
 
+    // buttonClick(event) {
+    //   event.preventDefault()
+    //   console.log('Address Search Executed!')
+    //   this.handleSelect()
+    // }
+
+    // executeAddressSearch() {
+    //   // event.preventDefault()
+    //
+    //
+    //   this.handleSelect()
+    // }
+
+    // Handle change for controlled component
+
+
     _createClass(LandingPage, [{
-        key: 'buttonClick',
-        value: function buttonClick() {
-            // event.preventDefault()
-
-            this.executeAddressSearch();
-        }
-    }, {
-        key: 'executeAddressSearch',
-        value: function executeAddressSearch() {
-            // event.preventDefault()
-
-            console.log('Address Search Executed!');
-            this.handleSelect();
-        }
-
-        // Handle change for controlled component
-
-    }, {
         key: 'handleChange',
         value: function handleChange(address) {
 
@@ -955,65 +942,49 @@ var LandingPage = function (_Component) {
     }, {
         key: 'handleSelect',
         value: function handleSelect(address) {
-            // need to capture the return value 'latLng', probably by calling this from Results.js, then
-            // passing the value down a promise chain
+            var _this2 = this;
 
+            // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
             (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
                 return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
             })
-            // .then(latLng => console.log('Success', latLng))
+            // Simulatneously, asynchronously call both the dispatchToStore & the Zillow API call
             .then(function (latLng) {
-                return latLng;
-            }).then(function (latLng) {
-                return console.log('Success', latLng);
+                return _this2.addressCalls(latLng, address);
             }).catch(function (error) {
                 return console.error('Error', error);
             });
+        }
 
-            // Call address object input by user on Google Maps Geolocate API
-            // Returns object containing latitude & longitude coordinates
-            // geocodeByAddress(address)
-            //   // .then(results => getLatLng(results[0]))
-            //   .then(results => getLatLng(results[0])) )
-            //   .then(latLng => this.setState({latLng}) )
-            //   .then(console.log('this.state after setState for latLng: ', this.state))
-            //   .then(
-            //     // Send search box input params to store asynchronously thru Redux
-            //     this.props.dispatchLatLngFromSearchBoxToStore(this.state.latLng)
-            //   )
-            //   .catch(error => console.error('Error', error))
-            //
-            //   console.log('this.state:', this.state)
+        // 1) Dispatch coordinates from Google Geolocate API to store for use in client
+        // 2) Dispatch call to Zillow API thru the back-end
 
-            // // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
-            // const latLngFromGeocodeApi = this.state.latLng
-            // // Split address from search box for input into Zillow API
-            // const paramsAddress = address.split(',', 1)
-            // // Split citystatezip from search box for input into Zillow API
-            // const arrayFromAddressAndCitystatezip = address.split(',')
-            // const paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
-            //
-            // // Store Zillow API parameters in client, to be passed into back-end
-            // var params = {
-            //   address: paramsAddress,
-            //   citystatezip: paramsCitystatezip
-            // }
-            //
-            // console.log('this.state:', params)
-            // console.log('this.state:', this.state)
-            // console.log('this.props:', this.props)
-            //
-            //
-            //
-            // // Call Zillow 'GetSearchResults' API, return listing results
-            // this.props.getZillowListingResults(params)
-            // .then(listingResults => {
-            //   // Capture parameters needed to call Zillow 'GetComps' API, return comp results
-            //   params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
-            //   params.count = 3
-            //   // Call Zillow 'GetComps' API, return comp results
-            //   this.props.getZillowCompsResults(params)
-            // })
+    }, {
+        key: 'addressCalls',
+        value: function addressCalls(latLng, address) {
+            var _this3 = this;
+
+            // Send coordinates from Geolocate API to store asynchronously thru Redux
+            this.props.dispatchLatLngFromSearchBoxToStore(latLng);
+
+            // Split address from search box for input into Zillow API
+            var paramsAddress = address.split(',', 1);
+            // Split citystatezip from search box for input into Zillow API
+            var arrayFromAddressAndCitystatezip = address.split(',');
+            var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
+            // Store Zillow API parameters in client, to be passed into back-end
+            var params = {
+                address: paramsAddress,
+                citystatezip: paramsCitystatezip
+                // Call Zillow 'GetSearchResults' API, return listing results
+            };this.props.getZillowListingResults(params).then(function (listingResults) {
+                // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+                params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
+                // Set required parameter 'count'
+                params.count = 3;
+                // Call Zillow 'GetComps' API, return comp results
+                _this3.props.getZillowCompsResults(params);
+            });
         }
     }, {
         key: 'render',
@@ -1092,14 +1063,14 @@ var LandingPage = function (_Component) {
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col' },
-                                        _react2.default.createElement(_containers.LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), searchHandler: this.executeAddressSearch.bind(this), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
+                                        _react2.default.createElement(_containers.LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
                                     ),
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col-auto' },
                                         _react2.default.createElement(
                                             'button',
-                                            { className: 'btn btn-lg btn-success', type: 'submit', onClick: this.buttonClick.bind(this) },
+                                            { className: 'btn btn-lg btn-success', type: 'submit', onClick: this.handleSelect.bind(this) },
                                             'Search'
                                         )
                                     )
@@ -1128,8 +1099,8 @@ var dispatchToProps = function dispatchToProps(dispatch) {
             return dispatch(_actions2.default.getZillowCompsResults(params));
         },
         // Dispatch latLng object returned from Google Maps Geolocate API call to store
-        dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
-            return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+        dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLng) {
+            return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLng));
         }
     };
 };
@@ -1156,9 +1127,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(27);
 
-var _reactBootstrap = __webpack_require__(116);
+var _reactBootstrap = __webpack_require__(117);
 
-var _reactDropzone = __webpack_require__(115);
+var _reactDropzone = __webpack_require__(116);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
@@ -1424,7 +1395,7 @@ var _server = __webpack_require__(209);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _ServerEntry = __webpack_require__(105);
+var _ServerEntry = __webpack_require__(106);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -1628,7 +1599,7 @@ var _TurboClient = __webpack_require__(229);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
-var _ServerEntry = __webpack_require__(105);
+var _ServerEntry = __webpack_require__(106);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
@@ -1921,7 +1892,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _containers = __webpack_require__(109);
+var _containers = __webpack_require__(110);
 
 var _presentation = __webpack_require__(87);
 
@@ -2425,11 +2396,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Listing = exports.Footer = undefined;
 
-var _Footer = __webpack_require__(124);
+var _Footer = __webpack_require__(120);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Listing = __webpack_require__(123);
+var _Listing = __webpack_require__(119);
 
 var _Listing2 = _interopRequireDefault(_Listing);
 

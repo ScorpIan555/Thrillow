@@ -35,17 +35,6 @@ var LocationSearchInput = (function (Component) {
   _inherits(LocationSearchInput, Component);
 
   _prototypeProperties(LocationSearchInput, null, {
-    handleChange: {
-
-      // Handle change for controlled component
-      value: function handleChange(address) {
-        this.setState({ address: address });
-        // Log state change
-        console.log(JSON.stringify(this.state.address));
-      },
-      writable: true,
-      configurable: true
-    },
     render: {
       value: function render() {
         console.log("this.state:", this.state);

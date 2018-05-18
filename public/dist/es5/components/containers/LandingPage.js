@@ -41,26 +41,20 @@ var LandingPage = (function (Component) {
     _inherits(LandingPage, Component);
 
     _prototypeProperties(LandingPage, null, {
-        buttonClick: {
-            value: function buttonClick() {
-                // event.preventDefault()
-
-                this.executeAddressSearch();
-            },
-            writable: true,
-            configurable: true
-        },
-        executeAddressSearch: {
-            value: function executeAddressSearch() {
-                // event.preventDefault()
-
-                console.log("Address Search Executed!");
-                this.handleSelect();
-            },
-            writable: true,
-            configurable: true
-        },
         handleChange: {
+
+            // buttonClick(event) {
+            //   event.preventDefault()
+            //   console.log('Address Search Executed!')
+            //   this.handleSelect()
+            // }
+
+            // executeAddressSearch() {
+            //   // event.preventDefault()
+            //
+            //
+            //   this.handleSelect()
+            // }
 
             // Handle change for controlled component
             value: function handleChange(address) {
@@ -75,21 +69,49 @@ var LandingPage = (function (Component) {
 
             // Handle user input to search box
             value: function handleSelect(address) {
-                // need to capture the return value 'latLng', probably by calling this from Results.js, then
-                // passing the value down a promise chain
-
+                var _this = this;
+                // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
                 geocodeByAddress(address).then(function (results) {
                     return getLatLng(results[0]);
                 })
-                // .then(latLng => console.log('Success', latLng))
+                // Simulatneously, asynchronously call both the dispatchToStore & the Zillow API call
                 .then(function (latLng) {
-                    return latLng;
-                }).then(function (latLng) {
-                    return console.log("Success", latLng);
+                    return _this.addressCalls(latLng, address);
                 })["catch"](function (error) {
                     return console.error("Error", error);
                 });
+            },
+            writable: true,
+            configurable: true
+        },
+        addressCalls: {
 
+            // 1) Dispatch coordinates from Google Geolocate API to store for use in client
+            // 2) Dispatch call to Zillow API thru the back-end
+            value: function addressCalls(latLng, address) {
+                var _this = this;
+                // Send coordinates from Geolocate API to store asynchronously thru Redux
+                this.props.dispatchLatLngFromSearchBoxToStore(latLng);
+
+                // Split address from search box for input into Zillow API
+                var paramsAddress = address.split(",", 1);
+                // Split citystatezip from search box for input into Zillow API
+                var arrayFromAddressAndCitystatezip = address.split(",");
+                var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + "," + arrayFromAddressAndCitystatezip[2];
+                // Store Zillow API parameters in client, to be passed into back-end
+                var params = {
+                    address: paramsAddress,
+                    citystatezip: paramsCitystatezip
+                };
+                // Call Zillow 'GetSearchResults' API, return listing results
+                this.props.getZillowListingResults(params).then(function (listingResults) {
+                    // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+                    params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
+                    // Set required parameter 'count'
+                    params.count = 3;
+                    // Call Zillow 'GetComps' API, return comp results
+                    _this.props.getZillowCompsResults(params);
+                });
             },
             writable: true,
             configurable: true
@@ -169,14 +191,14 @@ var LandingPage = (function (Component) {
                                         React.createElement(
                                             "div",
                                             { className: "col" },
-                                            React.createElement(LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), searchHandler: this.executeAddressSearch.bind(this), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
+                                            React.createElement(LocationSearchInput, { value: this.state.address, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
                                         ),
                                         React.createElement(
                                             "div",
                                             { className: "col-auto" },
                                             React.createElement(
                                                 "button",
-                                                { className: "btn btn-lg btn-success", type: "submit", onClick: this.buttonClick.bind(this) },
+                                                { className: "btn btn-lg btn-success", type: "submit", onClick: this.handleSelect.bind(this) },
                                                 "Search"
                                             )
                                         )
@@ -208,54 +230,10 @@ var dispatchToProps = function (dispatch) {
             return dispatch(actions.getZillowCompsResults(params));
         },
         // Dispatch latLng object returned from Google Maps Geolocate API call to store
-        dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
-            return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi));
+        dispatchLatLngFromSearchBoxToStore: function (latLng) {
+            return dispatch(actions.dispatchLatLngFromSearchBoxToStore(latLng));
         }
     };
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LandingPage);
-// Call address object input by user on Google Maps Geolocate API
-// Returns object containing latitude & longitude coordinates
-// geocodeByAddress(address)
-//   // .then(results => getLatLng(results[0]))
-//   .then(results => getLatLng(results[0])) )
-//   .then(latLng => this.setState({latLng}) )
-//   .then(console.log('this.state after setState for latLng: ', this.state))
-//   .then(
-//     // Send search box input params to store asynchronously thru Redux
-//     this.props.dispatchLatLngFromSearchBoxToStore(this.state.latLng)
-//   )
-//   .catch(error => console.error('Error', error))
-//
-//   console.log('this.state:', this.state)
-
-// // Capture latLng object from component's state as parameter to be dispatched by dispatchLatLngFromSearchBoxToStore action
-// const latLngFromGeocodeApi = this.state.latLng
-// // Split address from search box for input into Zillow API
-// const paramsAddress = address.split(',', 1)
-// // Split citystatezip from search box for input into Zillow API
-// const arrayFromAddressAndCitystatezip = address.split(',')
-// const paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2]
-//
-// // Store Zillow API parameters in client, to be passed into back-end
-// var params = {
-//   address: paramsAddress,
-//   citystatezip: paramsCitystatezip
-// }
-//
-// console.log('this.state:', params)
-// console.log('this.state:', this.state)
-// console.log('this.props:', this.props)
-//
-//
-//
-// // Call Zillow 'GetSearchResults' API, return listing results
-// this.props.getZillowListingResults(params)
-// .then(listingResults => {
-//   // Capture parameters needed to call Zillow 'GetComps' API, return comp results
-//   params.zpid = listingResults.body.data.response.results.result[0].zpid[0]
-//   params.count = 3
-//   // Call Zillow 'GetComps' API, return comp results
-//   this.props.getZillowCompsResults(params)
-// })
