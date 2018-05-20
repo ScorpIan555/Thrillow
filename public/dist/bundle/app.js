@@ -264,49 +264,72 @@ var LocationSearchInput = function (_Component) {
   _createClass(LocationSearchInput, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
 
       console.log('this.state:', this.state);
       console.log('this.props:', this.props);
 
       return _react2.default.createElement(
-        _reactPlacesAutocomplete2.default,
-        {
-          value: this.props.value,
-          onChange: this.props.onChange,
-          onSelect: this.props.onSelect
-
-        },
-        function (_ref) {
-          var getInputProps = _ref.getInputProps,
-              suggestions = _ref.suggestions,
-              getSuggestionItemProps = _ref.getSuggestionItemProps;
-          return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement('input', getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input'
-            })),
-            _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _reactPlacesAutocomplete2.default,
+          {
+            value: this.props.value,
+            onChange: this.props.onChange,
+            onSelect: this.props.onSelect,
+            onClick: this.props.onClick
+          },
+          function (_ref) {
+            var getInputProps = _ref.getInputProps,
+                suggestions = _ref.suggestions,
+                getSuggestionItemProps = _ref.getSuggestionItemProps;
+            return _react2.default.createElement(
               'div',
-              { className: 'autocomplete-dropdown-container' },
-              suggestions.map(function (suggestion) {
-                var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                // inline style for demonstration purpose
-                var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                return _react2.default.createElement(
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'col-auto' },
+                _react2.default.createElement('i', { className: 'icon-magnifying-glass h4 text-body' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col' },
+                _react2.default.createElement('input', getInputProps({
+                  placeholder: 'Search Places ...',
+                  className: 'location-search-input'
+                })),
+                _react2.default.createElement(
                   'div',
-                  getSuggestionItemProps(suggestion, { className: className, style: style }),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    suggestion.description
-                  )
-                );
-              })
-            )
-          );
-        }
+                  { className: 'autocomplete-dropdown-container' },
+                  suggestions.map(function (suggestion) {
+                    var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                    // inline style for demonstration purpose
+                    var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                    return _react2.default.createElement(
+                      'div',
+                      getSuggestionItemProps(suggestion, { className: className, style: style }),
+                      _react2.default.createElement(
+                        'span',
+                        null,
+                        suggestion.description
+                      )
+                    );
+                  })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-auto' },
+                _react2.default.createElement(
+                  'button',
+                  { className: 'btn btn-lg btn-success', onClick: _this2.props.onClick },
+                  'Search'
+                )
+              )
+            );
+          }
+        )
       );
     }
   }]);
@@ -866,7 +889,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Result
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -898,218 +921,203 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var LandingPage = function (_Component) {
-    _inherits(LandingPage, _Component);
+  _inherits(LandingPage, _Component);
 
-    function LandingPage() {
-        _classCallCheck(this, LandingPage);
+  function LandingPage() {
+    _classCallCheck(this, LandingPage);
 
-        var _this = _possibleConstructorReturn(this, (LandingPage.__proto__ || Object.getPrototypeOf(LandingPage)).call(this));
+    var _this = _possibleConstructorReturn(this, (LandingPage.__proto__ || Object.getPrototypeOf(LandingPage)).call(this));
 
-        _this.state = {
-            // Initialize component with address string utilized in Google Geolocate API
-            address: '',
-            // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
-            latLng: {}
-        };
-        return _this;
+    _this.state = {
+      // Initialize component with address string utilized in Google Geolocate API
+      address: '',
+      // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
+      latLng: {}
+    };
+    return _this;
+  }
+
+  _createClass(LandingPage, [{
+    key: 'onButtonClick',
+    value: function onButtonClick(address, event) {
+      // event.preventDefault()
+      console.log('Address Search Executed.event :', event);
+      console.log('Address Search Executed!', address);
+
+      this.handleSelect(address);
     }
-
-    // onButtonClick(event, address) {
-    //   event.preventDefault()
-    //   console.log('Address Search Executed!')
-    //   this.handleSelect(address)
-    // }
-
-    // executeAddressSearch() {
-    //   // event.preventDefault()
-    //
-    //
-    //   this.handleSelect()
-    // }
 
     // Handle change for controlled component
 
+  }, {
+    key: 'handleChange',
+    value: function handleChange(address) {
 
-    _createClass(LandingPage, [{
-        key: 'handleChange',
-        value: function handleChange(address) {
+      this.setState({ address: address });
+      // Log state change
+      console.log(JSON.stringify(this.state.address));
+      console.log(JSON.stringify(address));
+    }
 
-            this.setState({ address: address });
-            // Log state change
-            console.log(JSON.stringify(this.state.address));
-        }
+    // Handle user input to search box
 
-        // Handle user input to search box
+  }, {
+    key: 'handleSelect',
+    value: function handleSelect(address) {
+      var _this2 = this;
 
-    }, {
-        key: 'handleSelect',
-        value: function handleSelect(address) {
-            var _this2 = this;
+      address == 'null' ? address = this.state.address : address;
+      console.log('address: ', address);
+      console.log('typeof(address):', typeof address === 'undefined' ? 'undefined' : _typeof(address));
+      // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
+      (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
+        return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
+      })
+      // Simulatneously, asynchronously call both the dispatchToStore & the Zillow API call
+      .then(function (latLng) {
+        return _this2.addressCalls(latLng, address);
+      }).catch(function (error) {
+        return console.error('Error', error);
+      });
+    }
 
-            // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
-            (0, _reactPlacesAutocomplete.geocodeByAddress)(address).then(function (results) {
-                return (0, _reactPlacesAutocomplete.getLatLng)(results[0]);
-            })
-            // Simulatneously, asynchronously call both the dispatchToStore & the Zillow API call
-            .then(function (latLng) {
-                return _this2.addressCalls(latLng, address);
-            }).catch(function (error) {
-                return console.error('Error', error);
-            });
-        }
+    // 1) Dispatch coordinates from Google Geolocate API to store for use in client
+    // 2) Dispatch call to Zillow API thru the back-end
 
-        // 1) Dispatch coordinates from Google Geolocate API to store for use in client
-        // 2) Dispatch call to Zillow API thru the back-end
+  }, {
+    key: 'addressCalls',
+    value: function addressCalls(latLng, address) {
+      var _this3 = this;
 
-    }, {
-        key: 'addressCalls',
-        value: function addressCalls(latLng, address) {
-            var _this3 = this;
+      console.log('addressCalls.latLng: ', latLng);
+      console.log('addressCalls.address: ', address);
+      // Send coordinates from Geolocate API to store asynchronously thru Redux
+      this.props.dispatchLatLngFromSearchBoxToStore(latLng);
 
-            // Send coordinates from Geolocate API to store asynchronously thru Redux
-            this.props.dispatchLatLngFromSearchBoxToStore(latLng);
+      // Split address from search box for input into Zillow API
+      var paramsAddress = address.split(',', 1);
+      // Split citystatezip from search box for input into Zillow API
+      var arrayFromAddressAndCitystatezip = address.split(',');
+      var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
+      // Store Zillow API parameters in client, to be passed into back-end
+      var params = {
+        address: paramsAddress,
+        citystatezip: paramsCitystatezip
+        // Call Zillow 'GetSearchResults' API, return listing results
+      };this.props.getZillowListingResults(params).then(function (listingResults) {
+        // Capture parameters needed to call Zillow 'GetComps' API, return comp results
+        params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
+        // Set required parameter 'count'
+        params.count = 3;
+        // Call Zillow 'GetComps' API, return comp results
+        _this3.props.getZillowCompsResults(params);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
 
-            // Split address from search box for input into Zillow API
-            var paramsAddress = address.split(',', 1);
-            // Split citystatezip from search box for input into Zillow API
-            var arrayFromAddressAndCitystatezip = address.split(',');
-            var paramsCitystatezip = arrayFromAddressAndCitystatezip[1] + ',' + arrayFromAddressAndCitystatezip[2];
-            // Store Zillow API parameters in client, to be passed into back-end
-            var params = {
-                address: paramsAddress,
-                citystatezip: paramsCitystatezip
-                // Call Zillow 'GetSearchResults' API, return listing results
-            };this.props.getZillowListingResults(params).then(function (listingResults) {
-                // Capture parameters needed to call Zillow 'GetComps' API, return comp results
-                params.zpid = listingResults.body.data.response.results.result[0].zpid[0];
-                // Set required parameter 'count'
-                params.count = 3;
-                // Call Zillow 'GetComps' API, return comp results
-                _this3.props.getZillowCompsResults(params);
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
+      var addressValue = this.state.address;
+      var addressValueType = _typeof(this.state.address);
+      console.log('addressValue: ', addressValue);
+      console.log('addressValueType: ', addressValueType);
+      console.log('props:  ', this.props);
 
-            var addressValue = this.state.address;
-            var addressValueType = _typeof(this.state.address);
-            console.log('addressValue: ', addressValue);
-            console.log('addressValueType: ', addressValueType);
-
-            return _react2.default.createElement(
-                'section',
-                { className: 'bg-dark text-white space-xlg' },
-                _react2.default.createElement('img', { alt: 'Image', src: 'dist/assets/img/laith-abdulkareem-96120-unsplash.jpg', className: 'bg-image opacity-40' }),
+      return _react2.default.createElement(
+        'section',
+        { className: 'bg-dark text-white space-xlg' },
+        _react2.default.createElement('img', { alt: 'Image', src: 'dist/assets/img/laith-abdulkareem-96120-unsplash.jpg', className: 'bg-image opacity-40' }),
+        _react2.default.createElement(
+          'div',
+          { className: 'container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row text-center justify-content-center section-intro' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-12 col-md-10 col-lg-8' },
+              _react2.default.createElement(
+                'h1',
+                { className: 'display-3' },
+                'Welcome to Thrillow'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'lead' },
+                'A Zillow Knockoff... And not even the good kind!'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'row text-center ' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col' },
+              _react2.default.createElement(
+                'a',
+                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white opacity-80' },
+                'BUY'
+              ),
+              _react2.default.createElement(
+                'a',
+                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                'RENT'
+              ),
+              _react2.default.createElement(
+                'a',
+                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                'SELL'
+              ),
+              _react2.default.createElement(
+                'a',
+                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
+                'ZESTIMATE'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'row justify-content-center' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-12 col-md-10 col-lg-8' },
+              _react2.default.createElement(
+                'div',
+                { className: 'card card-sm' },
                 _react2.default.createElement(
-                    'div',
-                    { className: 'container' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'row text-center justify-content-center section-intro' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-12 col-md-10 col-lg-8' },
-                            _react2.default.createElement(
-                                'h1',
-                                { className: 'display-3' },
-                                'Welcome to Thrillow'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'lead' },
-                                'A Zillow Knockoff... And not even the good kind!'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'row text-center ' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col' },
-                            _react2.default.createElement(
-                                'a',
-                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white opacity-80' },
-                                'BUY'
-                            ),
-                            _react2.default.createElement(
-                                'a',
-                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
-                                'RENT'
-                            ),
-                            _react2.default.createElement(
-                                'a',
-                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
-                                'SELL'
-                            ),
-                            _react2.default.createElement(
-                                'a',
-                                { href: '#', className: 'btn btn-outline-secondary mb-1 text-white' },
-                                'ZESTIMATE'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'row justify-content-center' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-12 col-md-10 col-lg-8' },
-                            _react2.default.createElement(
-                                'form',
-                                { className: 'card card-sm' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'card-body row no-gutters align-items-center' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-auto' },
-                                        _react2.default.createElement('i', { className: 'icon-magnifying-glass h4 text-body' })
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col' },
-                                        _react2.default.createElement(_containers.LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-auto' },
-                                        _react2.default.createElement(
-                                            'button',
-                                            { className: 'btn btn-lg btn-success', onClick: this.handleChange.bind(this) },
-                                            'Search'
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
+                  'div',
+                  { className: 'card-body row no-gutters align-items-center' },
+                  _react2.default.createElement(_containers.LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), onClick: this.onButtonClick.bind(this, addressValue), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
                 )
-            );
-        }
-    }]);
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-    return LandingPage;
+  return LandingPage;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {};
 
 var dispatchToProps = function dispatchToProps(dispatch) {
-    return {
-        // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
-        getZillowListingResults: function getZillowListingResults(params) {
-            return dispatch(_actions2.default.getZillowListingResults(params));
-        },
-        // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
-        getZillowCompsResults: function getZillowCompsResults(params) {
-            return dispatch(_actions2.default.getZillowCompsResults(params));
-        },
-        // Dispatch latLng object returned from Google Maps Geolocate API call to store
-        dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLng) {
-            return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLng));
-        }
-    };
+  return {
+    // Dispatch Zillow 'GetSearchResults' API call to '/homes' route
+    getZillowListingResults: function getZillowListingResults(params) {
+      return dispatch(_actions2.default.getZillowListingResults(params));
+    },
+    // Dispatch Zillow 'GetSearchResults' API call to '/comps' route
+    getZillowCompsResults: function getZillowCompsResults(params) {
+      return dispatch(_actions2.default.getZillowCompsResults(params));
+    },
+    // Dispatch latLng object returned from Google Maps Geolocate API call to store
+    dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLng) {
+      return dispatch(_actions2.default.dispatchLatLngFromSearchBoxToStore(latLng));
+    }
+  };
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(LandingPage);

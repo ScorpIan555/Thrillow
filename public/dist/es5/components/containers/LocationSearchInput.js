@@ -37,47 +37,72 @@ var LocationSearchInput = (function (Component) {
   _prototypeProperties(LocationSearchInput, null, {
     render: {
       value: function render() {
+        var _this = this;
+
+
         console.log("this.state:", this.state);
         console.log("this.props:", this.props);
 
         return React.createElement(
-          PlacesAutocomplete,
-          {
-            value: this.props.value,
-            onChange: this.props.onChange,
-            onSelect: this.props.onSelect
-
-          },
-          function (_ref) {
-            var getInputProps = _ref.getInputProps;
-            var suggestions = _ref.suggestions;
-            var getSuggestionItemProps = _ref.getSuggestionItemProps;
-            return React.createElement(
-              "div",
-              null,
-              React.createElement("input", getInputProps({
-                placeholder: "Search Places ...",
-                className: "location-search-input"
-              })),
-              React.createElement(
+          "div",
+          null,
+          React.createElement(
+            PlacesAutocomplete,
+            {
+              value: this.props.value,
+              onChange: this.props.onChange,
+              onSelect: this.props.onSelect,
+              onClick: this.props.onClick
+            },
+            function (_ref) {
+              var getInputProps = _ref.getInputProps;
+              var suggestions = _ref.suggestions;
+              var getSuggestionItemProps = _ref.getSuggestionItemProps;
+              return React.createElement(
                 "div",
-                { className: "autocomplete-dropdown-container" },
-                suggestions.map(function (suggestion) {
-                  var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
-                  var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
-                  return React.createElement(
+                null,
+                React.createElement(
+                  "div",
+                  { className: "col-auto" },
+                  React.createElement("i", { className: "icon-magnifying-glass h4 text-body" })
+                ),
+                React.createElement(
+                  "div",
+                  { className: "col" },
+                  React.createElement("input", getInputProps({
+                    placeholder: "Search Places ...",
+                    className: "location-search-input"
+                  })),
+                  React.createElement(
                     "div",
-                    getSuggestionItemProps(suggestion, { className: className, style: style }),
-                    React.createElement(
-                      "span",
-                      null,
-                      suggestion.description
-                    )
-                  );
-                })
-              )
-            );
-          }
+                    { className: "autocomplete-dropdown-container" },
+                    suggestions.map(function (suggestion) {
+                      var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
+                      var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
+                      return React.createElement(
+                        "div",
+                        getSuggestionItemProps(suggestion, { className: className, style: style }),
+                        React.createElement(
+                          "span",
+                          null,
+                          suggestion.description
+                        )
+                      );
+                    })
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "col-auto" },
+                  React.createElement(
+                    "button",
+                    { className: "btn btn-lg btn-success", onClick: _this.props.onClick },
+                    "Search"
+                  )
+                )
+              );
+            }
+          )
         );
       },
       writable: true,

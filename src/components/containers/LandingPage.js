@@ -15,18 +15,16 @@ class LandingPage extends Component {
     }
   }
 
-  // onButtonClick(event, address) {
-  //   event.preventDefault()
-  //   console.log('Address Search Executed!')
-  //   this.handleSelect(address)
-  // }
+  onButtonClick(address, event) {
+    // event.preventDefault()
+    console.log('Address Search Executed.event :', event)
+    console.log('Address Search Executed!', address)
 
-  // executeAddressSearch() {
-  //   // event.preventDefault()
-  //
-  //
-  //   this.handleSelect()
-  // }
+
+
+    this.handleSelect(address)
+  }
+
 
   // Handle change for controlled component
   handleChange(address) {
@@ -34,10 +32,14 @@ class LandingPage extends Component {
     this.setState({ address })
     // Log state change
     console.log(JSON.stringify(this.state.address))
+    console.log(JSON.stringify(address))
   }
 
   // Handle user input to search box
   handleSelect(address) {
+    (address == 'null') ? address = this.state.address : address
+    console.log('address: ', address)
+    console.log('typeof(address):', typeof(address))
     // Call Google Maps Geolocator API, returns an object w/ a lat/lng properties
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
@@ -49,6 +51,8 @@ class LandingPage extends Component {
   // 1) Dispatch coordinates from Google Geolocate API to store for use in client
   // 2) Dispatch call to Zillow API thru the back-end
   addressCalls(latLng, address) {
+    console.log('addressCalls.latLng: ', latLng)
+    console.log('addressCalls.address: ', address)
     // Send coordinates from Geolocate API to store asynchronously thru Redux
     this.props.dispatchLatLngFromSearchBoxToStore(latLng)
 
@@ -80,6 +84,7 @@ class LandingPage extends Component {
     const addressValueType = typeof(this.state.address)
     console.log('addressValue: ', addressValue)
     console.log('addressValueType: ', addressValueType)
+    console.log('props:  ', this.props)
 
     return(
       <section className="bg-dark text-white space-xlg">
@@ -106,22 +111,13 @@ class LandingPage extends Component {
 
               <div className="row justify-content-center">
                   <div className="col-12 col-md-10 col-lg-8">
-                      <form className="card card-sm">
+                      <div className="card card-sm">
                           <div className="card-body row no-gutters align-items-center">
-                              <div className="col-auto">
-                                  <i className="icon-magnifying-glass h4 text-body"></i>
-                              </div>
 
-                              <div className="col">
-                                  <LocationSearchInput value={addressValue} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
-                              </div>
-
-                              <div className="col-auto">
-                                  <button className="btn btn-lg btn-success" onClick={this.handleChange.bind(this)} >Search</button>
-                              </div>
+                              <LocationSearchInput value={addressValue} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} onClick={this.onButtonClick.bind(this, addressValue)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
 
                           </div>
-                      </form>
+                      </div>
                   </div>
 
               </div>
