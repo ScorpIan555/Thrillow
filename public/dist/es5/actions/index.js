@@ -69,11 +69,16 @@ module.exports = {
 		console.log("dispatchLatLngFromSearchBoxToStore ", latLngFromGeocodeApi);
 		console.log("dispatchLatLngFromSearchBoxToStore ", params);
 		// return dispatch => {
-		// 	return dispatch(SuperagentAsync.asyncSend('/homes/addressCall', params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
+		// 	return dispatch(SuperagentAsync.asyncGet('/homes/addressCall', params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
 		// }
-		return {
-			type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			data: latLngFromGeocodeApi
+		// return dispatch => {
+		// 	return dispatch(SuperagentAsync.asyncSend(params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
+		// }
+		return function (dispatch) {
+			return dispatch({
+				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+				data: latLngFromGeocodeApi
+			});
 		};
 	}
 
