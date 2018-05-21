@@ -130,7 +130,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([251,0]);
+/******/ 	deferredModules.push([250,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -177,23 +177,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LocationSearchInput = exports.Results = exports.LandingPage = exports.Nav = exports.Users = undefined;
 
-var _Users = __webpack_require__(232);
+var _Users = __webpack_require__(231);
 
 var _Users2 = _interopRequireDefault(_Users);
 
-var _Nav = __webpack_require__(204);
+var _Nav = __webpack_require__(203);
 
 var _Nav2 = _interopRequireDefault(_Nav);
 
-var _LandingPage = __webpack_require__(127);
+var _LandingPage = __webpack_require__(126);
 
 var _LandingPage2 = _interopRequireDefault(_LandingPage);
 
-var _Results = __webpack_require__(122);
+var _Results = __webpack_require__(121);
 
 var _Results2 = _interopRequireDefault(_Results);
 
-var _LocationSearchInput = __webpack_require__(119);
+var _LocationSearchInput = __webpack_require__(118);
 
 var _LocationSearchInput2 = _interopRequireDefault(_LocationSearchInput);
 
@@ -210,7 +210,7 @@ exports.LocationSearchInput = _LocationSearchInput2.default; /* * * * * * * * * 
 
 /***/ }),
 
-/***/ 119:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -349,7 +349,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Locati
 
 /***/ }),
 
-/***/ 120:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -404,7 +404,7 @@ var localStyle = {
 
 /***/ }),
 
-/***/ 121:
+/***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -665,7 +665,7 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ 122:
+/***/ 121:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -882,7 +882,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Result
 
 /***/ }),
 
-/***/ 127:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1124,7 +1124,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landin
 
 /***/ }),
 
-/***/ 204:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1142,9 +1142,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(27);
 
-var _reactBootstrap = __webpack_require__(118);
+var _reactBootstrap = __webpack_require__(117);
 
-var _reactDropzone = __webpack_require__(117);
+var _reactDropzone = __webpack_require__(116);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
@@ -1324,7 +1324,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 /***/ }),
 
-/***/ 205:
+/***/ 204:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1392,7 +1392,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 211:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1406,7 +1406,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(210);
+var _server = __webpack_require__(209);
 
 var _server2 = _interopRequireDefault(_server);
 
@@ -1431,14 +1431,14 @@ exports.default = function (initialState, component) {
 
 /***/ }),
 
-/***/ 212:
+/***/ 211:
 /***/ (function(module) {
 
 module.exports = {"name":"thrillow","version":"0.0.0","server":false,"private":true,"scripts":{"dev":"webpack --mode development -w","build":"npm run clean && NODE_ENV=production webpack -p && gulp prod","clean":"rm -rf ./public/dist","postinstall":"npm run build"},"dependencies":{"accepts":"^1.3.5","array-flatten":"1.1.1","bluebird":"^3.5.1","body-parser":"1.18.2","content-disposition":"0.5.2","content-type":"^1.0.4","cookie":"0.3.1","cookie-signature":"1.0.6","debug":"2.6.9","depd":"^1.1.2","dotenv":"^5.0.1","encodeurl":"^1.0.2","escape-html":"^1.0.3","etag":"^1.8.1","finalhandler":"1.1.1","fresh":"0.5.2","merge-descriptors":"1.0.1","methods":"^1.1.2","moment":"^2.20.1","node-zillow":"^1.0.1","nodemon":"^1.17.1","on-finished":"^2.3.0","parseurl":"^1.3.2","path-to-regexp":"0.1.7","proxy-addr":"^2.0.3","qs":"6.5.1","range-parser":"^1.2.0","react":"^16.2.0","react-bootstrap":"^0.32.1","react-dom":"^16.2.0","react-dropzone":"^4.2.8","react-places-autocomplete":"^7.1.1","react-redux":"^5.0.7","react-time":"^4.3.0","redux":"^3.7.2","redux-thunk":"^2.2.0","safe-buffer":"5.1.1","send":"0.16.2","serve-static":"1.13.2","setprototypeof":"1.1.0","statuses":"^1.4.0","superagent":"^3.8.2","turbo360":"latest","type-is":"^1.6.16","utils-merge":"1.0.1","vary":"^1.1.2","vertex360":"latest"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.3","babel-preset-env":"^1.6.1","babel-preset-react":"^6.24.1","chai":"^4.1.2","chai-http":"^3.0.0","cross-env":"^5.1.4","gulp":"^3.9.1","gulp-6to5":"^3.0.0","gulp-autoprefixer":"^5.0.0","gulp-clean-css":"^3.9.2","gulp-concat":"^2.6.1","gulp-less":"^4.0.0","gulp-rename":"^1.2.2","gulp-sass":"^3.1.0","gulp-uglify":"^3.0.0","json-loader":"^0.5.7","mocha":"^5.0.1","mocha-jscs":"^5.0.1","mocha-jshint":"^2.3.1","rimraf":"^2.6.2","uglifyjs-webpack-plugin":"^1.2.2","webpack":"^4.1.1","webpack-cli":"^2.0.10"},"deploy":["."],"format":"vertex","app":""};
 
 /***/ }),
 
-/***/ 230:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1448,11 +1448,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _turbo = __webpack_require__(229);
+var _turbo = __webpack_require__(228);
 
 var _turbo2 = _interopRequireDefault(_turbo);
 
-var _package = __webpack_require__(212);
+var _package = __webpack_require__(211);
 
 var _package2 = _interopRequireDefault(_package);
 
@@ -1599,7 +1599,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 231:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1610,7 +1610,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SuperagentAsync = exports.renderComponents = exports.ServerEntry = exports.TurboClient = undefined;
 
-var _TurboClient = __webpack_require__(230);
+var _TurboClient = __webpack_require__(229);
 
 var _TurboClient2 = _interopRequireDefault(_TurboClient);
 
@@ -1618,11 +1618,11 @@ var _ServerEntry = __webpack_require__(106);
 
 var _ServerEntry2 = _interopRequireDefault(_ServerEntry);
 
-var _renderComponents = __webpack_require__(211);
+var _renderComponents = __webpack_require__(210);
 
 var _renderComponents2 = _interopRequireDefault(_renderComponents);
 
-var _SuperagentAsync = __webpack_require__(205);
+var _SuperagentAsync = __webpack_require__(204);
 
 var _SuperagentAsync2 = _interopRequireDefault(_SuperagentAsync);
 
@@ -1635,7 +1635,7 @@ exports.SuperagentAsync = _SuperagentAsync2.default;
 
 /***/ }),
 
-/***/ 232:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1891,7 +1891,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Users)
 
 /***/ }),
 
-/***/ 233:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1960,7 +1960,7 @@ exports.default = Home;
 
 /***/ }),
 
-/***/ 236:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2017,7 +2017,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 237:
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2092,7 +2092,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 238:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2149,7 +2149,7 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 239:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2160,15 +2160,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compsReducer = exports.listingReducer = exports.userReducer = undefined;
 
-var _userReducer = __webpack_require__(238);
+var _userReducer = __webpack_require__(237);
 
 var _userReducer2 = _interopRequireDefault(_userReducer);
 
-var _listingReducer = __webpack_require__(237);
+var _listingReducer = __webpack_require__(236);
 
 var _listingReducer2 = _interopRequireDefault(_listingReducer);
 
-var _compsReducer = __webpack_require__(236);
+var _compsReducer = __webpack_require__(235);
 
 var _compsReducer2 = _interopRequireDefault(_compsReducer);
 
@@ -2183,7 +2183,7 @@ exports.compsReducer = _compsReducer2.default; /* * * * * * * * * * * * * * * * 
 
 /***/ }),
 
-/***/ 242:
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2195,11 +2195,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(78);
 
-var _reduxThunk = __webpack_require__(240);
+var _reduxThunk = __webpack_require__(239);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reducers = __webpack_require__(239);
+var _reducers = __webpack_require__(238);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2233,7 +2233,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 251:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2247,13 +2247,13 @@ var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _stores = __webpack_require__(242);
+var _stores = __webpack_require__(241);
 
 var _stores2 = _interopRequireDefault(_stores);
 
 var _reactRedux = __webpack_require__(27);
 
-var _Home = __webpack_require__(233);
+var _Home = __webpack_require__(232);
 
 var _Home2 = _interopRequireDefault(_Home);
 
@@ -2288,7 +2288,7 @@ var _constants = __webpack_require__(53);
 
 var _constants2 = _interopRequireDefault(_constants);
 
-var _utils = __webpack_require__(231);
+var _utils = __webpack_require__(230);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2416,11 +2416,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Listing = exports.Footer = undefined;
 
-var _Footer = __webpack_require__(121);
+var _Footer = __webpack_require__(120);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Listing = __webpack_require__(120);
+var _Listing = __webpack_require__(119);
 
 var _Listing2 = _interopRequireDefault(_Listing);
 
