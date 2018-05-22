@@ -1026,7 +1026,7 @@ var LandingPage = function (_Component) {
       return _react2.default.createElement(
         'section',
         { className: 'bg-dark text-white space-xlg' },
-        _react2.default.createElement('img', { alt: 'Image', src: 'dist/assets/img/laith-abdulkareem-96120-unsplash.jpg', className: 'bg-image opacity-40' }),
+        _react2.default.createElement('img', { alt: 'Image', src: 'https://lh3.googleusercontent.com/nVm77oyczOjVhgG9WKKp0YOT30gTCO7we42YJ9aCCPn2XkuLKVG__1DUZ7G4HNTagNMQ0aRkX0M2t3ocqOQsfCXfH84', className: 'bg-image opacity-40' }),
         _react2.default.createElement(
           'div',
           { className: 'container' },
@@ -1345,28 +1345,6 @@ var asyncGet = function asyncGet(url, params, actionType) {
     return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
       // console.log('superagent log - res:  ', data)
       // console.log('superagent log - res:  ' + JSON.stringify(data))
-      if (actionType != null) {
-        dispatch({
-          type: actionType,
-          params: params,
-          data: data
-        });
-        // console.log(params)
-        console.log(data);
-        return data;
-      }
-    }).catch(function (err) {
-      console.log(err.message);
-      console.log(err);
-    });
-  };
-};
-
-var asyncSend = function asyncSend(url, params, actionType) {
-  return function (dispatch) {
-    return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
-      console.log('superagent log - res:  ', data);
-      console.log('superagent log - res:  ' + JSON.stringify(data));
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -2293,7 +2271,7 @@ var _utils = __webpack_require__(230);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Application actions dispatched from Components for API calls and Redux, state management
+	Actions dispatched from Components for API calls and Redux-state management
 * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
@@ -2347,15 +2325,7 @@ exports.default = {
 	},
 
 	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
-		var params = latLngFromGeocodeApi;
 		console.log('dispatchLatLngFromSearchBoxToStore ', latLngFromGeocodeApi);
-		console.log('dispatchLatLngFromSearchBoxToStore ', params);
-		// return dispatch => {
-		// 	return dispatch(SuperagentAsync.asyncGet('/homes/addressCall', params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
-		// }
-		// return dispatch => {
-		// 	return dispatch(SuperagentAsync.asyncSend(params, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
-		// }
 		return function (dispatch) {
 			return dispatch({
 				type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
@@ -2363,14 +2333,6 @@ exports.default = {
 			});
 		};
 	}
-
-	// sendAddress: (latLngFromGeocodeApi) => {
-	// 	return {
-	// 		type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-	// 		data: latLngFromGeocodeApi
-	// 	}
-	// }
-	// }
 
 };
 
