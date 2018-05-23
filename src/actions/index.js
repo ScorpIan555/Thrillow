@@ -50,18 +50,14 @@ export default {
 
 	getZillowCompsResults: (params) => {
 		return dispatch => {
-			console.log('getZillowCompsResults from actions/index.js - params:  ', params)
+			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
 			return dispatch(SuperagentAsync.asyncGet('/comps', params, constants.ZILLOW_COMPS_RECEIVED))
 		}
 	},
 
 	dispatchLatLngFromSearchBoxToStore: (latLng) => {
-		console.log('dispatchLatLngFromSearchBoxToStore ', latLng)
+		// console.log('dispatchLatLngFromSearchBoxToStore ', latLng)
 		return dispatch => {
-			// return dispatch({
-			// 	type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			// 	data: latLng
-			// })
 			return dispatch(SuperagentAsync.asyncSend(latLng, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
 		}
 	}

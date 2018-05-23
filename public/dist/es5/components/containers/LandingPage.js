@@ -47,8 +47,6 @@ var LandingPage = (function (Component) {
         console.log("Address Search Executed.event :", event);
         console.log("Address Search Executed!", address);
 
-
-
         this.handleSelect(address);
       },
       writable: true,

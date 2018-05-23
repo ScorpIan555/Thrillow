@@ -2342,18 +2342,14 @@ exports.default = {
 
 	getZillowCompsResults: function getZillowCompsResults(params) {
 		return function (dispatch) {
-			console.log('getZillowCompsResults from actions/index.js - params:  ', params);
+			// console.log('getZillowCompsResults from actions/index.js - params:  ', params)
 			return dispatch(_utils.SuperagentAsync.asyncGet('/comps', params, _constants2.default.ZILLOW_COMPS_RECEIVED));
 		};
 	},
 
 	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLng) {
-		console.log('dispatchLatLngFromSearchBoxToStore ', latLng);
+		// console.log('dispatchLatLngFromSearchBoxToStore ', latLng)
 		return function (dispatch) {
-			// return dispatch({
-			// 	type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-			// 	data: latLng
-			// })
 			return dispatch(_utils.SuperagentAsync.asyncSend(latLng, _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX));
 		};
 	}

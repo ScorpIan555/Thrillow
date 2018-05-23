@@ -20,8 +20,6 @@ class LandingPage extends Component {
     console.log('Address Search Executed.event :', event)
     console.log('Address Search Executed!', address)
 
-
-
     this.handleSelect(address)
   }
 
