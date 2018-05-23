@@ -32,6 +32,17 @@ router.get('/', (req, res) => {
 
 router.get('/addressCall', (req, res) => {
   console.log('addressCall')
+  const latLng = {
+    lat: req.query.lat,
+    lng: req.query.lng
+  }
+  console.log('addressCall', latLng)
+  res.json({
+    confirmation: 'success',
+    latLng: latLng
+  })
+
+  return latLng
 })
 
 module.exports = router

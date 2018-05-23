@@ -47,7 +47,7 @@ module.exports = function (_x, action) {
 
 		case constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
 			// Capture address object input by user into search box
-			newState.latLng = payload;
+			newState.latLng = payload.body.latLng;
 			// Console log response objects
 			console.log("ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ", newState.latLng);
 			console.log("ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ", JSON.stringify(newState.latLng));

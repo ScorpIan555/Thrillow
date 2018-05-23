@@ -64,13 +64,14 @@ module.exports = {
 		};
 	},
 
-	dispatchLatLngFromSearchBoxToStore: function (latLngFromGeocodeApi) {
-		console.log("dispatchLatLngFromSearchBoxToStore ", latLngFromGeocodeApi);
+	dispatchLatLngFromSearchBoxToStore: function (latLng) {
+		console.log("dispatchLatLngFromSearchBoxToStore ", latLng);
 		return function (dispatch) {
-			return dispatch({
-				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-				data: latLngFromGeocodeApi
-			});
+			// return dispatch({
+			// 	type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			// 	data: latLng
+			// })
+			return dispatch(SuperagentAsync.asyncSend(latLng, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX));
 		};
 	}
 

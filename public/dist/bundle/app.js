@@ -1362,9 +1362,32 @@ var asyncGet = function asyncGet(url, params, actionType) {
   };
 };
 
+var asyncSend = function asyncSend(latLng, actionType) {
+  return function (dispatch) {
+    return _superagent2.default.get('homes/addressCall').query(latLng).set('Accept', 'application/json').then(function (data) {
+      // console.log('superagent log - res:  ', data)
+      // console.log('superagent log - res:  ' + JSON.stringify(data))
+      if (actionType != null) {
+        dispatch({
+          type: actionType,
+          latLng: latLng,
+          data: data
+        });
+        // console.log(params)
+        console.log(data);
+        return data;
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+      console.log(err);
+    });
+  };
+};
+
 exports.default = {
 
-  asyncGet: asyncGet
+  asyncGet: asyncGet,
+  asyncSend: asyncSend
 
 };
 
@@ -2056,7 +2079,7 @@ exports.default = function () {
 
 		case _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX:
 			// Capture address object input by user into search box
-			newState['latLng'] = payload;
+			newState['latLng'] = payload.body.latLng;
 			// Console log response objects
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', newState['latLng']);
 			console.log('ADDRESS_INPUT_RECEIVED_FROM_USER_INPUT:  ', JSON.stringify(newState['latLng']));
@@ -2324,13 +2347,14 @@ exports.default = {
 		};
 	},
 
-	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLngFromGeocodeApi) {
-		console.log('dispatchLatLngFromSearchBoxToStore ', latLngFromGeocodeApi);
+	dispatchLatLngFromSearchBoxToStore: function dispatchLatLngFromSearchBoxToStore(latLng) {
+		console.log('dispatchLatLngFromSearchBoxToStore ', latLng);
 		return function (dispatch) {
-			return dispatch({
-				type: _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-				data: latLngFromGeocodeApi
-			});
+			// return dispatch({
+			// 	type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			// 	data: latLng
+			// })
+			return dispatch(_utils.SuperagentAsync.asyncSend(latLng, _constants2.default.LAT_LONG_RECEIVED_FROM_SEARCH_BOX));
 		};
 	}
 

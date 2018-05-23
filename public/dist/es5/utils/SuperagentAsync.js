@@ -26,9 +26,32 @@ var asyncGet = function (url, params, actionType) {
   };
 };
 
+var asyncSend = function (latLng, actionType) {
+  return function (dispatch) {
+    return superagent.get("homes/addressCall").query(latLng).set("Accept", "application/json").then(function (data) {
+      // console.log('superagent log - res:  ', data)
+      // console.log('superagent log - res:  ' + JSON.stringify(data))
+      if (actionType != null) {
+        dispatch({
+          type: actionType,
+          latLng: latLng,
+          data: data
+        });
+        // console.log(params)
+        console.log(data);
+        return data;
+      }
+    })["catch"](function (err) {
+      console.log(err.message);
+      console.log(err);
+    });
+  };
+};
+
 
 module.exports = {
 
-  asyncGet: asyncGet
+  asyncGet: asyncGet,
+  asyncSend: asyncSend
 
 };

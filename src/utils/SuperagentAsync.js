@@ -25,9 +25,35 @@ const asyncGet = (url, params, actionType) => {
                       })
 }
 
+const asyncSend = (latLng, actionType) => {
+  return dispatch => superagent
+                      .get('homes/addressCall')
+                      .query(latLng)
+                      .set('Accept', 'application/json')
+                      .then(data => {
+                        // console.log('superagent log - res:  ', data)
+                        // console.log('superagent log - res:  ' + JSON.stringify(data))
+                        if(actionType != null) {
+                          dispatch({
+                            type: actionType,
+                            latLng: latLng,
+                            data: data
+                          })
+                          // console.log(params)
+                          console.log(data)
+                          return data
+                        }
+                      })
+                      .catch( err => {
+                        console.log(err.message)
+                        console.log(err)
+                      })
+}
+
 
 export default {
 
-  asyncGet: asyncGet
+  asyncGet: asyncGet,
+  asyncSend: asyncSend
 
 }

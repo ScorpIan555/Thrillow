@@ -55,13 +55,14 @@ export default {
 		}
 	},
 
-	dispatchLatLngFromSearchBoxToStore: (latLngFromGeocodeApi) => {
-		console.log('dispatchLatLngFromSearchBoxToStore ', latLngFromGeocodeApi)
+	dispatchLatLngFromSearchBoxToStore: (latLng) => {
+		console.log('dispatchLatLngFromSearchBoxToStore ', latLng)
 		return dispatch => {
-			return dispatch({
-				type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
-				data: latLngFromGeocodeApi
-			})
+			// return dispatch({
+			// 	type: constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX,
+			// 	data: latLng
+			// })
+			return dispatch(SuperagentAsync.asyncSend(latLng, constants.LAT_LONG_RECEIVED_FROM_SEARCH_BOX))
 		}
 	}
 
