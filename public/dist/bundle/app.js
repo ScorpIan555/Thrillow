@@ -220,6 +220,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -252,19 +254,13 @@ var LocationSearchInput = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (LocationSearchInput.__proto__ || Object.getPrototypeOf(LocationSearchInput)).call(this, props));
 
-    _this.state = {
-      // // Initialize component with address string utilized in Google Geolocate API
-      // address: '',
-      // // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
-      // latLng: {}
-    };
+    _this.state = {};
     return _this;
   }
 
   _createClass(LocationSearchInput, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
 
       console.log('this.state:', this.state);
       console.log('this.props:', this.props);
@@ -273,62 +269,68 @@ var LocationSearchInput = function (_Component) {
         'div',
         null,
         _react2.default.createElement(
-          _reactPlacesAutocomplete2.default,
-          {
-            value: this.props.value,
-            onChange: this.props.onChange,
-            onSelect: this.props.onSelect,
-            onClick: this.props.onClick
-          },
-          function (_ref) {
-            var getInputProps = _ref.getInputProps,
-                suggestions = _ref.suggestions,
-                getSuggestionItemProps = _ref.getSuggestionItemProps;
-            return _react2.default.createElement(
+          'div',
+          { className: 'card card-sm' },
+          _react2.default.createElement(
+            'div',
+            { style: localStyle.cardBody, className: 'card-body row no-gutters align-items-center' },
+            _react2.default.createElement(
               'div',
-              null,
-              _react2.default.createElement(
-                'div',
-                { className: 'col-auto' },
-                _react2.default.createElement('i', { className: 'icon-magnifying-glass h4 text-body' })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col' },
-                _react2.default.createElement('input', getInputProps({
-                  placeholder: 'Search Places ...',
-                  className: 'location-search-input'
-                })),
-                _react2.default.createElement(
+              { className: 'col-1' },
+              _react2.default.createElement('i', { className: 'icon-magnifying-glass h4 text-body' })
+            ),
+            _react2.default.createElement(
+              _reactPlacesAutocomplete2.default,
+              {
+                value: this.props.value,
+                onChange: this.props.onChange,
+                onSelect: this.props.onSelect,
+                onClick: this.props.onClick
+              },
+              function (_ref) {
+                var getInputProps = _ref.getInputProps,
+                    suggestions = _ref.suggestions,
+                    getSuggestionItemProps = _ref.getSuggestionItemProps;
+                return _react2.default.createElement(
                   'div',
-                  { className: 'autocomplete-dropdown-container' },
-                  suggestions.map(function (suggestion) {
-                    var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                    // inline style for demonstration purpose
-                    var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                    return _react2.default.createElement(
-                      'div',
-                      getSuggestionItemProps(suggestion, { className: className, style: style }),
-                      _react2.default.createElement(
-                        'span',
-                        null,
-                        suggestion.description
-                      )
-                    );
-                  })
-                )
-              ),
+                  { className: 'col-8' },
+                  _react2.default.createElement('input', _extends({ style: localStyle.input
+                  }, getInputProps({
+                    placeholder: 'Search Places ...',
+                    className: 'location-search-input'
+                  }))),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'autocomplete-dropdown-container' },
+                    suggestions.map(function (suggestion) {
+                      var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                      // inline style for demonstration purpose
+                      var style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                      return _react2.default.createElement(
+                        'div',
+                        getSuggestionItemProps(suggestion, { className: className, style: style }),
+                        _react2.default.createElement(
+                          'span',
+                          null,
+                          suggestion.description
+                        )
+                      );
+                    })
+                  )
+                );
+              }
+            ),
+            _react2.default.createElement('div', { className: 'col-1' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-2' },
               _react2.default.createElement(
-                'div',
-                { className: 'col-auto' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'btn btn-lg btn-success', onClick: _this2.props.onClick },
-                  'Search'
-                )
+                'button',
+                { className: 'btn btn-lg btn-success', onClick: this.props.onClicik },
+                'Search'
               )
-            );
-          }
+            )
+          )
         )
       );
     }
@@ -336,6 +338,21 @@ var LocationSearchInput = function (_Component) {
 
   return LocationSearchInput;
 }(_react.Component);
+
+var localStyle = {
+  input: {
+    width: '400px',
+    height: '55px',
+    border: 'none',
+    padding: '0px',
+    textAlign: 'bottom'
+    // textAlignVerticle: 'end',
+    // marginBottom: '0px'
+  },
+  cardBody: {
+    padding: '0px'
+  }
+};
 
 var stateToProps = function stateToProps(state) {
   return {};
@@ -804,53 +821,57 @@ var Results = function (_Component) {
               )
             )
           ),
-          _react2.default.createElement(
+          comps !== null ? _react2.default.createElement(
             'div',
-            { className: 'row justify-content-center text-center section-intro' },
+            null,
             _react2.default.createElement(
               'div',
-              { className: 'col-12 col-md-9 col-lg-8' },
+              { className: 'row justify-content-center text-center section-intro' },
               _react2.default.createElement(
-                'span',
-                { className: 'title-decorative' },
-                'Perfect for Startups'
-              ),
-              _react2.default.createElement(
-                'h3',
-                { className: 'display-4' },
-                'Potential rental deals'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'lead' },
-                '803 rentals listed under their Rent Zestimate in New York'
+                'div',
+                { className: 'col-12 col-md-9 col-lg-8' },
+                _react2.default.createElement(
+                  'span',
+                  { className: 'title-decorative' },
+                  'Perfect for Startups'
+                ),
+                _react2.default.createElement(
+                  'h3',
+                  { className: 'display-4' },
+                  'Potential rental deals'
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'lead' },
+                  '803 rentals listed under their Rent Zestimate in New York'
+                )
               )
-            )
-          ),
-          _react2.default.createElement(
-            'ul',
-            { className: 'feature-list feature-list-lg' },
-            _react2.default.createElement(
-              'li',
-              { className: 'row justify-content-center align-items-center' },
-              comps.map(function (comp, i) {
-                return _react2.default.createElement(
-                  'div',
-                  { className: 'col-sm' },
-                  _react2.default.createElement(_presentation.Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
-                );
-              })
             ),
             _react2.default.createElement(
-              'li',
-              { className: 'row justify-content-center align-items-center' },
+              'ul',
+              { className: 'feature-list feature-list-lg' },
               _react2.default.createElement(
-                'button',
-                { type: 'button', 'class': 'btn btn-primary btn-lg' },
-                'Show Listings'
+                'li',
+                { className: 'row justify-content-center align-items-center' },
+                comps.map(function (comp, i) {
+                  return _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm' },
+                    _react2.default.createElement(_presentation.Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                  );
+                })
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'row justify-content-center align-items-center' },
+                _react2.default.createElement(
+                  'button',
+                  { type: 'button', 'class': 'btn btn-primary btn-lg' },
+                  'Show Listings'
+                )
               )
             )
-          )
+          ) : null
         )
       );
     }
@@ -1082,15 +1103,7 @@ var LandingPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-12 col-md-10 col-lg-8' },
-              _react2.default.createElement(
-                'div',
-                { className: 'card card-sm' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'card-body row no-gutters align-items-center' },
-                  _react2.default.createElement(_containers.LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), onClick: this.onButtonClick.bind(this, addressValue), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
-                )
-              )
+              _react2.default.createElement(_containers.LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), onClick: this.onButtonClick.bind(this, addressValue), className: 'form-control form-control-lg form-control-borderless', type: 'search', placeholder: 'Search topics or keywords' })
             )
           )
         )
@@ -1343,8 +1356,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var asyncGet = function asyncGet(url, params, actionType) {
   return function (dispatch) {
     return _superagent2.default.get(url).query(params).set('Accept', 'application/json').then(function (data) {
-      // console.log('superagent log - res:  ', data)
-      // console.log('superagent log - res:  ' + JSON.stringify(data))
+
+      // if(url == '/comps' && data.body.data.response.results.result == undefined) {
+      //   console.log('blank comps', JSON.stringify(data))
+      //   data.body.data.response.results.result = '1'
+      // } else {
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -1353,8 +1369,10 @@ var asyncGet = function asyncGet(url, params, actionType) {
         });
         // console.log(params)
         console.log(data);
+        console.log(JSON.stringify(data.body.data.response.results));
         return data;
       }
+      // }
     }).catch(function (err) {
       console.log(err.message);
       console.log(err);

@@ -7,8 +7,10 @@ var superagent = _interopRequire(require("superagent"));
 var asyncGet = function (url, params, actionType) {
   return function (dispatch) {
     return superagent.get(url).query(params).set("Accept", "application/json").then(function (data) {
-      // console.log('superagent log - res:  ', data)
-      // console.log('superagent log - res:  ' + JSON.stringify(data))
+      // if(url == '/comps' && data.body.data.response.results.result == undefined) {
+      //   console.log('blank comps', JSON.stringify(data))
+      //   data.body.data.response.results.result = '1'
+      // } else {
       if (actionType != null) {
         dispatch({
           type: actionType,
@@ -17,8 +19,10 @@ var asyncGet = function (url, params, actionType) {
         });
         // console.log(params)
         console.log(data);
+        console.log(JSON.stringify(data.body.data.response.results));
         return data;
       }
+      // }
     })["catch"](function (err) {
       console.log(err.message);
       console.log(err);

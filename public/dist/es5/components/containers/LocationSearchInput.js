@@ -10,6 +10,8 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = require("react");
 
 var React = _interopRequire(_react);
@@ -37,9 +39,6 @@ var LocationSearchInput = (function (Component) {
   _prototypeProperties(LocationSearchInput, null, {
     render: {
       value: function render() {
-        var _this = this;
-
-
         console.log("this.state:", this.state);
         console.log("this.props:", this.props);
 
@@ -47,61 +46,67 @@ var LocationSearchInput = (function (Component) {
           "div",
           null,
           React.createElement(
-            PlacesAutocomplete,
-            {
-              value: this.props.value,
-              onChange: this.props.onChange,
-              onSelect: this.props.onSelect,
-              onClick: this.props.onClick
-            },
-            function (_ref) {
-              var getInputProps = _ref.getInputProps;
-              var suggestions = _ref.suggestions;
-              var getSuggestionItemProps = _ref.getSuggestionItemProps;
-              return React.createElement(
+            "div",
+            { className: "card card-sm" },
+            React.createElement(
+              "div",
+              { style: localStyle.cardBody, className: "card-body row no-gutters align-items-center" },
+              React.createElement(
                 "div",
-                null,
-                React.createElement(
-                  "div",
-                  { className: "col-auto" },
-                  React.createElement("i", { className: "icon-magnifying-glass h4 text-body" })
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col" },
-                  React.createElement("input", getInputProps({
-                    placeholder: "Search Places ...",
-                    className: "location-search-input"
-                  })),
-                  React.createElement(
+                { className: "col-1" },
+                React.createElement("i", { className: "icon-magnifying-glass h4 text-body" })
+              ),
+              React.createElement(
+                PlacesAutocomplete,
+                {
+                  value: this.props.value,
+                  onChange: this.props.onChange,
+                  onSelect: this.props.onSelect,
+                  onClick: this.props.onClick
+                },
+                function (_ref) {
+                  var getInputProps = _ref.getInputProps;
+                  var suggestions = _ref.suggestions;
+                  var getSuggestionItemProps = _ref.getSuggestionItemProps;
+                  return React.createElement(
                     "div",
-                    { className: "autocomplete-dropdown-container" },
-                    suggestions.map(function (suggestion) {
-                      var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
-                      var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return React.createElement(
-                        "div",
-                        getSuggestionItemProps(suggestion, { className: className, style: style }),
-                        React.createElement(
-                          "span",
-                          null,
-                          suggestion.description
-                        )
-                      );
-                    })
-                  )
-                ),
+                    { className: "col-8" },
+                    React.createElement("input", _extends({ style: localStyle.input
+                    }, getInputProps({
+                      placeholder: "Search Places ...",
+                      className: "location-search-input"
+                    }))),
+                    React.createElement(
+                      "div",
+                      { className: "autocomplete-dropdown-container" },
+                      suggestions.map(function (suggestion) {
+                        var className = suggestion.active ? "suggestion-item--active" : "suggestion-item";
+                        var style = suggestion.active ? { backgroundColor: "#fafafa", cursor: "pointer" } : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return React.createElement(
+                          "div",
+                          getSuggestionItemProps(suggestion, { className: className, style: style }),
+                          React.createElement(
+                            "span",
+                            null,
+                            suggestion.description
+                          )
+                        );
+                      })
+                    )
+                  );
+                }
+              ),
+              React.createElement("div", { className: "col-1" }),
+              React.createElement(
+                "div",
+                { className: "col-2" },
                 React.createElement(
-                  "div",
-                  { className: "col-auto" },
-                  React.createElement(
-                    "button",
-                    { className: "btn btn-lg btn-success", onClick: _this.props.onClick },
-                    "Search"
-                  )
+                  "button",
+                  { className: "btn btn-lg btn-success", onClick: this.props.onClicik },
+                  "Search"
                 )
-              );
-            }
+              )
+            )
           )
         );
       },
@@ -113,6 +118,18 @@ var LocationSearchInput = (function (Component) {
   return LocationSearchInput;
 })(Component);
 
+var localStyle = {
+  input: {
+    width: "400px",
+    height: "55px",
+    border: "none",
+    padding: "0px",
+    textAlign: "bottom" },
+  cardBody: {
+    padding: "0px"
+  }
+};
+
 var stateToProps = function (state) {
   return {};
 };
@@ -122,8 +139,6 @@ var dispatchToProps = function (dispatch) {
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(LocationSearchInput);
-// // Initialize component with address string utilized in Google Geolocate API
-// address: '',
-// // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
-// latLng: {}
 // inline style for demonstration purpose
+// textAlignVerticle: 'end',
+// marginBottom: '0px'

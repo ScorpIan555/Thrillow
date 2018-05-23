@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
     return data
   })
   .catch(err => {
+    console.log('err', err)
     throw err
   })
 })

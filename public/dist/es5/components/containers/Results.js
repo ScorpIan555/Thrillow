@@ -124,53 +124,57 @@ var Results = (function (Component) {
                 )
               )
             ),
-            React.createElement(
+            comps !== null ? React.createElement(
               "div",
-              { className: "row justify-content-center text-center section-intro" },
+              null,
               React.createElement(
                 "div",
-                { className: "col-12 col-md-9 col-lg-8" },
+                { className: "row justify-content-center text-center section-intro" },
                 React.createElement(
-                  "span",
-                  { className: "title-decorative" },
-                  "Perfect for Startups"
-                ),
-                React.createElement(
-                  "h3",
-                  { className: "display-4" },
-                  "Potential rental deals"
-                ),
-                React.createElement(
-                  "span",
-                  { className: "lead" },
-                  "803 rentals listed under their Rent Zestimate in New York"
+                  "div",
+                  { className: "col-12 col-md-9 col-lg-8" },
+                  React.createElement(
+                    "span",
+                    { className: "title-decorative" },
+                    "Perfect for Startups"
+                  ),
+                  React.createElement(
+                    "h3",
+                    { className: "display-4" },
+                    "Potential rental deals"
+                  ),
+                  React.createElement(
+                    "span",
+                    { className: "lead" },
+                    "803 rentals listed under their Rent Zestimate in New York"
+                  )
                 )
-              )
-            ),
-            React.createElement(
-              "ul",
-              { className: "feature-list feature-list-lg" },
-              React.createElement(
-                "li",
-                { className: "row justify-content-center align-items-center" },
-                comps.map(function (comp, i) {
-                  return React.createElement(
-                    "div",
-                    { className: "col-sm" },
-                    React.createElement(Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
-                  );
-                })
               ),
               React.createElement(
-                "li",
-                { className: "row justify-content-center align-items-center" },
+                "ul",
+                { className: "feature-list feature-list-lg" },
                 React.createElement(
-                  "button",
-                  { type: "button", "class": "btn btn-primary btn-lg" },
-                  "Show Listings"
+                  "li",
+                  { className: "row justify-content-center align-items-center" },
+                  comps.map(function (comp, i) {
+                    return React.createElement(
+                      "div",
+                      { className: "col-sm" },
+                      React.createElement(Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                    );
+                  })
+                ),
+                React.createElement(
+                  "li",
+                  { className: "row justify-content-center align-items-center" },
+                  React.createElement(
+                    "button",
+                    { type: "button", "class": "btn btn-primary btn-lg" },
+                    "Show Listings"
+                  )
                 )
               )
-            )
+            ) : null
           )
         );
       },

@@ -80,34 +80,47 @@ render() {
                   <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
                 </li>
             </ul>
-            <div className="row justify-content-center text-center section-intro">
 
-                <div className="col-12 col-md-9 col-lg-8">
-                    <span className="title-decorative">Perfect for Startups</span>
-                    <h3 className="display-4">Potential rental deals</h3>
-                    <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
+            {
+              comps !== null ?
+              <div>
+                <div className="row justify-content-center text-center section-intro">
 
+                    <div className="col-12 col-md-9 col-lg-8">
+                        <span className="title-decorative">Perfect for Startups</span>
+                        <h3 className="display-4">Potential rental deals</h3>
+                        <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
+
+                    </div>
                 </div>
-            </div>
 
 
-            <ul className="feature-list feature-list-lg">
-                <li className="row justify-content-center align-items-center">
+                <ul className="feature-list feature-list-lg">
+                    <li className="row justify-content-center align-items-center">
 
-                  { comps.map((comp, i) => {
-                      return (
-                        <div className="col-sm">
-                          <Listing key={comp.zpid} lat={comp.address[0].latitude[0]} lng={comp.address[0].longitude[0]} />
-                        </div>
-                      )
-                    })
-                  }
+                      { comps.map((comp, i) => {
+                          return (
+                            <div className="col-sm">
+                              <Listing key={comp.zpid} lat={comp.address[0].latitude[0]} lng={comp.address[0].longitude[0]} />
+                            </div>
+                          )
+                        })
+                      }
 
-                </li>
-                <li className="row justify-content-center align-items-center">
-                  <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
-                </li>
-            </ul>
+                    </li>
+                    <li className="row justify-content-center align-items-center">
+                      <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
+                    </li>
+                </ul>
+              </div>
+
+
+              : null
+
+
+            }
+
+
         </div>
 
       </section>

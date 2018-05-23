@@ -109,17 +109,12 @@ class LandingPage extends Component {
 
               <div className="row justify-content-center">
                   <div className="col-12 col-md-10 col-lg-8">
-                      <div className="card card-sm">
-                          <div className="card-body row no-gutters align-items-center">
 
-                              <LocationSearchInput value={addressValue} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} onClick={this.onButtonClick.bind(this, addressValue)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
+                    <LocationSearchInput value={addressValue} onChange={this.handleChange.bind(this)} onSelect={this.handleSelect.bind(this)} onClick={this.onButtonClick.bind(this, addressValue)} className="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" />
 
-                          </div>
-                      </div>
                   </div>
-
               </div>
-
+              
           </div>
 
       </section>

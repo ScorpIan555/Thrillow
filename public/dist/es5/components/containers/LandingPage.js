@@ -188,15 +188,7 @@ var LandingPage = (function (Component) {
               React.createElement(
                 "div",
                 { className: "col-12 col-md-10 col-lg-8" },
-                React.createElement(
-                  "div",
-                  { className: "card card-sm" },
-                  React.createElement(
-                    "div",
-                    { className: "card-body row no-gutters align-items-center" },
-                    React.createElement(LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), onClick: this.onButtonClick.bind(this, addressValue), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
-                  )
-                )
+                React.createElement(LocationSearchInput, { value: addressValue, onChange: this.handleChange.bind(this), onSelect: this.handleSelect.bind(this), onClick: this.onButtonClick.bind(this, addressValue), className: "form-control form-control-lg form-control-borderless", type: "search", placeholder: "Search topics or keywords" })
               )
             )
           )

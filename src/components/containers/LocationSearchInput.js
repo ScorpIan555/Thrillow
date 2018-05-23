@@ -6,12 +6,7 @@ import actions from '../../actions'
 class LocationSearchInput extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      // // Initialize component with address string utilized in Google Geolocate API
-      // address: '',
-      // // Initialize component with latLng object which stores latitude and longitude results from Geolocate API
-      // latLng: {}
-    }
+    this.state = {}
   }
 
   render() {
@@ -21,50 +16,71 @@ class LocationSearchInput extends Component {
 
     return (
         <div >
-          <PlacesAutocomplete
-            value={this.props.value}
-            onChange={this.props.onChange}
-            onSelect={this.props.onSelect}
-            onClick={this.props.onClick}
-          >
-            {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-              <div>
-                <div className="col-auto">
+          <div className="card card-sm">
+              <div style={localStyle.cardBody} className="card-body row no-gutters align-items-center">
+                <div className="col-1">
                     <i className="icon-magnifying-glass h4 text-body"></i>
                 </div>
-                <div className="col">
-                  <input
-                    {...getInputProps({
-                      placeholder: 'Search Places ...',
-                      className: 'location-search-input'
-                    })}
-                  />
-                  <div className="autocomplete-dropdown-container">
-                    {suggestions.map(suggestion => {
-                      const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                          : { backgroundColor: '#ffffff', cursor: 'pointer' }
-                      return (
-                        <div {...getSuggestionItemProps(suggestion, { className, style })}>
-                          <span>{suggestion.description}</span>
+
+                <PlacesAutocomplete
+                  value={this.props.value}
+                  onChange={this.props.onChange}
+                  onSelect={this.props.onSelect}
+                  onClick={this.props.onClick}
+                >
+                  {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+
+
+                      <div className="col-8">
+                        <input style={localStyle.input}
+                          {...getInputProps({
+                            placeholder: 'Search Places ...',
+                            className: 'location-search-input'
+                          })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                            return (
+                              <div {...getSuggestionItemProps(suggestion, { className, style })}>
+                                <span>{suggestion.description}</span>
+                              </div>
+                            )
+                          })}
                         </div>
-                      )
-                    })}
-                  </div>
+                      </div>
+                  )}
+                </PlacesAutocomplete>
+                <div className="col-1">
+
                 </div>
-                <div className="col-auto">
-                    <button className="btn btn-lg btn-success" onClick={this.props.onClick} >Search</button>
+                <div className="col-2">
+                    <button className="btn btn-lg btn-success" onClick={this.props.onClicik} >Search</button>
                 </div>
               </div>
-            )}
-          </PlacesAutocomplete>
+          </div>
         </div>
 
-
-
     )
+  }
+}
+
+const localStyle = {
+  input: {
+    width: '400px',
+    height: '55px',
+    border: 'none',
+    padding: '0px',
+    textAlign: 'bottom',
+    // textAlignVerticle: 'end',
+    // marginBottom: '0px'
+  },
+  cardBody: {
+    padding: '0px'
   }
 }
 
