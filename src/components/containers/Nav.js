@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Modal } from 'react-bootstrap'
 import Dropzone from 'react-dropzone'
 import actions from '../../actions'
+import { UserLocator } from '../containers'
 
 class Nav extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class Nav extends Component {
               <div className="container">
                   <nav className="navbar navbar-expand-lg">
                       <a className="navbar-brand" href="/">
-                          <img alt="Wingman" src="dist/assets/img/logo-white.svg" />
+                          
                       </a>
                       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                           <i className="icon-menu h4"></i>

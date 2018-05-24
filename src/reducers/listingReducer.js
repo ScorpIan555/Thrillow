@@ -8,7 +8,7 @@ import constants from '../constants'
 const initialState = {
 	all: [
 			{ address: '22 Dale Street' },
-			{ citystatezip: 'Windsor Locks, CT' },
+			{ citystatezip: '06096' },
 			{ count: 3 },
 			{ zpid: '58162520' },
 	],

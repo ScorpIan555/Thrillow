@@ -39,6 +39,16 @@ var Results = (function (Component) {
         //   .then(latLng => this.setState({latLng}) )
         //   .catch(error => console.error('Error', error))
 
+        //     if("geolocation" in navigator) {
+        //       console.log('GEOLOCATION!')
+        //       navigator.geolocation.getCurrentPosition(function(position) {
+        //         console.log(position.coords.latitude, position.coords.longitude);
+        // });
+        //
+        //     } else {
+        //       console.log('FUCK YOU DOIN?!?!')
+        //     }
+
         var params = {
           address: this.props.listing.all[0].address, //
           citystatezip: this.props.listing.all[1].citystatezip, //
@@ -46,7 +56,12 @@ var Results = (function (Component) {
           zpid: this.props.listing.all[3].zpid
         };
 
-        this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params));
+        this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params).then(function (results) {
+          console.log("results:  ", results.body.data.response.properties.comparables);
+          console.log("TYPEOF results:  ", typeof results.body.data.response.properties.comparables);
+        })["catch"](function (err) {
+          console.log("err: ", err);
+        }));
         console.log("ZPID:  ", JSON.stringify(params.zpid));
       },
       writable: true,

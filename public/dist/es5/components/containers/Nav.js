@@ -21,6 +21,7 @@ var Dropzone = _interopRequire(require("react-dropzone"));
 
 var actions = _interopRequire(require("../../actions"));
 
+var UserLocator = require("../containers").UserLocator;
 var Nav = (function (Component) {
     function Nav() {
         _classCallCheck(this, Nav);
@@ -57,11 +58,7 @@ var Nav = (function (Component) {
                             React.createElement(
                                 "nav",
                                 { className: "navbar navbar-expand-lg" },
-                                React.createElement(
-                                    "a",
-                                    { className: "navbar-brand", href: "/" },
-                                    React.createElement("img", { alt: "Wingman", src: "dist/assets/img/logo-white.svg" })
-                                ),
+                                React.createElement("a", { className: "navbar-brand", href: "/" }),
                                 React.createElement(
                                     "button",
                                     { className: "navbar-toggler", type: "button", "data-toggle": "collapse", "data-target": "#navbarNav", "aria-controls": "navbarNav", "aria-expanded": "false", "aria-label": "Toggle navigation" },

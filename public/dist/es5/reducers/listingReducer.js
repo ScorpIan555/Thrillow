@@ -10,7 +10,7 @@ var constants = _interopRequire(require("../constants"));
 */
 
 var initialState = {
-	all: [{ address: "22 Dale Street" }, { citystatezip: "Windsor Locks, CT" }, { count: 3 }, { zpid: "58162520" }],
+	all: [{ address: "22 Dale Street" }, { citystatezip: "06096" }, { count: 3 }, { zpid: "58162520" }],
 	latLng: {
 		lat: 41.9334208,
 		lng: -72.6571319

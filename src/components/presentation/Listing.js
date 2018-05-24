@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export default (props) => {
-  console.log(props)
+  console.log('LISTING COMPONENT PROPS:', props)
   const imageLat = props.lat
   const imageLng = props.lng
   // console.log(imageLat)
@@ -13,13 +13,13 @@ export default (props) => {
   const imageSize = 'size=400x400'
   const imageQueryPathArray = [imagePath, imageSize]
   const imageQueryPath = imageQueryPathArray.join('?')
-  // console.log(imageQueryPath)
   // Compose location using the lat/long props passed in from Results.js
   const imageLocation = 'location=' + imageLat + ',' + imageLng
   const imageFOVHeadingPitchApiKey = '&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs'
+  // const imageFOVHeadingPitchApiKey = '&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}'
   const imageFOVHeadingPitchApiKeyArray = [imageQueryPath, imageLocation, imageFOVHeadingPitchApiKey]
   const imageUrlComposed = imageFOVHeadingPitchApiKeyArray.join('&')
-  // console.log(imageUrlComposed)
+  // console.log('IMAGE_API_KEY: ', process.env.IMAGE_API_KEY)
 
   return (
 

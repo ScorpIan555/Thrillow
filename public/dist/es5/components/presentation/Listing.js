@@ -8,7 +8,7 @@ var React = _interopRequire(_react);
 
 var Component = _react.Component;
 module.exports = function (props) {
-  console.log(props);
+  console.log("LISTING COMPONENT PROPS:", props);
   var imageLat = props.lat;
   var imageLng = props.lng;
   // console.log(imageLat)
@@ -20,13 +20,13 @@ module.exports = function (props) {
   var imageSize = "size=400x400";
   var imageQueryPathArray = [imagePath, imageSize];
   var imageQueryPath = imageQueryPathArray.join("?");
-  // console.log(imageQueryPath)
   // Compose location using the lat/long props passed in from Results.js
   var imageLocation = "location=" + imageLat + "," + imageLng;
   var imageFOVHeadingPitchApiKey = "&fov=90&heading=235&pitch=10&key=AIzaSyAGZkIyl-VNKwjTWBFFP_xb_R8nK2GQmzs";
+  // const imageFOVHeadingPitchApiKey = '&fov=90&heading=235&pitch=10&key=${process.env.IMAGE_API_KEY}'
   var imageFOVHeadingPitchApiKeyArray = [imageQueryPath, imageLocation, imageFOVHeadingPitchApiKey];
   var imageUrlComposed = imageFOVHeadingPitchApiKeyArray.join("&");
-  // console.log(imageUrlComposed)
+  // console.log('IMAGE_API_KEY: ', process.env.IMAGE_API_KEY)
 
   return React.createElement(
     "div",

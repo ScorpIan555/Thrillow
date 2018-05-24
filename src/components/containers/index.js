@@ -8,6 +8,7 @@ import Nav from './Nav'
 import LandingPage from './LandingPage'
 import Results from './Results'
 import LocationSearchInput from './LocationSearchInput'
+import UserLocator from './UserLocator'
 
 export {
 
@@ -15,6 +16,7 @@ export {
 	Nav,
 	LandingPage,
 	Results,
-	LocationSearchInput
+	LocationSearchInput,
+	UserLocator
 
 }
