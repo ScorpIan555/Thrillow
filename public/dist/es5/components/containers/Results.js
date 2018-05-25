@@ -33,36 +33,6 @@ var Results = (function (Component) {
     componentDidMount: {
       value: function componentDidMount() {
         console.log("Results componentDidMount, this.props: ", this.props);
-        // geocodeByAddress(address)
-        //   .then(results => getLatLng(results[0]))
-        //   // .then(latLng => console.log('latLng', latLng) )
-        //   .then(latLng => this.setState({latLng}) )
-        //   .catch(error => console.error('Error', error))
-
-        //     if("geolocation" in navigator) {
-        //       console.log('GEOLOCATION!')
-        //       navigator.geolocation.getCurrentPosition(function(position) {
-        //         console.log(position.coords.latitude, position.coords.longitude);
-        // });
-        //
-        //     } else {
-        //       console.log('FUCK YOU DOIN?!?!')
-        //     }
-
-        var params = {
-          address: this.props.listing.all[0].address, //
-          citystatezip: this.props.listing.all[1].citystatezip, //
-          count: this.props.listing.all[2].count, //
-          zpid: this.props.listing.all[3].zpid
-        };
-
-        this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params).then(function (results) {
-          console.log("results:  ", results.body.data.response.properties.comparables);
-          console.log("TYPEOF results:  ", typeof results.body.data.response.properties.comparables);
-        })["catch"](function (err) {
-          console.log("err: ", err);
-        }));
-        console.log("ZPID:  ", JSON.stringify(params.zpid));
       },
       writable: true,
       configurable: true
@@ -78,7 +48,7 @@ var Results = (function (Component) {
         // let listingLng = this.props.listing.all[0].latLng[0].lng || []
         // Logs
         console.log("this.props:  ", this.props);
-        console.log("this.props.listing:  ", this.props.listing);
+        console.log("this.props.listing.all:  ", this.props.listing.all.length);
         console.log("this.props.comps:  ", this.props.comps);
         console.log("this.props.listing.latLng:  ", this.props.listing.latLng);
         console.log("this.props.latLng:  ", this.props.latLng);
@@ -90,58 +60,17 @@ var Results = (function (Component) {
         // Capture comps array
         var comps = this.props.comps.all.comparables || [];
 
-        console.log("comps: ", comps);
+        console.log("comps: ", this.props.comps.all.comparables);
 
         return React.createElement(
-          "section",
+          "div",
           null,
-          React.createElement(
-            "div",
-            { className: "container" },
+          this.props.listing.all.length == 0 ? null : React.createElement(
+            "section",
+            null,
             React.createElement(
               "div",
-              { className: "row justify-content-center text-center section-intro" },
-              React.createElement(
-                "div",
-                { className: "col-12 col-md-9 col-lg-8" },
-                React.createElement(
-                  "span",
-                  { className: "title-decorative" },
-                  "Perfect for Startups"
-                ),
-                React.createElement(
-                  "h3",
-                  { className: "display-4" },
-                  "Potential rental deals"
-                ),
-                React.createElement(
-                  "span",
-                  { className: "lead" },
-                  "803 rentals listed under their Rent Zestimate in New York"
-                )
-              )
-            ),
-            React.createElement(
-              "ul",
-              { className: "feature-list feature-list-lg" },
-              React.createElement(
-                "li",
-                { className: "row justify-content-center align-items-center" },
-                React.createElement(Listing, { lat: listingLat.lat, lng: listingLng.lng })
-              ),
-              React.createElement(
-                "li",
-                { className: "row justify-content-center align-items-center" },
-                React.createElement(
-                  "button",
-                  { type: "button", "class": "btn btn-primary btn-lg" },
-                  "Show Listings"
-                )
-              )
-            ),
-            comps !== null ? React.createElement(
-              "div",
-              null,
+              { className: "container" },
               React.createElement(
                 "div",
                 { className: "row justify-content-center text-center section-intro" },
@@ -171,13 +100,7 @@ var Results = (function (Component) {
                 React.createElement(
                   "li",
                   { className: "row justify-content-center align-items-center" },
-                  comps.map(function (comp, i) {
-                    return React.createElement(
-                      "div",
-                      { className: "col-sm" },
-                      React.createElement(Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
-                    );
-                  })
+                  React.createElement(Listing, { lat: listingLat.lat, lng: listingLng.lng })
                 ),
                 React.createElement(
                   "li",
@@ -188,8 +111,59 @@ var Results = (function (Component) {
                     "Show Listings"
                   )
                 )
-              )
-            ) : null
+              ),
+              comps !== null ? React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "div",
+                  { className: "row justify-content-center text-center section-intro" },
+                  React.createElement(
+                    "div",
+                    { className: "col-12 col-md-9 col-lg-8" },
+                    React.createElement(
+                      "span",
+                      { className: "title-decorative" },
+                      "Perfect for Startups"
+                    ),
+                    React.createElement(
+                      "h3",
+                      { className: "display-4" },
+                      "Potential rental deals"
+                    ),
+                    React.createElement(
+                      "span",
+                      { className: "lead" },
+                      "803 rentals listed under their Rent Zestimate in New York"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "ul",
+                  { className: "feature-list feature-list-lg" },
+                  React.createElement(
+                    "li",
+                    { className: "row justify-content-center align-items-center" },
+                    comps.map(function (comp, i) {
+                      return React.createElement(
+                        "div",
+                        { className: "col-sm" },
+                        React.createElement(Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                      );
+                    })
+                  ),
+                  React.createElement(
+                    "li",
+                    { className: "row justify-content-center align-items-center" },
+                    React.createElement(
+                      "button",
+                      { type: "button", "class": "btn btn-primary btn-lg" },
+                      "Show Listings"
+                    )
+                  )
+                )
+              ) : null
+            )
           )
         );
       },
@@ -225,3 +199,38 @@ var dispatchToProps = function (dispatch) {
 
 module.exports = connect(stateToProps, dispatchToProps)(Results);
 // location: {}
+// geocodeByAddress(address)
+//   .then(results => getLatLng(results[0]))
+//   // .then(latLng => console.log('latLng', latLng) )
+//   .then(latLng => this.setState({latLng}) )
+//   .catch(error => console.error('Error', error))
+
+//     if("geolocation" in navigator) {
+//       console.log('GEOLOCATION!')
+//       navigator.geolocation.getCurrentPosition(function(position) {
+//         console.log(position.coords.latitude, position.coords.longitude);
+// });
+//
+//     } else {
+//       console.log('FUCK YOU DOIN?!?!')
+//     }
+//
+// var params = {
+//   address: this.props.listing.all[0].address,  //
+//   citystatezip: this.props.listing.all[1].citystatezip, //
+//   count: this.props.listing.all[2].count, //
+//   zpid: this.props.listing.all[3].zpid
+// }
+//
+// this.props.getZillowListingResults(params)
+// .then(
+//   this.props.getZillowCompsResults(params)
+//   .then(results => {
+//     console.log('results:  ', results.body.data.response.properties.comparables)
+//     console.log('TYPEOF results:  ', typeof(results.body.data.response.properties.comparables))
+//   })
+//   .catch(err => {
+//     console.log('err: ', err)
+//   })
+// )
+// console.log('ZPID:  ', JSON.stringify(params.zpid))

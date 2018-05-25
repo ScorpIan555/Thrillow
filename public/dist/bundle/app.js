@@ -734,8 +734,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -791,21 +789,26 @@ var Results = function (_Component) {
       //     } else {
       //       console.log('FUCK YOU DOIN?!?!')
       //     }
-
-      var params = {
-        address: this.props.listing.all[0].address, //
-        citystatezip: this.props.listing.all[1].citystatezip, //
-        count: this.props.listing.all[2].count, //
-        zpid: this.props.listing.all[3].zpid
-      };
-
-      this.props.getZillowListingResults(params).then(this.props.getZillowCompsResults(params).then(function (results) {
-        console.log('results:  ', results.body.data.response.properties.comparables);
-        console.log('TYPEOF results:  ', _typeof(results.body.data.response.properties.comparables));
-      }).catch(function (err) {
-        console.log('err: ', err);
-      }));
-      console.log('ZPID:  ', JSON.stringify(params.zpid));
+      //
+      // var params = {
+      //   address: this.props.listing.all[0].address,  //
+      //   citystatezip: this.props.listing.all[1].citystatezip, //
+      //   count: this.props.listing.all[2].count, //
+      //   zpid: this.props.listing.all[3].zpid
+      // }
+      //
+      // this.props.getZillowListingResults(params)
+      // .then(
+      //   this.props.getZillowCompsResults(params)
+      //   .then(results => {
+      //     console.log('results:  ', results.body.data.response.properties.comparables)
+      //     console.log('TYPEOF results:  ', typeof(results.body.data.response.properties.comparables))
+      //   })
+      //   .catch(err => {
+      //     console.log('err: ', err)
+      //   })
+      // )
+      // console.log('ZPID:  ', JSON.stringify(params.zpid))
     }
   }, {
     key: 'render',
@@ -819,7 +822,7 @@ var Results = function (_Component) {
       // let listingLng = this.props.listing.all[0].latLng[0].lng || []
       // Logs
       console.log('this.props:  ', this.props);
-      console.log('this.props.listing:  ', this.props.listing);
+      console.log('this.props.listing.all:  ', this.props.listing.all.length);
       console.log('this.props.comps:  ', this.props.comps);
       console.log('this.props.listing.latLng:  ', this.props.listing.latLng);
       console.log('this.props.latLng:  ', this.props.latLng);
@@ -831,58 +834,17 @@ var Results = function (_Component) {
       // Capture comps array
       var comps = this.props.comps.all.comparables || [];
 
-      console.log('comps: ', comps);
+      console.log('comps: ', this.props.comps.all.comparables);
 
       return _react2.default.createElement(
-        'section',
+        'div',
         null,
-        _react2.default.createElement(
-          'div',
-          { className: 'container' },
+        this.props.listing.all.length == 0 ? null : _react2.default.createElement(
+          'section',
+          null,
           _react2.default.createElement(
             'div',
-            { className: 'row justify-content-center text-center section-intro' },
-            _react2.default.createElement(
-              'div',
-              { className: 'col-12 col-md-9 col-lg-8' },
-              _react2.default.createElement(
-                'span',
-                { className: 'title-decorative' },
-                'Perfect for Startups'
-              ),
-              _react2.default.createElement(
-                'h3',
-                { className: 'display-4' },
-                'Potential rental deals'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'lead' },
-                '803 rentals listed under their Rent Zestimate in New York'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'ul',
-            { className: 'feature-list feature-list-lg' },
-            _react2.default.createElement(
-              'li',
-              { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(_presentation.Listing, { lat: listingLat.lat, lng: listingLng.lng })
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'row justify-content-center align-items-center' },
-              _react2.default.createElement(
-                'button',
-                { type: 'button', 'class': 'btn btn-primary btn-lg' },
-                'Show Listings'
-              )
-            )
-          ),
-          comps !== null ? _react2.default.createElement(
-            'div',
-            null,
+            { className: 'container' },
             _react2.default.createElement(
               'div',
               { className: 'row justify-content-center text-center section-intro' },
@@ -912,13 +874,7 @@ var Results = function (_Component) {
               _react2.default.createElement(
                 'li',
                 { className: 'row justify-content-center align-items-center' },
-                comps.map(function (comp, i) {
-                  return _react2.default.createElement(
-                    'div',
-                    { className: 'col-sm' },
-                    _react2.default.createElement(_presentation.Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
-                  );
-                })
+                _react2.default.createElement(_presentation.Listing, { lat: listingLat.lat, lng: listingLng.lng })
               ),
               _react2.default.createElement(
                 'li',
@@ -929,8 +885,59 @@ var Results = function (_Component) {
                   'Show Listings'
                 )
               )
-            )
-          ) : null
+            ),
+            comps !== null ? _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'row justify-content-center text-center section-intro' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-12 col-md-9 col-lg-8' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'title-decorative' },
+                    'Perfect for Startups'
+                  ),
+                  _react2.default.createElement(
+                    'h3',
+                    { className: 'display-4' },
+                    'Potential rental deals'
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'lead' },
+                    '803 rentals listed under their Rent Zestimate in New York'
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'ul',
+                { className: 'feature-list feature-list-lg' },
+                _react2.default.createElement(
+                  'li',
+                  { className: 'row justify-content-center align-items-center' },
+                  comps.map(function (comp, i) {
+                    return _react2.default.createElement(
+                      'div',
+                      { className: 'col-sm' },
+                      _react2.default.createElement(_presentation.Listing, { key: comp.zpid, lat: comp.address[0].latitude[0], lng: comp.address[0].longitude[0] })
+                    );
+                  })
+                ),
+                _react2.default.createElement(
+                  'li',
+                  { className: 'row justify-content-center align-items-center' },
+                  _react2.default.createElement(
+                    'button',
+                    { type: 'button', 'class': 'btn btn-primary btn-lg' },
+                    'Show Listings'
+                  )
+                )
+              )
+            ) : null
+          )
         )
       );
     }
@@ -2115,10 +2122,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 
 var initialState = {
-	all: [{ address: '22 Dale Street' }, { citystatezip: '06096' }, { count: 3 }, { zpid: '58162520' }],
+	all: [
+		// { address: '22 Dale Street' },
+		// { citystatezip: '06096' },
+		// { count: 3 },
+		// { zpid: '58162520' },
+	],
 	latLng: {
-		lat: 41.9334208,
-		lng: -72.6571319
+		// lat: 41.9334208,
+		// lng: -72.6571319
 	}
 };
 

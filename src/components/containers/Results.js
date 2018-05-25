@@ -28,26 +28,26 @@ class Results extends Component {
 //     } else {
 //       console.log('FUCK YOU DOIN?!?!')
 //     }
-
-    var params = {
-      address: this.props.listing.all[0].address,  //
-      citystatezip: this.props.listing.all[1].citystatezip, //
-      count: this.props.listing.all[2].count, //
-      zpid: this.props.listing.all[3].zpid
-    }
-
-    this.props.getZillowListingResults(params)
-    .then(
-      this.props.getZillowCompsResults(params)
-      .then(results => {
-        console.log('results:  ', results.body.data.response.properties.comparables)
-        console.log('TYPEOF results:  ', typeof(results.body.data.response.properties.comparables))
-      })
-      .catch(err => {
-        console.log('err: ', err)
-      })
-    )
-    console.log('ZPID:  ', JSON.stringify(params.zpid))
+    //
+    // var params = {
+    //   address: this.props.listing.all[0].address,  //
+    //   citystatezip: this.props.listing.all[1].citystatezip, //
+    //   count: this.props.listing.all[2].count, //
+    //   zpid: this.props.listing.all[3].zpid
+    // }
+    //
+    // this.props.getZillowListingResults(params)
+    // .then(
+    //   this.props.getZillowCompsResults(params)
+    //   .then(results => {
+    //     console.log('results:  ', results.body.data.response.properties.comparables)
+    //     console.log('TYPEOF results:  ', typeof(results.body.data.response.properties.comparables))
+    //   })
+    //   .catch(err => {
+    //     console.log('err: ', err)
+    //   })
+    // )
+    // console.log('ZPID:  ', JSON.stringify(params.zpid))
   }
 
 render() {
@@ -60,7 +60,7 @@ render() {
   // let listingLng = this.props.listing.all[0].latLng[0].lng || []
   // Logs
   console.log('this.props:  ', this.props)
-  console.log('this.props.listing:  ', this.props.listing)
+  console.log('this.props.listing.all:  ', this.props.listing.all.length)
   console.log('this.props.comps:  ', this.props.comps)
   console.log('this.props.listing.latLng:  ', this.props.listing.latLng)
   console.log('this.props.latLng:  ', this.props.latLng)
@@ -72,75 +72,84 @@ render() {
   // Capture comps array
   let comps = this.props.comps.all.comparables || []
 
-  console.log('comps: ', comps)
+  console.log('comps: ', this.props.comps.all.comparables)
 
   return (
-      <section>
-        <div className="container">
-            <div className="row justify-content-center text-center section-intro">
-                <div className="col-12 col-md-9 col-lg-8">
-                    <span className="title-decorative">Perfect for Startups</span>
-                    <h3 className="display-4">Potential rental deals</h3>
-                    <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
+    <div>
 
-                </div>
-            </div>
+      { this.props.listing.all.length == 0 ? null :
 
+        <section>
+          <div className="container">
+              <div className="row justify-content-center text-center section-intro">
+                  <div className="col-12 col-md-9 col-lg-8">
+                      <span className="title-decorative">Perfect for Startups</span>
+                      <h3 className="display-4">Potential rental deals</h3>
+                      <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
 
-            <ul className="feature-list feature-list-lg">
-                <li className="row justify-content-center align-items-center">
-
-                    <Listing lat={listingLat.lat} lng={listingLng.lng} />
-
-                </li>
-                <li className="row justify-content-center align-items-center">
-                  <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
-                </li>
-            </ul>
-
-            {
-              comps !== null ?
-              <div>
-                <div className="row justify-content-center text-center section-intro">
-
-                    <div className="col-12 col-md-9 col-lg-8">
-                        <span className="title-decorative">Perfect for Startups</span>
-                        <h3 className="display-4">Potential rental deals</h3>
-                        <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
-
-                    </div>
-                </div>
-
-
-                <ul className="feature-list feature-list-lg">
-                    <li className="row justify-content-center align-items-center">
-
-                      { comps.map((comp, i) => {
-                          return (
-                            <div className="col-sm">
-                              <Listing key={comp.zpid} lat={comp.address[0].latitude[0]} lng={comp.address[0].longitude[0]} />
-                            </div>
-                          )
-                        })
-                      }
-
-                    </li>
-                    <li className="row justify-content-center align-items-center">
-                      <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
-                    </li>
-                </ul>
+                  </div>
               </div>
 
 
-              : null
+              <ul className="feature-list feature-list-lg">
+                  <li className="row justify-content-center align-items-center">
+
+                      <Listing lat={listingLat.lat} lng={listingLng.lng} />
+
+                  </li>
+                  <li className="row justify-content-center align-items-center">
+                    <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
+                  </li>
+              </ul>
+
+              {
+                comps !== null ?
+                <div>
+                  <div className="row justify-content-center text-center section-intro">
+
+                      <div className="col-12 col-md-9 col-lg-8">
+                          <span className="title-decorative">Perfect for Startups</span>
+                          <h3 className="display-4">Potential rental deals</h3>
+                          <span className="lead">803 rentals listed under their Rent Zestimate in New York</span>
+
+                      </div>
+                  </div>
 
 
-            }
+                  <ul className="feature-list feature-list-lg">
+                      <li className="row justify-content-center align-items-center">
+
+                        { comps.map((comp, i) => {
+                            return (
+                              <div className="col-sm">
+                                <Listing key={comp.zpid} lat={comp.address[0].latitude[0]} lng={comp.address[0].longitude[0]} />
+                              </div>
+                            )
+                          })
+                        }
+
+                      </li>
+                      <li className="row justify-content-center align-items-center">
+                        <button type="button" class="btn btn-primary btn-lg">Show Listings</button>
+                      </li>
+                  </ul>
+                </div>
 
 
-        </div>
+                : null
 
-      </section>
+
+              }
+
+
+          </div>
+
+        </section>
+       }
+
+    </div>
+
+
     )
   }
 }

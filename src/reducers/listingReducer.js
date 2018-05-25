@@ -7,14 +7,14 @@ import constants from '../constants'
 
 const initialState = {
 	all: [
-			{ address: '22 Dale Street' },
-			{ citystatezip: '06096' },
-			{ count: 3 },
-			{ zpid: '58162520' },
+			// { address: '22 Dale Street' },
+			// { citystatezip: '06096' },
+			// { count: 3 },
+			// { zpid: '58162520' },
 	],
 	latLng: {
-					lat: 41.9334208,
-					lng: -72.6571319
+					// lat: 41.9334208,
+					// lng: -72.6571319
 				}
 }
 
